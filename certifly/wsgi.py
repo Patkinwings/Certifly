@@ -5,6 +5,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'certifly.settings')
 
 application = get_wsgi_application()
 
-# Add this at the end of your wsgi.py file
-def handler(event, context):
-    return application(event.get('body', ''), context)
+# Add this for Vercel
+app = application
+
+# This function is for AWS Lambda, not needed for Vercel
+# def handler(event, context):
+#     return application(event.get('body', ''), context)

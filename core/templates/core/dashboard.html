@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - Certifly{% endblock %}
+
+{% block content %}
+<h2>Welcome to Your Dashboard</h2>
+<p>Hello, {{ user.username }}!</p>
+<h3>Your Tests</h3>
+<ul>
+    {% if tests %}
+        {% for test in tests %}
+            <li><a href="{% url 'take_test' test.id %}">{{ test.title }}</a></li>
+        {% endfor %}
+    {% else %}
+        <li>No tests available.</li>
+    {% endif %}
+
+    {% if latest_result %}
+<h2>Latest Test Result</h2>
+<p>Test: {{ latest_result.test.title }}</p>
+<p>Score: {{ latest_result.score }}%</p>
+<p>Taken on: {{ latest_result.end_time }}</p>
+{% endif %}
+</ul>
+{% endblock %}
+

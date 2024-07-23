@@ -1,0 +1,32 @@
+2024-07-11 20:39:54,705 - ERROR - Error in net_share: Share name TechDocs=C:\SharedDocs does not exist.
+2024-07-11 20:40:06,364 - ERROR - Error in net_share: Share name TechDocs does not exist.
+2024-07-11 20:40:38,896 - ERROR - Error in ipconfig: 'dhcp_server'
+2024-07-11 21:08:37,231 - ERROR - Error in change_directory: The system cannot find the path specified: C:\PROGRAM
+2024-07-11 21:08:54,861 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Proram
+2024-07-11 21:09:00,498 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-11 21:09:14,866 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-11 21:11:29,820 - ERROR - Error in change_directory: The system cannot find the path specified: C:\d
+2024-07-11 21:11:42,421 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-11 21:13:06,029 - ERROR - Error in change_directory: The system cannot find the path specified: C:\cd
+2024-07-11 21:13:10,134 - ERROR - Error in change_directory: The system cannot find the path specified: C:\"Program
+2024-07-11 21:13:14,368 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-12 00:10:29,732 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Intel\Program
+2024-07-12 09:45:37,635 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Windows\servicing\Program
+2024-07-12 09:46:15,590 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-12 09:46:24,175 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-12 11:56:54,834 - ERROR - Error in ipconfig: 'dhcp_server'
+2024-07-12 11:58:11,609 - ERROR - Error in net_user: The user name could not be found: %username%
+2024-07-12 11:58:44,205 - ERROR - Error in net_start: The service name is invalid.
+2024-07-12 11:58:57,627 - ERROR - Error in net_user: The user name could not be found: TestUser
+2024-07-12 12:31:05,713 - ERROR - Error in net_user: The user name could not be found: TempUser
+2024-07-12 12:31:19,484 - ERROR - Error in net_user: The user name could not be found: TempUSer
+2024-07-12 12:31:46,442 - ERROR - Error in net_user: The user name could not be found: TempUser
+2024-07-12 12:31:54,478 - ERROR - Error in net_user: The user name could not be found: TempUser
+2024-07-12 12:32:24,225 - ERROR - Error in create_directory: A subdirectory or file LargeFiles already exists.
+2024-07-12 12:35:39,095 - ERROR - Error in net_share: Share name PublicDocs=C:\Documents does not exist.
+2024-07-12 12:54:14,365 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Users\User\3D
+2024-07-12 12:57:25,049 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Users\User\Desktop\System32
+2024-07-12 13:07:37,570 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Web
+2024-07-12 13:11:31,102 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Web
+2024-07-12 13:12:03,787 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Windows\Windows\System32
+2024-07-12 13:12:12,708 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Windows\Windows\System32

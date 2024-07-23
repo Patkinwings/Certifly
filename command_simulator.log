@@ -1,0 +1,2107 @@
+2024-07-13 13:09:47,822 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-07-13 13:09:48,434 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-07-13 15:42:06,107 - WARNING - Not Found: /favicon.ico
+2024-07-13 16:32:49,960 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 16:32:57,434 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-13 17:21:06,914 - WARNING - Not Found: /favicon.ico
+2024-07-13 17:45:14,594 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-13 17:49:52,672 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\urls.py changed, reloading.
+2024-07-13 17:50:09,514 - WARNING - Not Found: /favicon.ico
+2024-07-13 17:55:43,639 - WARNING - Not Found: /favicon.ico
+2024-07-13 17:55:48,732 - ERROR - Internal Server Error: /test/1/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\engine.py", line 163, in find_template
+    raise TemplateDoesNotExist(name, tried=tried)
+django.template.exceptions.TemplateDoesNotExist: base.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 40, in get
+    return render(request, 'core/test_taking.html', {'test': test, 'questions': questions})
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 63, in render
+    reraise(exc, self.backend)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 84, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: base.html
+2024-07-13 17:58:15,762 - WARNING - Not Found: /favicon.ico
+2024-07-13 17:58:20,312 - ERROR - Internal Server Error: /test/1/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\engine.py", line 163, in find_template
+    raise TemplateDoesNotExist(name, tried=tried)
+django.template.exceptions.TemplateDoesNotExist: base.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 40, in get
+    return render(request, 'core/test_taking.html', {'test': test, 'questions': questions})
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 63, in render
+    reraise(exc, self.backend)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 84, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: base.html
+2024-07-13 18:00:18,503 - ERROR - Internal Server Error: /test/1/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\engine.py", line 163, in find_template
+    raise TemplateDoesNotExist(name, tried=tried)
+django.template.exceptions.TemplateDoesNotExist: base.html
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 40, in get
+    return render(request, 'core/test_taking.html', {'test': test, 'questions': questions})
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 63, in render
+    reraise(exc, self.backend)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 84, in reraise
+    raise new from exc
+django.template.exceptions.TemplateDoesNotExist: base.html
+2024-07-13 18:07:03,411 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-13 18:08:03,881 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 18:08:18,449 - WARNING - Not Found: /favicon.ico
+2024-07-13 18:11:50,602 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 18:16:24,267 - WARNING - Not Found: /favicon.ico
+2024-07-13 18:21:19,114 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 18:21:57,602 - WARNING - Not Found: /favicon.ico
+2024-07-13 18:22:05,689 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 157, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 18:22:06,911 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 157, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 18:22:09,036 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 157, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 18:22:35,379 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 157, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 18:22:38,477 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 157, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 19:50:46,495 - WARNING - Not Found: /favicon.ico
+2024-07-13 19:51:13,536 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-13 19:53:32,016 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:02:31,859 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:04:34,384 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 20:04:48,932 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:10:24,038 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:18:06,749 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:19:21,260 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:47:29,427 - WARNING - Not Found: /favicon.ico
+2024-07-13 20:52:13,176 - WARNING - Not Found: /favicon.ico
+2024-07-13 22:09:13,823 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-13 22:09:36,611 - WARNING - Not Found: /favicon.ico
+2024-07-13 22:12:47,579 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-13 22:19:21,271 - WARNING - Not Found: /favicon.ico
+2024-07-13 22:20:30,552 - WARNING - Not Found: /favicon.ico
+2024-07-13 22:28:23,307 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-13 22:28:34,745 - WARNING - Not Found: /favicon.ico
+2024-07-13 23:56:50,838 - WARNING - Not Found: /favicon.ico
+2024-07-13 23:57:00,322 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-13 23:57:07,329 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 00:12:10,011 - WARNING - Not Found: /favicon.ico
+2024-07-14 00:12:16,646 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 171, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 00:12:20,575 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 171, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 00:20:13,423 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 08:07:41,425 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:07:54,105 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:08:03,169 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 171, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 08:15:11,047 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:15:31,360 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:15:39,590 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 175, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 08:15:42,643 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 175, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 08:21:48,593 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:21:53,715 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 175, in execute_command
+    interpreter = CommandInterpreter(simulation.initial_state)
+TypeError: CommandInterpreter.__init__() takes 1 positional argument but 2 were given
+2024-07-14 08:38:30,484 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:38:40,387 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 178, in execute_command
+    interpreter.load_state(simulation.initial_state)
+AttributeError: 'CommandInterpreter' object has no attribute 'load_state'
+2024-07-14 08:39:15,234 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:42:43,430 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:44:18,518 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:44:21,967 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:44:43,193 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:44:52,537 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:45:20,267 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 08:45:54,942 - WARNING - Not Found: /favicon.ico
+2024-07-14 08:46:09,900 - WARNING - Not Found: /favicon.ico
+2024-07-14 12:34:28,838 - WARNING - Not Found: /favicon.ico
+2024-07-14 12:34:44,953 - WARNING - Not Found: /run_simulation/
+2024-07-14 12:34:52,639 - WARNING - Not Found: /run_simulation/
+2024-07-14 12:37:19,312 - WARNING - Not Found: /run_simulation/
+2024-07-14 12:38:25,343 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 12:39:11,776 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 12:39:37,703 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 12:39:42,468 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 12:39:56,763 - WARNING - Not Found: /run_simulation/
+2024-07-14 12:54:48,869 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 12:56:31,113 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 12:57:08,300 - WARNING - Not Found: /run_simulation/
+2024-07-14 12:57:14,278 - WARNING - Not Found: /run_simulation/
+2024-07-14 13:35:30,828 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\urls.py changed, reloading.
+2024-07-14 13:35:49,528 - WARNING - Not Found: /favicon.ico
+2024-07-14 13:48:10,212 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 13:49:19,528 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 13:52:26,903 - WARNING - Not Found: /favicon.ico
+2024-07-14 13:59:54,441 - WARNING - Not Found: /favicon.ico
+2024-07-14 14:01:54,589 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 14:02:14,195 - WARNING - Not Found: /favicon.ico
+2024-07-14 14:06:49,857 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9004, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 7766, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 14:06:49,867 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9004, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 7766, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 14:06:58,405 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9004, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 7766, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 14:06:59,201 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9004, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 7766, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 14:10:17,274 - ERROR - Error in chkdsk: The drive  does not exist.
+2024-07-14 14:12:46,896 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9004, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 7766, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 14:34:48,312 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 14:35:20,916 - WARNING - Not Found: /favicon.ico
+2024-07-14 14:49:57,031 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 14:50:33,440 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 14:50:47,778 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 14:50:58,773 - WARNING - Not Found: /favicon.ico
+2024-07-14 14:51:19,196 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 15:34:13,132 - ERROR - Internal Server Error: /execute-command/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 156, in execute_command
+    result = interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 9483, in execute_command
+    self.interpreter.execute_command(command)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 8211, in execute_command
+    cmd = parts[0].lower()
+IndexError: list index out of range
+2024-07-14 19:24:18,612 - WARNING - Not Found: /favicon.ico
+2024-07-14 19:54:45,319 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 20:08:49,597 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 20:11:07,918 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 20:11:11,746 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 20:13:22,678 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 20:14:13,908 - WARNING - Not Found: /favicon.ico
+2024-07-14 21:37:25,513 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 21:38:13,095 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 21:38:55,520 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-14 21:39:21,749 - WARNING - Not Found: /favicon.ico
+2024-07-14 21:52:49,379 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-14 21:53:00,920 - WARNING - Not Found: /favicon.ico
+2024-07-14 21:59:32,682 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-15 00:08:44,644 - WARNING - Not Found: /favicon.ico
+2024-07-15 00:08:44,675 - WARNING - Not Found: /favicon.ico
+2024-07-15 00:09:32,364 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 00:09:35,450 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 00:10:25,305 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 00:10:25,527 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 00:10:25,723 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 14:35:48,021 - WARNING - Not Found: /favicon.ico
+2024-07-15 14:36:11,135 - ERROR - Internal Server Error: /execute-command/
+2024-07-15 14:43:28,471 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-15 14:45:33,072 - WARNING - Not Found: /favicon.ico
+2024-07-15 14:46:53,404 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 14:46:58,035 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-15 14:47:11,425 - WARNING - Not Found: /favicon.ico
+2024-07-15 14:50:49,569 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 14:51:31,440 - WARNING - Not Found: /favicon.ico
+2024-07-15 14:56:06,103 - WARNING - Not Found: /favicon.ico
+2024-07-15 14:57:36,305 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-07-15 14:57:36,913 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-07-15 14:59:18,187 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-15 15:11:36,239 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 15:12:18,510 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-15 15:21:02,944 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 15:22:30,655 - WARNING - Not Found: /favicon.ico
+2024-07-15 15:31:24,869 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 15:32:10,457 - WARNING - Not Found: /favicon.ico
+2024-07-15 17:52:35,675 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 17:52:39,772 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-15 17:53:13,894 - INFO - Received command in Django view: dir
+2024-07-15 17:53:16,248 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Directory of C:\\\n\n15/07/2024  17:53 PM    <DIR>          $Recycle.Bin\n15/07/2024  17:53 PM    <DIR>          Intel\n15/07/2024  17:53 PM    <DIR>          PerfLogs\n15/07/2024  17:53 PM    <DIR>          Program Files\n15/07/2024  17:53 PM    <DIR>          Program Files (x86)\n15/07/2024  17:53 PM    <DIR>          ProgramData\n15/07/2024  17:53 PM    <DIR>          Recovery\n15/07/2024  17:53 PM    <DIR>          System Volume Information\n15/07/2024  17:53 PM    <DIR>          Users\n15/07/2024  17:53 PM    <DIR>          Windows\n15/07/2024  17:53 PM         8,589,934,592 SH    hiberfil.sys\n15/07/2024  17:53 PM         16,106,127,360 SH    pagefile.sys\n15/07/2024  17:53 PM         268,435,456 SH    swapfile.sys\n\n     3 File(s)   24,964,497,408 bytes\n     10 Dir(s)   107,374,182,400 bytes free', 'current_directory': 'C:\\'}
+2024-07-15 17:53:29,153 - INFO - Received command in Django view: cd Program Files 
+2024-07-15 17:53:31,220 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Program
+2024-07-15 17:53:31,220 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'The system cannot find the path specified.\nCurrent directory: C:\\', 'current_directory': 'C:\\'}
+2024-07-15 17:53:38,520 - INFO - Received command in Django view: cd Users
+2024-07-15 17:53:40,003 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Current directory: C:\\Users\nCurrent directory: C:\\Users', 'current_directory': 'C:\\Users'}
+2024-07-15 17:53:50,564 - INFO - Received command in Django view: dir
+2024-07-15 17:53:52,666 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Directory of C:\\\n\n15/07/2024  17:53 PM    <DIR>          $Recycle.Bin\n15/07/2024  17:53 PM    <DIR>          Intel\n15/07/2024  17:53 PM    <DIR>          PerfLogs\n15/07/2024  17:53 PM    <DIR>          Program Files\n15/07/2024  17:53 PM    <DIR>          Program Files (x86)\n15/07/2024  17:53 PM    <DIR>          ProgramData\n15/07/2024  17:53 PM    <DIR>          Recovery\n15/07/2024  17:53 PM    <DIR>          System Volume Information\n15/07/2024  17:53 PM    <DIR>          Users\n15/07/2024  17:53 PM    <DIR>          Windows\n15/07/2024  17:53 PM         8,589,934,592 SH    hiberfil.sys\n15/07/2024  17:53 PM         16,106,127,360 SH    pagefile.sys\n15/07/2024  17:53 PM         268,435,456 SH    swapfile.sys\n\n     3 File(s)   24,964,497,408 bytes\n     10 Dir(s)   107,374,182,400 bytes free', 'current_directory': 'C:\\'}
+2024-07-15 17:54:00,415 - INFO - Received command in Django view: ipconfig
+2024-07-15 17:54:01,875 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Windows IP Configuration\n\nEthernet:\n   IPv4 Address. . . . . . . . . . . : 192.168.1.100\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : 192.168.1.1\n\nWi-Fi:\n   IPv4 Address. . . . . . . . . . . : 192.168.1.101\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : 192.168.1.1\n\nLoopback Pseudo-Interface 1:\n   IPv4 Address. . . . . . . . . . . : 127.0.0.1\n   Subnet Mask . . . . . . . . . . . : 255.0.0.0\n   Default Gateway . . . . . . . . . :', 'current_directory': 'C:\\'}
+2024-07-15 17:54:18,906 - INFO - Received command in Django view: help
+2024-07-15 18:00:18,389 - INFO - Received command in Django view: 
+2024-07-15 18:00:19,033 - INFO - Received command in Django view: 
+2024-07-15 18:00:20,447 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:00:20,447 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:00:26,053 - INFO - Received command in Django view: cipher
+2024-07-15 18:00:27,043 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: cipher', 'current_directory': 'C:\\'}
+2024-07-15 18:01:37,285 - INFO - Received command in Django view: md
+2024-07-15 18:01:39,299 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'An error occurred: list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:01:42,968 - INFO - Received command in Django view: mkdir
+2024-07-15 18:01:44,594 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'An error occurred: list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:02:20,474 - INFO - Received command in Django view: tracert google.com
+2024-07-15 18:02:24,662 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Tracing route to google.com over a maximum of 30 hops:\n\n  1    1 ms    12 ms    14 ms    192.168.132.68\n  2    1 ms    9 ms    16 ms    192.168.250.166\n  3    19 ms    3 ms    11 ms    192.168.210.190\n  4    5 ms    1 ms    2 ms    192.168.172.2\n  5    2 ms    20 ms    1 ms    google.com\n\nTrace complete.', 'current_directory': 'C:\\'}
+2024-07-15 18:02:30,603 - INFO - Received command in Django view: ping google.cm
+2024-07-15 18:02:33,621 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Pinging google.cm with 32 bytes of data:\nReply from google.cm: bytes=32 time=77ms TTL=64\nReply from google.cm: bytes=32 time=52ms TTL=64\nReply from google.cm: bytes=32 time=46ms TTL=64\nReply from google.cm: bytes=32 time=58ms TTL=64\n\nPing statistics for google.cm:\n    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),\nApproximate round trip times in milli-seconds:\n    Minimum = 46ms, Maximum = 77ms, Average = 58ms', 'current_directory': 'C:\\'}
+2024-07-15 18:03:02,534 - INFO - Received command in Django view: [A[Bpathping google.com
+2024-07-15 18:03:04,599 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: \x1b[a\x1b[bpathping', 'current_directory': 'C:\\'}
+2024-07-15 18:03:18,448 - INFO - Received command in Django view: systeminfo
+2024-07-15 18:03:20,387 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Host Name:                 DESKTOP-0P4296O\nOS Name:                   Windows 10\nOS Version:                10.0.22631\nOS Manufacturer:           Microsoft Corporation\nOS Configuration:          Member Workstation\nOS Build Type:             Multiprocessor Free\nRegistered Owner:          35387\nRegistered Organization:   \nProduct ID:                00000-00000-00000-AA000\nOriginal Install Date:     15/07/2024, 01:59:30 PM\nSystem Boot Time:          15/07/2024, 06:03:20 PM\nSystem Manufacturer:       PCSpecialist\nSystem Model:              Ionico Ii 15\nSystem Type:               AMD64\nProcessor(s):              1 Processor(s) Installed.\n                           [Intel64 Family 6 Model 141 Stepping 1, GenuineIntel]\nBIOS Version:              N.1.07A05\nWindows Directory:         C:\\Windows\nSystem Directory:          C:\\Windows\\system32\nBoot Device:               \\Device\\HarddiskVolume1\nSystem Locale:             en_IE\nInput Locale:              en_IE\nTime Zone:                 GMT Standard Time\nTotal Physical Memory:     15.75 GB\nAvailable Physical Memory: 3.58 GB\nVirtual Memory: Max Size:  24.00 GB\nVirtual Memory: Available: 23.88 GB\nVirtual Memory: In Use:    0.12 GB\nNetwork Adapter:           Unknown\nIP Address:                192.168.0.24\nMAC Address:               48:51:c5:e8:43:a5\nDisk Drive:                Corsair MP400\nDisk Size:                 930.02 GB\nFree Space:                10.49 GB\nGraphics Card:             Intel(R) UHD Graphics\nGPU Memory:                1.00 GB', 'current_directory': 'C:\\'}
+2024-07-15 18:04:57,312 - INFO - Received command in Django view: dxdaig
+2024-07-15 18:04:59,307 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: dxdaig', 'current_directory': 'C:\\'}
+2024-07-15 18:05:02,379 - INFO - Received command in Django view: dxdiag
+2024-07-15 18:05:03,233 - INFO - Final result being sent to client: {'result': True, 'printed_output': '------------------\nDxDiag Notes\n------------------\nDisplay Tab 1: No problems found.\nSound Tab 1: No problems found.\nInput Tab: No problems found.\n--------------------\nDirectX Debug Levels\n--------------------\nDirect3D:    0/4 (retail)\nDirectDraw:  0/4 (retail)\nDirectInput: 0/5 (retail)\nDirectMusic: 0/5 (retail)\nDirectPlay:  0/9 (retail)\nDirectSound: 0/5 (retail)\nDirectShow:  0/6 (retail)\n---------------\nDisplay Devices\n---------------\nCard name: Intel(R) UHD Graphics\nManufacturer: Intel(R)\nChip type: Intel(R) UHD Graphics\nDAC type: Integrated RAMDAC\nDevice Type: Full Device (POST)\nDisplay Memory: 1.00 GB\nDedicated Memory: 1.00 GB\nShared Memory: 0 MB\nCurrent Mode: 1920 x 1080 (32 bit) (60Hz)', 'current_directory': 'C:\\'}
+2024-07-15 18:05:12,604 - INFO - Received command in Django view: tasklist
+2024-07-15 18:05:14,402 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Image Name                     PID Session Name        Session#    Mem Usage\n========================= ======== ================ =========== ============\nSystem Idle Process              0 Services                   0          8 K\nSystem                           4 Services                   0        144 K\nRegistry                        96 Services                   0     52,504 K\nsmss.exe                       228 Services                   0      1,024 K\ncsrss.exe                      372 Services                   0      4,256 K\nwininit.exe                    464 Services                   0      4,960 K\nservices.exe                   552 Services                   0      7,880 K\nlsass.exe                      560 Services                   0     14,284 K\nsvchost.exe                    656 Services                   0     22,640 K\nfontdrvhost.exe                744 Services                   0      3,132 K\nWUDFHost.exe                   816 Services                   0      7,480 K\nwinlogon.exe                   924 Console                    1      6,736 K\ndwm.exe                       1052 Console                    1     70,680 K\nexplorer.exe                  3788 Console                    1     77,436 K\nRuntimeBroker.exe             5724 Console                    1     22,308 K\nSearchUI.exe                  6100 Console                    1     53,620 K\nSearchIndexer.exe             6372 Services                   0     33,252 K\nchrome.exe                    7164 Console                    1    157,052 K\nMsMpEng.exe                   3052 Services                   0    205,184 K\nspoolsv.exe                   1500 Services                   0     11,640 K', 'current_directory': 'C:\\'}
+2024-07-15 18:05:27,110 - INFO - Received command in Django view: sfc /scannow
+2024-07-15 18:05:40,780 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Beginning system scan. This process will take some time.\nVerification 0% complete.\nVerification 10% complete.\nVerification 20% complete.\nVerification 30% complete.\nVerification 40% complete.\nVerification 50% complete.\nVerification 60% complete.\nVerification 70% complete.\nVerification 80% complete.\nVerification 90% complete.\nVerification 100% complete.\n\nWindows Resource Protection did not find any integrity violations.', 'current_directory': 'C:\\'}
+2024-07-15 18:06:03,201 - INFO - Received command in Django view: chkds
+2024-07-15 18:06:05,215 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: chkds', 'current_directory': 'C:\\'}
+2024-07-15 18:06:08,792 - INFO - Received command in Django view: chkdsk
+2024-07-15 18:06:10,416 - ERROR - Error in chkdsk: The drive  does not exist.
+2024-07-15 18:06:10,416 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Error: The drive  does not exist.', 'current_directory': 'C:\\'}
+2024-07-15 18:06:26,320 - INFO - Received command in Django view: [A[A[B[B[A[A[A[Basdasdasdasdasdasdasdasdddddddddd
+2024-07-15 18:06:26,869 - INFO - Received command in Django view: 
+2024-07-15 18:06:28,430 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: \x1b[a\x1b[a\x1b[b\x1b[b\x1b[a\x1b[a\x1b[a\x1b[basdasdasdasdasdasdasdasdddddddddd', 'current_directory': 'C:\\'}
+2024-07-15 18:06:28,442 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:06:35,076 - INFO - Received command in Django view: [C[disk
+2024-07-15 18:06:36,593 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Command not recognized: \x1b[c\x1b[disk', 'current_directory': 'C:\\'}
+2024-07-15 18:06:43,576 - INFO - Received command in Django view: 
+2024-07-15 18:06:44,008 - INFO - Received command in Django view: 
+2024-07-15 18:06:44,701 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:06:45,002 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:09,210 - INFO - Received command in Django view: 
+2024-07-15 18:07:09,481 - INFO - Received command in Django view: 
+2024-07-15 18:07:11,240 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:11,240 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:13,827 - INFO - Received command in Django view: 
+2024-07-15 18:07:14,076 - INFO - Received command in Django view: 
+2024-07-15 18:07:14,245 - INFO - Received command in Django view: 
+2024-07-15 18:07:14,747 - INFO - Received command in Django view: 
+2024-07-15 18:07:14,777 - INFO - Received command in Django view: 
+2024-07-15 18:07:16,025 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:16,046 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:16,048 - INFO - Received command in Django view: 
+2024-07-15 18:07:16,050 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:16,068 - INFO - Received command in Django view: 
+2024-07-15 18:07:16,069 - INFO - Received command in Django view: 
+2024-07-15 18:07:16,503 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:16,525 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:16,529 - INFO - Received command in Django view: 
+2024-07-15 18:07:16,541 - INFO - Received command in Django view: 
+2024-07-15 18:07:18,753 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:18,777 - INFO - Received command in Django view: 
+2024-07-15 18:07:18,795 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:18,795 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:18,795 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:18,807 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:18,820 - INFO - Received command in Django view: 
+2024-07-15 18:07:18,822 - INFO - Received command in Django view: 
+2024-07-15 18:07:18,825 - INFO - Received command in Django view: 
+2024-07-15 18:07:18,827 - INFO - Received command in Django view: 
+2024-07-15 18:07:20,756 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:20,773 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:20,776 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:20,778 - INFO - Received command in Django view: 
+2024-07-15 18:07:20,789 - INFO - Received command in Django view: 
+2024-07-15 18:07:20,795 - INFO - Received command in Django view: 
+2024-07-15 18:07:20,812 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:20,839 - INFO - Received command in Django view: 
+2024-07-15 18:07:20,848 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:20,864 - INFO - Received command in Django view: 
+2024-07-15 18:07:23,531 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:23,546 - INFO - Received command in Django view: 
+2024-07-15 18:07:23,549 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:23,557 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:23,567 - INFO - Received command in Django view: 
+2024-07-15 18:07:23,570 - INFO - Received command in Django view: 
+2024-07-15 18:07:23,581 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:23,598 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:23,600 - INFO - Received command in Django view: 
+2024-07-15 18:07:23,623 - INFO - Received command in Django view: 
+2024-07-15 18:07:26,301 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:26,301 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:26,317 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:26,324 - INFO - Received command in Django view: 
+2024-07-15 18:07:26,326 - INFO - Received command in Django view: 
+2024-07-15 18:07:26,332 - INFO - Received command in Django view: 
+2024-07-15 18:07:26,346 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:26,363 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:26,367 - INFO - Received command in Django view: 
+2024-07-15 18:07:26,380 - INFO - Received command in Django view: 
+2024-07-15 18:07:28,373 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:28,387 - INFO - Received command in Django view: 
+2024-07-15 18:07:28,400 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:28,401 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:28,404 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:28,422 - INFO - Received command in Django view: 
+2024-07-15 18:07:28,425 - INFO - Received command in Django view: 
+2024-07-15 18:07:28,425 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:28,429 - INFO - Received command in Django view: 
+2024-07-15 18:07:30,583 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:30,583 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:30,583 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:30,593 - INFO - Final result being sent to client: {'error': 'list index out of range', 'current_directory': 'C:\\'}
+2024-07-15 18:07:35,896 - INFO - Received command in Django view: defrag C:
+2024-07-15 18:07:48,519 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Defragmenting drive C:...\nProgress: 0% complete\nProgress: 10% complete\nProgress: 20% complete\nProgress: 30% complete\nProgress: 40% complete\nProgress: 50% complete\nProgress: 60% complete\nProgress: 70% complete\nProgress: 80% complete\nProgress: 90% complete\nProgress: 100% complete\n\nDefragmentation of drive C: complete.', 'current_directory': 'C:\\'}
+2024-07-15 18:08:26,915 - INFO - Received command in Django view: net localgroup groupname /jizz
+2024-07-15 18:08:28,955 - ERROR - Error in net_localgroup: The local group name could not be found: groupname
+2024-07-15 18:08:28,955 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Error: The local group name could not be found: groupname', 'current_directory': 'C:\\'}
+2024-07-15 18:08:41,390 - INFO - Received command in Django view: net localgroup /cum
+2024-07-15 18:08:42,943 - ERROR - Error in net_localgroup: The local group name could not be found: /cum
+2024-07-15 18:08:42,943 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Error: The local group name could not be found: /cum', 'current_directory': 'C:\\'}
+2024-07-15 18:09:04,067 - INFO - Received command in Django view: perfmon
+2024-07-15 18:09:06,188 - INFO - Final result being sent to client: {'result': True, 'printed_output': 'Performance Monitor\n-------------------\nCPU Usage:    30%\nMemory Usage: 3%\nDisk Usage:   23%\nNetwork Usage:64%', 'current_directory': 'C:\\'}
+2024-07-15 18:57:57,819 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-15 19:04:05,837 - ERROR - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 16, in cached_import
+    return getattr(module, class_name)
+AttributeError: module 'django.contrib.sessions.serializers' has no attribute 'PickleSerializer'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\middleware.py", line 20, in process_request
+    request.session = self.SessionStore(session_key)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\backends\db.py", line 16, in __init__
+    super().__init__(session_key)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\backends\base.py", line 47, in __init__
+    self.serializer = import_string(settings.SESSION_SERIALIZER)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 32, in import_string
+    raise ImportError(
+ImportError: Module "django.contrib.sessions.serializers" does not define a "PickleSerializer" attribute/class
+2024-07-15 19:04:06,034 - ERROR - Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 16, in cached_import
+    return getattr(module, class_name)
+AttributeError: module 'django.contrib.sessions.serializers' has no attribute 'PickleSerializer'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\middleware.py", line 20, in process_request
+    request.session = self.SessionStore(session_key)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\backends\db.py", line 16, in __init__
+    super().__init__(session_key)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\sessions\backends\base.py", line 47, in __init__
+    self.serializer = import_string(settings.SESSION_SERIALIZER)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\module_loading.py", line 32, in import_string
+    raise ImportError(
+ImportError: Module "django.contrib.sessions.serializers" does not define a "PickleSerializer" attribute/class
+2024-07-15 19:13:35,669 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-15 19:19:42,179 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-15 19:19:46,150 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 19:20:05,330 - WARNING - Not Found: /favicon.ico
+2024-07-15 19:21:15,075 - ERROR - Error in list_directory: 'administrator'
+2024-07-15 21:10:54,823 - WARNING - Not Found: /favicon.ico
+2024-07-15 21:14:52,489 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 21:15:02,513 - WARNING - Not Found: /favicon.ico
+2024-07-15 21:17:51,857 - WARNING - Not Found: /favicon.ico
+2024-07-15 21:18:09,252 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-15 21:18:18,381 - WARNING - Not Found: /favicon.ico
+2024-07-16 00:17:30,265 - WARNING - Not Found: /favicon.ico
+2024-07-16 00:19:10,452 - WARNING - Not Found: /favicon.ico
+2024-07-16 00:20:09,862 - WARNING - Not Found: /favicon.ico
+2024-07-16 13:26:57,305 - WARNING - Not Found: /favicon.ico
+2024-07-16 13:54:21,963 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 13:54:26,202 - WARNING - Not Found: /favicon.ico
+2024-07-16 13:54:54,654 - ERROR - Error in delete_file: User is a directory, not a file.
+2024-07-16 14:13:29,691 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 14:15:21,401 - WARNING - Not Found: /favicon.ico
+2024-07-16 14:32:13,844 - ERROR - Error in net_user: The user name could not be found: Patrick
+2024-07-16 19:20:28,581 - WARNING - Not Found: /favicon.ico
+2024-07-16 19:37:20,743 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 19:37:33,568 - WARNING - Not Found: /favicon.ico
+2024-07-16 21:27:54,738 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 21:38:30,115 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:01:31,905 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:03:13,691 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:03:31,251 - WARNING - Not Found: /favicon.ico
+2024-07-16 22:04:04,100 - ERROR - Error in change_directory: The system cannot find the path specified: C:\Users\Adminitrator
+2024-07-16 22:08:51,795 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:12:11,285 - WARNING - Not Found: /favicon.ico
+2024-07-16 22:12:51,368 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:13:01,916 - WARNING - Not Found: /favicon.ico
+2024-07-16 22:17:19,604 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:18:01,953 - WARNING - Not Found: /favicon.ico
+2024-07-16 22:26:13,123 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-16 22:26:21,843 - WARNING - Not Found: /favicon.ico
+2024-07-17 10:31:54,101 - WARNING - Not Found: /favicon.ico
+2024-07-17 10:36:48,328 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-17 10:42:47,495 - WARNING - Not Found: /favicon.ico
+2024-07-17 10:47:06,888 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-17 10:53:10,077 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-17 10:54:58,791 - WARNING - Not Found: /favicon.ico
+2024-07-17 10:55:06,288 - ERROR - Error in execute_command view: 'output'
+2024-07-17 10:55:06,288 - ERROR - Internal Server Error: /execute-command/
+2024-07-17 10:55:33,729 - ERROR - Error in execute_command view: 'output'
+2024-07-17 10:55:33,729 - ERROR - Internal Server Error: /execute-command/
+2024-07-17 11:14:55,981 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-17 11:17:07,102 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-17 11:18:16,464 - WARNING - Not Found: /favicon.ico
+2024-07-17 11:18:49,273 - ERROR - Error in delete_file:  is a directory, not a file.
+2024-07-17 13:50:03,628 - WARNING - Not Found: /favicon.ico
+2024-07-17 13:50:33,626 - ERROR - Error in ipconfig: 'dhcp_server'
+2024-07-17 13:51:47,572 - ERROR - Error in chkdsk: The drive C:/f does not exist.
+2024-07-17 20:22:24,958 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-17 21:11:53,969 - ERROR - Error in rename: 'VirtualFileSystem' object has no attribute '_delete_file'
+2024-07-18 20:00:59,260 - WARNING - Not Found: /favicon.ico
+2024-07-18 20:17:49,460 - WARNING - Not Found: /submit-test/
+2024-07-18 23:53:15,293 - WARNING - Not Found: /favicon.ico
+2024-07-19 00:11:23,112 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\urls.py changed, reloading.
+2024-07-19 00:11:33,399 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\urls.py changed, reloading.
+2024-07-19 00:11:36,360 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-19 00:12:13,479 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-19 00:24:38,495 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-19 00:25:27,762 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-19 00:26:14,908 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-19 00:27:06,361 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-19 00:28:28,725 - WARNING - Not Found: /favicon.ico
+2024-07-19 00:39:30,167 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-19 00:39:39,325 - WARNING - Not Found: /favicon.ico
+2024-07-19 00:45:54,122 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-19 00:46:11,118 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-19 00:57:30,113 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-19 00:57:54,853 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-19 00:58:05,956 - WARNING - Not Found: /favicon.ico
+2024-07-19 01:01:13,531 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-19 01:01:21,639 - WARNING - Not Found: /favicon.ico
+2024-07-19 01:04:52,473 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-19 16:09:26,666 - WARNING - Not Found: /favicon.ico
+2024-07-19 16:22:36,647 - WARNING - Not Found: /favicon.ico
+2024-07-19 16:28:28,152 - WARNING - Not Found: /favicon.ico
+2024-07-19 16:31:23,966 - ERROR - Internal Server Error: /test/3/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 62, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 111, in calculate_score
+    correct_answer = json.loads(question.correct_answer)
+  File "C:\Program Files\Python310\lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "C:\Program Files\Python310\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\Program Files\Python310\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2024-07-19 17:29:06,245 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-19 17:29:19,204 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-19 17:29:30,104 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-19 17:29:42,969 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-19 17:29:46,474 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-19 17:35:48,660 - WARNING - Not Found: /favicon.ico
+2024-07-19 17:39:49,604 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 92, in calculate_score
+    if interpreter.check_goal_state(correct_answer[0]):
+AttributeError: 'CommandInterpreterWrapper' object has no attribute 'check_goal_state'
+2024-07-20 00:43:35,346 - WARNING - Not Found: /favicon.ico
+2024-07-20 00:43:54,906 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 89, in calculate_score
+    for command in user_answer.split('\n'):
+AttributeError: 'list' object has no attribute 'split'
+2024-07-20 00:43:54,906 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 89, in calculate_score
+    for command in user_answer.split('\n'):
+AttributeError: 'list' object has no attribute 'split'
+2024-07-20 00:45:58,075 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 89, in calculate_score
+    for command in user_answer.split('\n'):
+AttributeError: 'list' object has no attribute 'split'
+2024-07-20 00:56:36,177 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 00:59:36,361 - WARNING - Not Found: /favicon.ico
+2024-07-20 00:59:50,216 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 97, in calculate_score
+    if interpreter.check_goal_state(correct_answer[0]):
+AttributeError: 'CommandInterpreterWrapper' object has no attribute 'check_goal_state'
+2024-07-20 01:04:48,621 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 01:05:23,467 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-20 01:05:59,029 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 97, in calculate_score
+    if interpreter.check_goal_state(correct_answer[0]):
+IndexError: list index out of range
+2024-07-20 01:07:39,751 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 01:08:04,315 - ERROR - Internal Server Error: /test/4/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 59, in post
+    start_time=datetime.fromtimestamp(data.get('start_time') / 1000.0),
+TypeError: unsupported operand type(s) for /: 'str' and 'float'
+2024-07-20 01:09:53,058 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 02:01:19,302 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 02:02:45,407 - WARNING - Not Found: /favicon.ico
+2024-07-20 02:53:03,675 - WARNING - Not Found: /dashboard/admin
+2024-07-20 15:06:53,830 - WARNING - Not Found: /favicon.ico
+2024-07-20 17:38:55,093 - WARNING - Not Found: /favicon.ico
+2024-07-20 20:42:20,639 - WARNING - Not Found: /favicon.ico
+2024-07-20 20:54:13,583 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-20 20:54:28,075 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-20 21:01:24,883 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-20 21:07:52,650 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-20 21:08:09,317 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-20 21:08:36,540 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-20 21:11:53,494 - ERROR - Internal Server Error: /admin/core/question/add/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: core_dragdropitem.image
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1065, in render
+    return render_value_in_context(output, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1042, in render_value_in_context
+    value = str(value)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\utils.py", line 79, in __str__
+    return self.as_widget()
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\boundfield.py", line 108, in as_widget
+    return widget.render(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 278, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\contrib\admin\widgets.py", line 327, in get_context
+    "rendered_widget": self.widget.render(name, value, attrs),
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 278, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 764, in get_context
+    context = super().get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 715, in get_context
+    context["widget"]["optgroups"] = self.optgroups(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 655, in optgroups
+    for index, (option_value, option_label) in enumerate(self.choices):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\models.py", line 1422, in __iter__
+    for obj in queryset:
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\query.py", line 518, in _iterator
+    yield from iterable
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: core_dragdropitem.image
+2024-07-20 21:12:09,464 - ERROR - Internal Server Error: /admin/core/question/add/
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: core_dragdropitem.image
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 242, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1065, in render
+    return render_value_in_context(output, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\template\base.py", line 1042, in render_value_in_context
+    value = str(value)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\utils.py", line 79, in __str__
+    return self.as_widget()
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\boundfield.py", line 108, in as_widget
+    return widget.render(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 278, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\contrib\admin\widgets.py", line 327, in get_context
+    "rendered_widget": self.widget.render(name, value, attrs),
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 278, in render
+    context = self.get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 764, in get_context
+    context = super().get_context(name, value, attrs)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 715, in get_context
+    context["widget"]["optgroups"] = self.optgroups(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\widgets.py", line 655, in optgroups
+    for index, (option_value, option_label) in enumerate(self.choices):
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\forms\models.py", line 1422, in __iter__
+    for obj in queryset:
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\query.py", line 518, in _iterator
+    yield from iterable
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\35387\certifly_env\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: core_dragdropitem.image
+2024-07-21 20:14:38,558 - WARNING - Not Found: /favicon.ico
+2024-07-21 20:15:45,159 - WARNING - Not Found: /login/admin
+2024-07-21 22:50:35,126 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-21 22:50:51,924 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-22 16:41:44,419 - WARNING - Not Found: /favicon.ico
+2024-07-22 16:49:28,634 - WARNING - Not Found: /media/drag_drop_images/GPU_2mqHhZp.png
+2024-07-22 16:49:28,634 - WARNING - Not Found: /media/drag_drop_images/pexels-pixabay-40879_kVpm8pI.jpg
+2024-07-22 16:49:28,656 - WARNING - Not Found: /media/drag_drop_images/pexels-zeleboba-23941163_PJ1qvxe.jpg
+2024-07-22 16:49:28,657 - WARNING - Not Found: /media/drag_drop_images/motherboard_IoUzEwB.jpg
+2024-07-22 17:01:56,858 - WARNING - Not Found: /favicon.ico
+2024-07-22 17:21:49,412 - WARNING - Not Found: /favicon.ico
+2024-07-22 17:25:07,978 - ERROR - Internal Server Error: /admin/core/question/8/change/
+Traceback (most recent call last):
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\JpegImagePlugin.py", line 639, in _save
+    rawmode = RAWMODE[im.mode]
+KeyError: 'RGBA'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1856, in _changeform_view
+    self.save_related(request, form, formsets, not add)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1287, in save_related
+    self.save_formset(request, form, formset, change=change)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1275, in save_formset
+    formset.save()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 794, in save
+    return self.save_existing_objects(commit) + self.save_new_objects(commit)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 943, in save_existing_objects
+    saved_instances.append(self.save_existing(form, obj, commit=commit))
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 771, in save_existing
+    return form.save(commit=commit)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 552, in save
+    self.instance.save()
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py", line 79, in save
+    self.image = self.resize_image(self.image)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py", line 88, in resize_image
+    img.save(output, format='JPEG', quality=85)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\Image.py", line 2413, in save
+    save_handler(self, fp, filename)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\JpegImagePlugin.py", line 642, in _save
+    raise OSError(msg) from e
+OSError: cannot write mode RGBA as JPEG
+2024-07-22 17:30:29,208 - ERROR - Internal Server Error: /admin/core/question/8/change/
+Traceback (most recent call last):
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\JpegImagePlugin.py", line 639, in _save
+    rawmode = RAWMODE[im.mode]
+KeyError: 'RGBA'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1856, in _changeform_view
+    self.save_related(request, form, formsets, not add)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1287, in save_related
+    self.save_formset(request, form, formset, change=change)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1275, in save_formset
+    formset.save()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 794, in save
+    return self.save_existing_objects(commit) + self.save_new_objects(commit)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 943, in save_existing_objects
+    saved_instances.append(self.save_existing(form, obj, commit=commit))
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 771, in save_existing
+    return form.save(commit=commit)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 552, in save
+    self.instance.save()
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py", line 79, in save
+    self.image = self.resize_image(self.image)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py", line 88, in resize_image
+    img.save(output, format='JPEG', quality=85)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\Image.py", line 2413, in save
+    save_handler(self, fp, filename)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\PIL\JpegImagePlugin.py", line 642, in _save
+    raise OSError(msg) from e
+OSError: cannot write mode RGBA as JPEG
+2024-07-22 17:33:13,287 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-22 17:33:42,833 - WARNING - Not Found: /favicon.ico
+2024-07-22 17:38:36,764 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-22 17:39:22,995 - WARNING - Not Found: /favicon.ico
+2024-07-22 17:39:25,881 - ERROR - Internal Server Error: /test/5/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 43, in get
+    return render(request, 'core/test_taking.html', {'test': test, 'questions': questions})
+  File "C:\Program Files\Python310\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 510, in parse
+    raise self.error(token, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 510, in parse
+    raise self.error(token, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 515, in parse
+    self.unclosed_block_tag(parse_until)
+  File "C:\Program Files\Python310\lib\site-packages\django\template\base.py", line 578, in unclosed_block_tag
+    raise self.error(token, msg)
+django.template.exceptions.TemplateSyntaxError: Unclosed tag on line 162: 'block'. Looking for one of: endblock.
+2024-07-22 17:40:17,260 - WARNING - Not Found: /favicon.ico
+2024-07-22 17:53:49,735 - WARNING - Not Found: /favicon.ico
+2024-07-22 20:15:13,307 - WARNING - Not Found: /favicon.ico
+2024-07-22 20:30:04,195 - WARNING - Not Found: /favicon.ico
+2024-07-22 21:08:57,415 - WARNING - Not Found: /favicon.ico
+2024-07-22 21:12:44,490 - WARNING - Not Found: /favicon.ico
+2024-07-22 21:21:58,304 - WARNING - Not Found: /favicon.ico
+2024-07-22 21:24:58,124 - WARNING - Not Found: /favicon.ico
+2024-07-22 23:10:21,580 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-22 23:16:53,178 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-22 23:18:14,643 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-22 23:18:23,913 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 455, in media
+    for fs in self:
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 344, in __iter__
+    for form, original in zip(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:18:45,261 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:18:53,541 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:19:16,312 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:19:30,521 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:19:45,973 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:19:54,936 - ERROR - Internal Server Error: /admin/core/question/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 2018, in changelist_view
+    response = self.response_action(
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1650, in response_action
+    response = func(self, request, queryset)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 2160, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\utils.py", line 137, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\utils.py", line 204, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:20:06,351 - ERROR - Internal Server Error: /admin/core/fillintheblank/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1985, in changelist_view
+    cl = self.get_changelist_instance(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 864, in get_changelist_instance
+    return ChangeList(
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\views\main.py", line 145, in __init__
+    self.get_results(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\views\main.py", line 312, in get_results
+    result_count = paginator.count
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 620, in count
+    return self.query.get_count(using=self.db)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\query.py", line 629, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\query.py", line 615, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:20:13,321 - ERROR - Internal Server Error: /admin/core/question/16/change/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such table: core_fillintheblank
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1948, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1804, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\options.py", line 1903, in _changeform_view
+    media += inline_formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\contrib\admin\helpers.py", line 454, in media
+    media = self.opts.media + self.formset.media
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 521, in media
+    if self.forms:
+  File "C:\Program Files\Python310\lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 207, in forms
+    for i in range(self.total_form_count())
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\formsets.py", line 182, in total_form_count
+    initial_forms = self.initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 1121, in initial_form_count
+    return super().initial_form_count()
+  File "C:\Program Files\Python310\lib\site-packages\django\forms\models.py", line 695, in initial_form_count
+    return len(self.get_queryset())
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Program Files\Python310\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Program Files\Python310\lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such table: core_fillintheblank
+2024-07-22 23:21:15,916 - WARNING - Not Found: /favicon.ico
+2024-07-22 23:41:43,813 - WARNING - Not Found: /favicon.ico
+2024-07-23 00:05:02,096 - WARNING - Not Found: /favicon.ico
+2024-07-23 00:05:44,937 - ERROR - Internal Server Error: /test/5/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 116, in calculate_score
+    if interpreter.check_goal_state(goal_state):
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 10184, in check_goal_state
+    current_state = self.get_current_state()
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 10190, in get_current_state
+    'file_system': self.interpreter.file_system.to_dict(),
+AttributeError: 'VirtualFileSystem' object has no attribute 'to_dict'
+2024-07-23 00:09:45,879 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-23 00:12:58,516 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-23 00:15:08,413 - WARNING - Not Found: /favicon.ico
+2024-07-23 00:15:40,387 - ERROR - Internal Server Error: /test/5/
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Program Files\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 53, in post
+    score = self.calculate_score(test, answers)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py", line 116, in calculate_score
+    if interpreter.check_goal_state(goal_state):
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 10200, in check_goal_state
+    current_state = self.get_current_state()
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 10206, in get_current_state
+    'file_system': self.interpreter.file_system.to_dict(),
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py", line 2762, in to_dict
+    return node_to_dict(self.root)
+AttributeError: 'VirtualFileSystem' object has no attribute 'root'
+2024-07-23 00:17:33,106 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-23 03:02:22,198 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-23 03:05:38,270 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-23 03:10:08,510 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-23 03:10:17,814 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-23 03:10:35,522 - WARNING - Not Found: /favicon.ico
+2024-07-23 03:35:12,144 - INFO - message='Request to Stripe api' method=post path=https://api.stripe.com/v1/checkout/sessions
+2024-07-23 03:35:12,725 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-07-23 11:35:59,954 - WARNING - Not Found: /favicon.ico
+2024-07-23 15:17:21,312 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.

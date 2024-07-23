@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Welcome to Certifly</h1>
+<p>Your gateway to IT certification success</p>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}! You're logged in.</p>
+    {% if not user.payment_status %}
+        <p>Unlock your full potential with our premium practice tests.</p>
+        <a href="{% url 'payment' %}" class="btn">Make Payment</a>
+    {% else %}
+        <p>Ready to ace your IT certification? Start practicing now!</p>
+        <a href="{% url 'dashboard' %}" class="btn">Go to Dashboard</a>
+    {% endif %}
+{% else %}
+    <p>Prepare for your IT certification with our comprehensive practice tests.</p>
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'register' %}" class="btn">Register</a>
+        <a href="{% url 'login' %}" class="btn" style="background-color: var(--primary-color); margin-left: 1rem;">Login</a>
+    </div>
+{% endif %}
+{% endblock %}

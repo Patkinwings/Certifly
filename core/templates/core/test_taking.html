@@ -1,0 +1,244 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+{% if test %}
+    <h1>{{ test.title }}</h1>
+    <form id="test-form" data-test-id="{{ test.id }}" data-duration="{{ test.time_limit }}" data-start-time="{{ start_time|date:'U' }}">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class="question" data-question-id="{{ question.id }}" data-question-type="{{ question.question_type }}">
+                <h2>Question {{ forloop.counter }}</h2>
+                <p>{{ question.text }}</p>
+
+                {% if question.image %}
+                    <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 150px; max-height: 150px;">
+                {% endif %}
+
+                {% if question.question_type == 'MC' %}
+                    {% for answer in question.answers.all %}
+                        <div>
+                            <input type="checkbox" name="question_{{ question.id }}" id="answer_{{ question.id }}_{{ forloop.counter }}" value="{{ answer.text }}">
+                            <label for="answer_{{ question.id }}_{{ forloop.counter }}">{{ answer.text }}</label>
+                        </div>
+                    {% endfor %}
+                {% elif question.question_type == 'DD' %}
+                    <div class="drag-drop-container">
+                        <div class="drag-items">
+                            {% for item in question.drag_drop_items.all %}
+                            <div class="drag-item" draggable="true" data-item-id="{{ item.id }}">
+                                {% if item.image %}
+                                    <img src="{{ item.image.url }}" alt="{{ item.text }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                {% else %}
+                                    {{ item.text }}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="drop-zones">
+                            {% for zone in question.drag_drop_zones.all %}
+                                <div class="drop-zone" data-zone-id="{{ zone.id }}">
+                                    {{ zone.label }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% elif question.question_type == 'SIM' %}
+                    <div class="simulation-container" data-question-id="{{ question.id }}">
+                        <div id="terminal-{{ question.id }}" class="terminal"></div>
+                    </div>
+                {% elif question.question_type == 'MAT' %}
+                    <div class="matching-container">
+                        <div class="left-items">
+                            {% for item in question.matching_items.all %}
+                                <div class="match-item" data-item-id="{{ forloop.counter }}">
+                                    {{ item.left_side }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="right-items">
+                            {% for item in question.matching_items.all %}
+                                <div class="match-item" data-item-id="{{ forloop.counter }}">
+                                    {{ item.right_side }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% elif question.question_type == 'FIB' %}
+                    {% for fib in question.fill_in_the_blanks.all %}
+                        <input type="text" name="question_{{ question.id }}_blank_{{ fib.blank_index }}" required>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit Test</button>
+    </form>
+    <div id="test-timer"></div>
+{% else %}
+    <h2>Add Question</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="id_test">Test:</label>
+            <select name="test" id="id_test" required>
+                {% for test in tests %}
+                    <option value="{{ test.id }}">{{ test.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {{ question_form.question_type.label_tag }} {{ question_form.question_type }}
+        {{ question_form.text.label_tag }} {{ question_form.text }}
+        {{ question_form.image.label_tag }} {{ question_form.image }}
+        {{ question_form.order.label_tag }} {{ question_form.order }}
+        
+        <div id="answer-formset" style="display: none;">
+            <h3>Answers</h3>
+            {{ answer_formset.management_form }}
+            {% for form in answer_formset %}
+                <div class="answer-form">
+                    {{ form.text.label_tag }} {{ form.text }}
+                    {{ form.is_correct.label_tag }} {{ form.is_correct }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="drag-drop-formset" style="display: none;">
+            <h3>Drag and Drop Items</h3>
+            {{ drag_drop_item_formset.management_form }}
+            {% for form in drag_drop_item_formset %}
+                <div class="drag-drop-item-form">
+                    {{ form.text.label_tag }} {{ form.text }}
+                    {{ form.image.label_tag }} {{ form.image }}
+                    {{ form.correct_position.label_tag }} {{ form.correct_position }}
+                </div>
+            {% endfor %}
+
+            <h3>Drop Zones</h3>
+            {{ drag_drop_zone_formset.management_form }}
+            {% for form in drag_drop_zone_formset %}
+                <div class="drag-drop-zone-form">
+                    {{ form.label.label_tag }} {{ form.label }}
+                    {{ form.correct_item.label_tag }} {{ form.correct_item }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="fill-in-the-blank-formset" style="display: none;">
+            <h3>Fill in the Blank</h3>
+            {{ fib_formset.management_form }}
+            {% for form in fib_formset %}
+                <div class="fib-form">
+                    {{ form.blank_index.label_tag }} {{ form.blank_index }}
+                    {{ form.correct_answer.label_tag }} {{ form.correct_answer }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <button type="submit">Add Question</button>
+    </form>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/fit/fit.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" />
+<script src="{% static 'test_taking.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const questionTypeSelect = document.getElementById('id_question_type');
+            const answerFormset = document.getElementById('answer-formset');
+            const dragDropFormset = document.getElementById('drag-drop-formset');
+            const fibFormset = document.getElementById('fill-in-the-blank-formset');
+
+            if (!questionTypeSelect) {
+                console.error('Element with id "id_question_type" not found');
+                return;
+            }
+
+            function toggleFormsets() {
+                if (questionTypeSelect.value === 'MC') {
+                    answerFormset.style.display = 'block';
+                    dragDropFormset.style.display = 'none';
+                    fibFormset.style.display = 'none';
+                } else if (questionTypeSelect.value === 'DD') {
+                    answerFormset.style.display = 'none';
+                    dragDropFormset.style.display = 'block';
+                    fibFormset.style.display = 'none';
+                } else if (questionTypeSelect.value === 'FIB') {
+                    answerFormset.style.display = 'none';
+                    dragDropFormset.style.display = 'none';
+                    fibFormset.style.display = 'block';
+                } else {
+                    answerFormset.style.display = 'none';
+                    dragDropFormset.style.display = 'none';
+                    fibFormset.style.display = 'none';
+                }
+            }
+
+            questionTypeSelect.addEventListener('change', toggleFormsets);
+            toggleFormsets();
+        } catch (error) {
+            console.error('Error in DOMContentLoaded event listener:', error);
+        }
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'test_taking.css' %}">
+<style>
+    .drag-drop-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .drag-items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .drag-item {
+        width: 150px;
+        height: 150px;
+        margin: 10px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        cursor: move;
+        background-color: #f0f0f0;
+        user-select: none;
+    }
+    .drag-item img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+    .drop-zones {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+    .drop-zone {
+        width: 160px;
+        height: 160px;
+        border: 2px dashed #ccc;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+    .drag-over {
+        border-style: solid;
+        background-color: #e0e0e0;
+    }
+    .dragging {
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}

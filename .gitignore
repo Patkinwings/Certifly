@@ -6,3 +6,4 @@ db.sqlite3
 certifly_env/ 
 
 .vercel
+token.json

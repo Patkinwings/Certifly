@@ -9,9 +9,11 @@ from django.conf import settings
 from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 from .forms import CustomUserCreationForm, QuestionForm, AnswerFormSet, TestForm, DragDropItemFormSet, DragDropZoneFormSet, FillInTheBlankFormSet
 from .models import Test, Question, Result, User, DragDropItem, DragDropZone, FillInTheBlank
 from .simulation import CommandInterpreterWrapper
+from .google_auth import get_gmail_service
 import stripe
 import json
 from datetime import datetime
@@ -31,10 +33,30 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            send_welcome_email(user)
             return redirect('payment')
     else:
         form = CustomUserCreationForm()
     return render(request, 'core/register.html', {'form': form})
+
+def send_welcome_email(user):
+    subject = "Welcome to Certifly"
+    message = f"Hello {user.username},\n\nWelcome to Certifly! We're excited to have you on board."
+    recipient_list = [user.email]
+    send_email(subject, message, recipient_list)
+
+def send_email(subject, message, recipient_list):
+    creds = get_gmail_service()
+    
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        recipient_list,
+        auth_user=settings.EMAIL_HOST_USER,
+        auth_password=creds.token,
+        connection=None
+    )
 
 class TestView(View):
     def get(self, request, test_id=None):
@@ -215,7 +237,14 @@ def payment_success_view(request):
     user = request.user
     user.payment_status = True
     user.save()
+    send_payment_confirmation_email(user)
     return redirect('dashboard')
+
+def send_payment_confirmation_email(user):
+    subject = "Payment Confirmation"
+    message = f"Hello {user.username},\n\nThank you for your payment. Your account is now fully activated."
+    recipient_list = [user.email]
+    send_email(subject, message, recipient_list)
 
 def logout_view(request):
     logout(request)

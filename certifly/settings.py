@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-r#!m*v1&z9ui1-#(d@brl
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', 'certifly-hai852hw4-patricks-projects-d0c1d954.vercel.app']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,8 +55,9 @@ WSGI_APPLICATION = 'certifly.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True,
     )
 }
 

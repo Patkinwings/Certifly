@@ -13,9 +13,17 @@ def get_gmail_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = Flow.from_client_secrets_file(
-                settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON,
-                ['https://www.googleapis.com/auth/gmail.send'])
+            flow = Flow.from_client_config(
+                client_config={
+                    "web": {
+                        "client_id": settings.GOOGLE_OAUTH2_CLIENT_ID,
+                        "client_secret": settings.GOOGLE_OAUTH2_CLIENT_SECRET,
+                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                        "token_uri": "https://oauth2.googleapis.com/token",
+                    }
+                },
+                scopes=['https://www.googleapis.com/auth/gmail.send']
+            )
             flow.run_local_server(port=8080)
             creds = flow.credentials
 

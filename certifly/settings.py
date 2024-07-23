@@ -1,10 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
-
-# Remove the dotenv import and load_dotenv() call
-# from dotenv import load_dotenv
-# load_dotenv()
+import json
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,11 +78,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 STATIC_URL = '/static/'
@@ -114,5 +108,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'certiflyreset@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-GOOGLE_OAUTH2_CLIENT_ID = '837497398887-b2q4s1f4hmkf4fvfje98umue9s50lem2.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
+if 'GOOGLE_CLIENT_SECRETS_JSON' in os.environ:
+    client_secrets = json.loads(os.environ['GOOGLE_CLIENT_SECRETS_JSON'])
+else:
+    GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'client_secrets.json')
+    with open(GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as f:
+        client_secrets = json.load(f)
+
+GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
+GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']

@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel_app.py",
+      "src": "certifly/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     },
@@ -21,13 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "vercel_app.py"
+      "dest": "certifly/wsgi.py"
     }
-  ],
-  "functions": {
-    "vercel_app.py": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }

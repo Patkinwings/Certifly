@@ -2,11 +2,15 @@ from pathlib import Path
 import os
 import dj_database_url
 
+# Remove the dotenv import and load_dotenv() call
+# from dotenv import load_dotenv
+# load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-r#!m*v1&z9ui1-#(d@brlq27kthtyf1xs94#*h^hj$=i==bkiu')
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', 'www.certifly.net']
 

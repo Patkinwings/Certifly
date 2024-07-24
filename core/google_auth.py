@@ -1,33 +1,30 @@
-import os
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import Flow
-from google.auth.transport.requests import Request
+import json
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 from django.conf import settings
 
 def get_gmail_service():
-    creds = None
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', ['https://www.googleapis.com/auth/gmail.send'])
-    
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = Flow.from_client_config(
-                client_config={
-                    "web": {
-                        "client_id": settings.GOOGLE_OAUTH2_CLIENT_ID,
-                        "client_secret": settings.GOOGLE_OAUTH2_CLIENT_SECRET,
-                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                        "token_uri": "https://oauth2.googleapis.com/token",
-                    }
-                },
-                scopes=['https://www.googleapis.com/auth/gmail.send']
-            )
-            flow.run_local_server(port=8080)
-            creds = flow.credentials
+    try:
+        creds = service_account.Credentials.from_service_account_info(
+            settings.GOOGLE_SERVICE_ACCOUNT_INFO,
+            scopes=['https://www.googleapis.com/auth/gmail.send']
+        )
+        service = build('gmail', 'v1', credentials=creds)
+        return service
+    except Exception as e:
+        print(f"Error creating Gmail service: {e}")
+        return None
 
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-
-    return creds
+# If you need to impersonate a user, add this function:
+def get_gmail_service_as_user(user_email):
+    try:
+        creds = service_account.Credentials.from_service_account_info(
+            settings.GOOGLE_SERVICE_ACCOUNT_INFO,
+            scopes=['https://www.googleapis.com/auth/gmail.send'],
+            subject=user_email
+        )
+        service = build('gmail', 'v1', credentials=creds)
+        return service
+    except Exception as e:
+        print(f"Error creating Gmail service as {user_email}: {e}")
+        return None

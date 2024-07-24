@@ -93,7 +93,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51NX0mtC3h0OOCQZlbth0hw952PRCigsefJ7JdHqgAzDLrT9duODRzg2bkVOqTDDTGu6hGSgdichP47MTQDvCvcw7000XCzWN82')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOqg6PpRmQxcVo7900j8c7aftW')
-STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1PfsYyC3h0OOCQZlaT5MQPJv')
+STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1PfszDC3h0OOCQZlEcpfmN67')
 
 AUTH_USER_MODEL = 'core.User'
 

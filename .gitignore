@@ -7,3 +7,4 @@ certifly_env/
 
 .vercel
 token.json
+client_secrets.json

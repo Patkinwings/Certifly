@@ -1,11 +1,20 @@
 {
   "version": 2,
-  "functions": {
-    "api/wsgi.py": {
-      "memory": 1024,
-      "maxDuration": 60
+  "builds": [
+    {
+      "src": "certifly/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9",
+        "maxDuration": 60
+      }
+    },
+    {
+      "src": "staticfiles/**",
+      "use": "@vercel/static"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/static/(.*)",
@@ -13,10 +22,15 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/wsgi.py"
+      "dest": "certifly/wsgi.py"
     }
   ],
   "env": {
     "DJANGO_SETTINGS_MODULE": "certifly.settings"
+  },
+  "functions": {
+    "certifly/wsgi.py": {
+      "includeFiles": "**/*.py"
+    }
   }
 }

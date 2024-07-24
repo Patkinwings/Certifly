@@ -19,5 +19,10 @@
       "src": "/(.*)",
       "dest": "certifly/wsgi.py"
     }
-  ]
+  ],
+  "functions": {
+    "certifly/wsgi.py": {
+      "maxDuration": 30
+    }
+  }
 }

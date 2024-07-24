@@ -4491,7 +4491,7 @@ class NetworkSimulator:
         print("Logging:")
         print("LogAllowedConnections                 Disable")
         print("LogDroppedConnections                 Enable")
-        print("FileName                              %systemroot%\system32\LogFiles\Firewall\pfirewall.log")
+        print("FileName %systemroot%\\system32\\LogFiles\\Firewall\\pfirewall.log")
         print("MaxFileSize                           4096")
 
     def pathping(self, destination: str) -> None:
@@ -4722,12 +4722,12 @@ class NetworkSimulator:
     def netsh_http_show_urlacl(self) -> None:
         try:
             print("Reserved URL            : http://+:80/Temporary_Listen_Addresses/")
-            print("    User: NT AUTHORITY\LOCAL SERVICE")
+            print(" User: NT AUTHORITY\\LOCAL SERVICE")
             print("        Listen: Yes")
             print("        Delegate: No")
             print("        SDDL: D:(A;;GX;;;LS)")
             print("\nReserved URL            : https://+:443/Temporary_Listen_Addresses/")
-            print("    User: NT AUTHORITY\LOCAL SERVICE")
+            print(" User: NT AUTHORITY\\LOCAL SERVICE")
             print("        Listen: Yes")
             print("        Delegate: No")
             print("        SDDL: D:(A;;GX;;;LS)")

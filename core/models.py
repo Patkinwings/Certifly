@@ -29,13 +29,13 @@ class Question(models.Model):
         ('FIB', 'Fill in the Blank'),
     )
     
-    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions')
-    question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', db_index=True)
+    question_type = models.CharField(max_length=3, choices=QUESTION_TYPES, db_index=True)
     text = models.TextField()
     image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    order = models.IntegerField(default=0)
+    order = models.IntegerField(default=0, db_index=True)
 
     def __str__(self):
         return f"{self.test.title} - Question {self.order}"
@@ -72,6 +72,9 @@ class Question(models.Model):
 
     class Meta:
         ordering = ['order']
+        indexes = [
+            models.Index(fields=['test', 'question_type', 'order']),
+        ]
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')

@@ -6,6 +6,12 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 import io
 import sys
+import uuid
+
+def get_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return filename
 
 class User(AbstractUser):
     payment_status = models.BooleanField(default=False)
@@ -32,7 +38,7 @@ class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', db_index=True)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES, db_index=True)
     text = models.TextField()
-    image = models.ImageField(upload_to='question_images/', null=True, blank=True)
+    image = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.IntegerField(default=0, db_index=True)
@@ -65,7 +71,7 @@ class Question(models.Model):
             
             output.seek(0)
             return InMemoryUploadedFile(output, 'ImageField', 
-                                        f"{image.name.split('.')[0]}.{file_extension}", 
+                                        f"{uuid.uuid4()}.{file_extension}", 
                                         mime, 
                                         sys.getsizeof(output), None)
         return image
@@ -87,7 +93,7 @@ class Answer(models.Model):
 class DragDropItem(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='drag_drop_items')
     text = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='drag_drop_images/', null=True, blank=True)
+    image = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     correct_position = models.IntegerField()
 
     def __str__(self):
@@ -118,7 +124,7 @@ class DragDropItem(models.Model):
             
             output.seek(0)
             return InMemoryUploadedFile(output, 'ImageField', 
-                                        f"{image.name.split('.')[0]}.{file_extension}", 
+                                        f"{uuid.uuid4()}.{file_extension}", 
                                         mime, 
                                         sys.getsizeof(output), None)
         return image

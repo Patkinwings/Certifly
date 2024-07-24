@@ -3,6 +3,7 @@ import os
 import dj_database_url
 import json
 from dotenv import load_dotenv
+from core.blob_storage import VercelBlobStorage  # Add this line
 
 load_dotenv()
 
@@ -85,13 +86,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Updated static files configuration
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Add this line for Vercel Blob storage
+DEFAULT_FILE_STORAGE = 'core.blob_storage.VercelBlobStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -9,8 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),  # This includes all URLs from core app, including the home view
     path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
-    
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Add this at the end of the file
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

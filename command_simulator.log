@@ -2105,3 +2105,6 @@ AttributeError: 'VirtualFileSystem' object has no attribute 'root'
 2024-07-23 03:35:12,725 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
 2024-07-23 11:35:59,954 - WARNING - Not Found: /favicon.ico
 2024-07-23 15:17:21,312 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-24 14:03:34,320 - WARNING - Not Found: /favicon.ico
+2024-07-24 14:13:51,621 - WARNING - Not Found: /favicon.ico
+2024-07-24 14:18:29,085 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.

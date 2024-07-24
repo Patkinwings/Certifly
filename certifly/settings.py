@@ -2,6 +2,9 @@ from pathlib import Path
 import os
 import dj_database_url
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,9 +59,9 @@ WSGI_APPLICATION = 'certifly.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
         conn_max_age=600,
-        ssl_require=True,
+        ssl_require='sslmode' not in os.environ.get('DATABASE_URL', '')
     )
 }
 

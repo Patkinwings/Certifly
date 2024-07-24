@@ -24,13 +24,5 @@
       "src": "/(.*)",
       "dest": "certifly/wsgi.py"
     }
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "certifly.settings"
-  },
-  "functions": {
-    "certifly/wsgi.py": {
-      "includeFiles": "**/*.py"
-    }
-  }
+  ]
 }

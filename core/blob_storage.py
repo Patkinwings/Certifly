@@ -3,6 +3,7 @@ import requests
 from django.core.files.storage import Storage
 from django.conf import settings
 import magic
+import mimetypes
 
 class VercelBlobStorage(Storage):
     def __init__(self):
@@ -17,9 +18,19 @@ class VercelBlobStorage(Storage):
 
     def _save(self, name, content):
         url = f"{self.base_url}/{name}"
+        
+        # Read the first 1024 bytes for magic number detection
+        content_start = content.read(1024)
+        content.seek(0)  # Reset file pointer to the beginning
+        
+        # Try to determine content type using python-magic
         mime = magic.Magic(mime=True)
-        content_type = mime.from_buffer(content.read(1024))
-        content.seek(0)
+        content_type = mime.from_buffer(content_start)
+        
+        # If content type is not determined or is generic, try mimetypes
+        if not content_type or content_type == 'application/octet-stream':
+            content_type = mimetypes.guess_type(name)[0] or 'application/octet-stream'
+        
         response = requests.put(
             url,
             data=content,

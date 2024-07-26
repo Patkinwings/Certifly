@@ -1,4 +1,9 @@
+# core/admin.py
+
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank
 
 @admin.register(User)
@@ -39,11 +44,12 @@ class MatchingItemInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'test', 'question_type', 'order', 'image')
-    list_filter = ('test', 'question_type')
+    list_display = ('text', 'test', 'question_type', 'order', 'image_status', 'image_upload_link')
+    list_filter = ('test', 'question_type', 'image_upload_status')
     search_fields = ('text', 'test__title')
     raw_id_fields = ('test',)
     list_per_page = 20
+    readonly_fields = ('image_upload_status', 'image_upload_link')
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('test')
@@ -59,6 +65,22 @@ class QuestionAdmin(admin.ModelAdmin):
             elif obj.question_type == 'FIB':
                 return [FillInTheBlankInline]
         return []
+
+    def save_model(self, request, obj, form, change):
+        if 'image' in form.changed_data:
+            obj.image_upload_status = 'pending'
+        super().save_model(request, obj, form, change)
+
+    def image_status(self, obj):
+        return obj.image_upload_status
+    image_status.short_description = 'Image Status'
+
+    def image_upload_link(self, obj):
+        if obj.pk and obj.image_upload_status != 'completed':
+            url = reverse('admin_upload_question_image', args=[obj.pk])
+            return format_html('<a href="{}">Upload Image</a>', url)
+        return '-'
+    image_upload_link.short_description = 'Upload Image'
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):

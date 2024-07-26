@@ -41,7 +41,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
             BASE_DIR / 'core' / 'templates',
         ],
         'APP_DIRS': True,
@@ -102,6 +101,8 @@ DEFAULT_FILE_STORAGE = 'core.blob_storage.VercelBlobStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+VERCEL_BLOB_BASE_URL = os.environ.get('VERCEL_BLOB_BASE_URL', 'https://your-vercel-app-name.vercel.app')
+
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51NX0mtC3h0OOCQZlbth0hw952PRCigsefJ7JdHqgAzDLrT9duODRzg2bkVOqTDDTGu6hGSgdichP47MTQDvCvcw7000XCzWN82')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOJg6PpRmQxcVo7900j8c7aftW')
 STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1PfszDC3h0OOCQZlEcpfmN67')
@@ -130,3 +131,5 @@ else:
 
 GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
 GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
+
+BLOB_READ_WRITE_TOKEN = os.environ.get('BLOB_READ_WRITE_TOKEN')

@@ -76,7 +76,7 @@ class QuestionAdmin(admin.ModelAdmin):
     image_status.short_description = 'Image Status'
 
     def image_upload_link(self, obj):
-        if obj.image_upload_status != 'completed':
+        if obj.pk and obj.image_upload_status != 'completed':
             url = reverse('admin:upload_question_image', args=[obj.pk])
             return format_html('<a href="{}">Upload Image</a>', url)
         return '-'
@@ -85,7 +85,7 @@ class QuestionAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path('upload-image/<int:question_id>/', self.admin_site.admin_view(self.upload_image_view), name='upload_question_image'),
+            path('upload-image/<int:question_id>/', self.upload_image_view, name='upload_question_image'),
         ]
         return custom_urls + urls
 

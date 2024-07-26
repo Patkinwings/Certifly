@@ -85,18 +85,20 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = []  # Remove this if you don't have any project-level static files
+STATICFILES_DIRS = [
+    BASE_DIR / 'core' / 'static',
+]
 
-# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_FILE_STORAGE = 'core.blob_storage.VercelBlobStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+VERCEL_BLOB_BASE_URL = os.environ.get('VERCEL_BLOB_BASE_URL', 'https://your-vercel-app-name.vercel.app')
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51NX0mtC3h0OOCQZlbth0hw952PRCigsefJ7JdHqgAzDLrT9duODRzg2bkVOqTDDTGu6hGSgdichP47MTQDvCvcw7000XCzWN82')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOqg6PpRmQxcVo7900j8c7aftW')
@@ -127,5 +129,4 @@ else:
 GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
 GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
 
-# Vercel Blob storage configuration
 BLOB_READ_WRITE_TOKEN = os.environ.get('BLOB_READ_WRITE_TOKEN')

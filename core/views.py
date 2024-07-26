@@ -183,7 +183,18 @@ def create_question_view(request, test_id):
                 if fib_formset.is_valid():
                     fib_formset.save()
             
-            return JsonResponse({'success': True, 'question_id': question.id})
+            # Check if an image was included in the request
+            if 'image' in request.FILES:
+                question.image_upload_status = 'pending'
+                question.save()
+                return JsonResponse({
+                    'success': True, 
+                    'question_id': question.id,
+                    'image_pending': True,
+                    'upload_url': reverse('upload_question_image', args=[question.id])
+                })
+            else:
+                return JsonResponse({'success': True, 'question_id': question.id})
     else:
         question_form = QuestionForm()
         answer_formset = AnswerFormSet()

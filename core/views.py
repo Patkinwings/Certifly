@@ -10,6 +10,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.contrib.admin.views.decorators import staff_member_required
 from .forms import CustomUserCreationForm, QuestionForm, AnswerFormSet, TestForm, DragDropItemFormSet, DragDropZoneFormSet, FillInTheBlankFormSet
 from .models import Test, Question, Result, User, DragDropItem, DragDropZone, FillInTheBlank
 from .simulation import CommandInterpreterWrapper
@@ -161,7 +162,7 @@ def create_test_view(request):
 def create_question_view(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     if request.method == 'POST':
-        question_form = QuestionForm(request.POST, request.FILES)
+        question_form = QuestionForm(request.POST)
         if question_form.is_valid():
             question = question_form.save(commit=False)
             question.test = test
@@ -172,7 +173,7 @@ def create_question_view(request, test_id):
                 if answer_formset.is_valid():
                     answer_formset.save()
             elif question.question_type == 'DD':
-                item_formset = DragDropItemFormSet(request.POST, request.FILES, instance=question)
+                item_formset = DragDropItemFormSet(request.POST, instance=question)
                 zone_formset = DragDropZoneFormSet(request.POST, instance=question)
                 if item_formset.is_valid() and zone_formset.is_valid():
                     item_formset.save()
@@ -182,7 +183,18 @@ def create_question_view(request, test_id):
                 if fib_formset.is_valid():
                     fib_formset.save()
             
-            return redirect('create_question', test_id=test.id)
+            # Check if an image was included in the request
+            if 'image' in request.FILES:
+                question.image_upload_status = 'pending'
+                question.save()
+                return JsonResponse({
+                    'success': True, 
+                    'question_id': question.id,
+                    'image_pending': True,
+                    'upload_url': reverse('upload_question_image', args=[question.id])
+                })
+            else:
+                return JsonResponse({'success': True, 'question_id': question.id})
     else:
         question_form = QuestionForm()
         answer_formset = AnswerFormSet()
@@ -198,7 +210,21 @@ def create_question_view(request, test_id):
         'fib_formset': fib_formset,
         'test': test
     })
-    
+
+@staff_member_required
+@csrf_exempt
+def upload_question_image(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if request.method == 'POST':
+        if 'image' in request.FILES:
+            question.image = request.FILES['image']
+            question.image_upload_status = 'completed'
+            question.save()
+            return JsonResponse({'success': True, 'image_url': question.image.url})
+        else:
+            return JsonResponse({'success': False, 'error': 'No image file provided'}, status=400)
+    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=405)
+
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)

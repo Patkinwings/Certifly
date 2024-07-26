@@ -60,6 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
         questionTypeSelect.addEventListener('change', toggleFormsets);
         toggleFormsets();
     }
+
+    // Add this part for handling image uploads
+    const questionForm = document.getElementById('question-form');
+    if (questionForm) {
+        questionForm.addEventListener('submit', handleQuestionFormSubmit);
+    }
 });
 
 function initializeMultipleChoice() {
@@ -423,19 +429,6 @@ document.getElementById('test-form').addEventListener('submit', function(e) {
         });
     });
 
-    document.querySelectorAll('.question[data-question-type="MAT"]').forEach(question => {
-        const questionId = question.dataset.questionId;
-        const matchedPairs = [];
-        const leftItems = question.querySelectorAll('.left-items .match-item.matched');
-        leftItems.forEach(item => {
-            const rightItem = question.querySelector(`.right-items .match-item.matched[data-item-id="${item.dataset.itemId}"]`);
-            if (rightItem) {
-                matchedPairs.push([item.textContent.trim(), rightItem.textContent.trim()]);
-            }
-        });
-        answers[questionId] = matchedPairs;
-    });
-
     document.querySelectorAll('.question[data-question-type="SIM"]').forEach(question => {
         const questionId = question.dataset.questionId;
         const container = question.querySelector('.simulation-container');
@@ -671,6 +664,73 @@ function validateForm() {
 
     console.log(`Form validation result: ${isValid ? 'Valid' : 'Invalid'}`);
     return isValid;
+}
+
+function handleQuestionFormSubmit(event) {
+    event.preventDefault();
+    console.log("Question form submitted");
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // First, create the question without the image
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Question created successfully");
+            if (data.image_pending) {
+                uploadQuestionImage(data.question_id, formData.get('image'));
+            } else {
+                window.location.href = data.redirect_url || '/dashboard/';
+            }
+        } else {
+            console.error("Error creating question:", data.error);
+            alert('Error creating question. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error creating question. Please try again.');
+    });
+}
+
+function uploadQuestionImage(questionId, imageFile) {
+    if (!imageFile) {
+        console.log("No image file to upload");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    fetch(`/upload-question-image/${questionId}/`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Image uploaded successfully");
+            window.location.href = '/dashboard/';
+        } else {
+            console.error("Error uploading image:", data.error);
+            alert('Error uploading image. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error uploading image. Please try again.');
+    });
 }
 
 console.log("test_taking.js fully loaded and initialized");

@@ -21,7 +21,12 @@ class CustomUserCreationForm(UserCreationForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question_type', 'text', 'image', 'order']
+        fields = ['question_type', 'text', 'order']
+
+class QuestionImageForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['image']
 
 class AnswerForm(forms.ModelForm):
     class Meta:

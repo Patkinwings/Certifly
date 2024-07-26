@@ -38,6 +38,11 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.IntegerField(default=0, db_index=True)
+    image_upload_status = models.CharField(max_length=20, choices=[
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed')
+    ], default='pending')
 
     def __str__(self):
         return f"{self.test.title} - Question {self.order}"

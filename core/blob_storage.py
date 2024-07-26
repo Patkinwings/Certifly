@@ -8,7 +8,7 @@ import mimetypes
 class VercelBlobStorage(Storage):
     def __init__(self):
         self.base_url = "https://blob.vercel-storage.com"
-        self.token = os.environ.get('BLOB_READ_WRITE_TOKEN')
+        self.token = settings.BLOB_READ_WRITE_TOKEN
 
     def _open(self, name, mode='rb'):
         url = f"{self.base_url}/{name}"

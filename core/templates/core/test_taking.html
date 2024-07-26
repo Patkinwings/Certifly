@@ -76,7 +76,7 @@
     <div id="test-timer"></div>
 {% else %}
     <h2>Add Question</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form id="question-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div>
             <label for="id_test">Test:</label>
@@ -88,7 +88,6 @@
         </div>
         {{ question_form.question_type.label_tag }} {{ question_form.question_type }}
         {{ question_form.text.label_tag }} {{ question_form.text }}
-        {{ question_form.image.label_tag }} {{ question_form.image }}
         {{ question_form.order.label_tag }} {{ question_form.order }}
         
         <div id="answer-formset" style="display: none;">
@@ -136,6 +135,14 @@
         
         <button type="submit">Add Question</button>
     </form>
+    <div id="image-upload-form" style="display: none;">
+        <h3>Upload Image</h3>
+        <form id="image-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ question_form.image.label_tag }} {{ question_form.image }}
+            <button type="submit">Upload Image</button>
+        </form>
+    </div>
 {% endif %}
 {% endblock %}
 
@@ -151,6 +158,9 @@
             const answerFormset = document.getElementById('answer-formset');
             const dragDropFormset = document.getElementById('drag-drop-formset');
             const fibFormset = document.getElementById('fill-in-the-blank-formset');
+            const questionForm = document.getElementById('question-form');
+            const imageUploadForm = document.getElementById('image-upload-form');
+            const imageForm = document.getElementById('image-form');
 
             if (!questionTypeSelect) {
                 console.error('Element with id "id_question_type" not found');
@@ -179,6 +189,55 @@
 
             questionTypeSelect.addEventListener('change', toggleFormsets);
             toggleFormsets();
+
+            questionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(questionForm);
+                fetch("{% url 'create_question' test_id=test.id %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        imageUploadForm.style.display = 'block';
+                        imageForm.dataset.questionId = data.question_id;
+                    } else {
+                        console.error('Error creating question:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            imageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(imageForm);
+                fetch(`/upload_question_image/${imageForm.dataset.questionId}/`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Image uploaded successfully');
+                        imageUploadForm.style.display = 'none';
+                        // Optionally, display a success message or redirect
+                    } else {
+                        console.error('Error uploading image:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
         } catch (error) {
             console.error('Error in DOMContentLoaded event listener:', error);
         }

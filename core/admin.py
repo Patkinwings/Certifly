@@ -1,6 +1,9 @@
 # core/admin.py
 
 from django.contrib import admin
+from django.urls import path, reverse
+from django.utils.html import format_html
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank
 
 @admin.register(User)
@@ -41,12 +44,12 @@ class MatchingItemInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'test', 'question_type', 'order', 'image', 'image_upload_status')
+    list_display = ('text', 'test', 'question_type', 'order', 'image_status', 'image_upload_link')
     list_filter = ('test', 'question_type', 'image_upload_status')
     search_fields = ('text', 'test__title')
     raw_id_fields = ('test',)
     list_per_page = 20
-    readonly_fields = ('image_upload_status',)
+    readonly_fields = ('image_upload_status', 'image_upload_link')
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('test')
@@ -62,6 +65,39 @@ class QuestionAdmin(admin.ModelAdmin):
             elif obj.question_type == 'FIB':
                 return [FillInTheBlankInline]
         return []
+
+    def save_model(self, request, obj, form, change):
+        if 'image' in form.changed_data:
+            obj.image_upload_status = 'pending'
+        super().save_model(request, obj, form, change)
+
+    def image_status(self, obj):
+        return obj.image_upload_status
+    image_status.short_description = 'Image Status'
+
+    def image_upload_link(self, obj):
+        if obj.image_upload_status != 'completed':
+            url = reverse('admin:upload_question_image', args=[obj.pk])
+            return format_html('<a href="{}">Upload Image</a>', url)
+        return '-'
+    image_upload_link.short_description = 'Upload Image'
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('upload-image/<int:question_id>/', self.admin_site.admin_view(self.upload_image_view), name='upload_question_image'),
+        ]
+        return custom_urls + urls
+
+    def upload_image_view(self, request, question_id):
+        question = get_object_or_404(Question, id=question_id)
+        if request.method == 'POST' and 'image' in request.FILES:
+            question.image = request.FILES['image']
+            question.image_upload_status = 'completed'
+            question.save()
+            self.message_user(request, 'Image uploaded successfully.')
+            return redirect('admin:core_question_change', question_id)
+        return render(request, 'admin/upload_question_image.html', {'question': question})
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):

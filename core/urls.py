@@ -13,6 +13,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('test/<int:test_id>/', views.TestView.as_view(), name='take_test'),
     path('create_question/<int:test_id>/', views.create_question_view, name='create_question'),
-    
+    path('admin/core/question/<int:question_id>/upload-image/', views.upload_question_image, name='admin_upload_question_image'),
     path('execute-command/', views.execute_command, name='execute_command'),
 ]

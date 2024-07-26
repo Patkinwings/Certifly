@@ -10,6 +10,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.contrib.admin.views.decorators import staff_member_required
 from .forms import CustomUserCreationForm, QuestionForm, AnswerFormSet, TestForm, DragDropItemFormSet, DragDropZoneFormSet, FillInTheBlankFormSet
 from .models import Test, Question, Result, User, DragDropItem, DragDropZone, FillInTheBlank
 from .simulation import CommandInterpreterWrapper
@@ -199,11 +200,11 @@ def create_question_view(request, test_id):
         'test': test
     })
 
-@login_required
+@staff_member_required
 @csrf_exempt
 def upload_question_image(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
-        question = get_object_or_404(Question, id=question_id)
         if 'image' in request.FILES:
             question.image = request.FILES['image']
             question.image_upload_status = 'completed'
@@ -212,7 +213,7 @@ def upload_question_image(request, question_id):
         else:
             return JsonResponse({'success': False, 'error': 'No image file provided'}, status=400)
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=405)
-    
+
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)

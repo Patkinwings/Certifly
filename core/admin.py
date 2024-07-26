@@ -1,7 +1,7 @@
 # core/admin.py
 
 from django.contrib import admin
-from django.urls import path, reverse
+from django.urls import reverse
 from django.utils.html import format_html
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank
@@ -77,27 +77,10 @@ class QuestionAdmin(admin.ModelAdmin):
 
     def image_upload_link(self, obj):
         if obj.pk and obj.image_upload_status != 'completed':
-            url = reverse('admin:upload_question_image', args=[obj.pk])
+            url = reverse('admin_upload_question_image', args=[obj.pk])
             return format_html('<a href="{}">Upload Image</a>', url)
         return '-'
     image_upload_link.short_description = 'Upload Image'
-
-    def get_urls(self):
-        urls = super().get_urls()
-        custom_urls = [
-            path('upload-image/<int:question_id>/', self.upload_image_view, name='upload_question_image'),
-        ]
-        return custom_urls + urls
-
-    def upload_image_view(self, request, question_id):
-        question = get_object_or_404(Question, id=question_id)
-        if request.method == 'POST' and 'image' in request.FILES:
-            question.image = request.FILES['image']
-            question.image_upload_status = 'completed'
-            question.save()
-            self.message_user(request, 'Image uploaded successfully.')
-            return redirect('admin:core_question_change', question_id)
-        return render(request, 'admin/upload_question_image.html', {'question': question})
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):

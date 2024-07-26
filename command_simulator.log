@@ -2537,3 +2537,6 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 2024-07-26 01:44:51,332 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\blob_storage.py changed, reloading.
 2024-07-26 01:45:37,041 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
 2024-07-26 01:46:10,276 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-26 17:56:03,435 - WARNING - Not Found: /static/core/test_taking.css
+2024-07-26 17:56:03,446 - WARNING - Not Found: /static/core/test_taking.css
+2024-07-26 17:56:03,446 - WARNING - Not Found: /static/core/test_taking.js

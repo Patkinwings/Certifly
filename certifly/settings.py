@@ -41,7 +41,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
             BASE_DIR / 'core' / 'templates',
         ],
         'APP_DIRS': True,
@@ -86,10 +85,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []  # Remove this if you don't have any project-level static files
 
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -126,5 +127,5 @@ else:
 GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
 GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
 
-# Add this line for Vercel Blob storage configuration
+# Vercel Blob storage configuration
 BLOB_READ_WRITE_TOKEN = os.environ.get('BLOB_READ_WRITE_TOKEN')

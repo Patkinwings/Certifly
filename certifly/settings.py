@@ -3,7 +3,7 @@ import os
 import dj_database_url
 import json
 from dotenv import load_dotenv
-from core.blob_storage import VercelBlobStorage  # Add this line
+from core.blob_storage import VercelBlobStorage
 
 load_dotenv()
 
@@ -86,20 +86,24 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files settings
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'core' / 'static' / 'core',
+]
 
+# Media files settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Add this line for Vercel Blob storage
+# Vercel Blob storage
 DEFAULT_FILE_STORAGE = 'core.blob_storage.VercelBlobStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51NX0mtC3h0OOCQZlbth0hw952PRCigsefJ7JdHqgAzDLrT9duODRzg2bkVOqTDDTGu6hGSgdichP47MTQDvCvcw7000XCzWN82')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOqg6PpRmQxcVo7900j8c7aftW')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOJg6PpRmQxcVo7900j8c7aftW')
 STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1PfszDC3h0OOCQZlEcpfmN67')
 
 AUTH_USER_MODEL = 'core.User'

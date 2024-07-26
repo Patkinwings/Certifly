@@ -441,39 +441,38 @@ document.getElementById('test-form').addEventListener('submit', function(e) {
         const container = question.querySelector('.simulation-container');
         const commandHistory = JSON.parse(container.dataset.commandHistory || '[]');
         answers[questionId] = commandHistory
-
     });
 
     console.log("Form data before submission:", JSON.stringify(answers));
 
-fetch('/test/' + this.dataset.testId + '/', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCookie('csrftoken')
-    },
-    body: JSON.stringify({
-        answers: answers,
-        start_time: this.dataset.startTime
+    fetch('/test/' + this.dataset.testId + '/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            answers: answers,
+            start_time: this.dataset.startTime
+        })
     })
-})
-.then(response => {
-    console.log('Server response:', response);
-    return response.json();
-})
-.then(data => {
-    if (data.success) {
-        console.log("Test submitted successfully");
-        window.location.href = data.redirect_url;
-    } else {
-        console.error("Error submitting test:", data.error);
+    .then(response => {
+        console.log('Server response:', response);
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            console.log("Test submitted successfully");
+            window.location.href = data.redirect_url;
+        } else {
+            console.error("Error submitting test:", data.error);
+            alert('Error submitting test. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
         alert('Error submitting test. Please try again.');
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert('Error submitting test. Please try again.');
-});
+    });
 });
 
 function updateTimer(endTime) {

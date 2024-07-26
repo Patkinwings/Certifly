@@ -2,10 +2,6 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from PIL import Image
-import io
-import sys
 import uuid
 
 def get_file_path(instance, filename):
@@ -46,36 +42,6 @@ class Question(models.Model):
     def __str__(self):
         return f"{self.test.title} - Question {self.order}"
 
-    def save(self, *args, **kwargs):
-        if self.image:
-            self.image = self.resize_image(self.image)
-        super().save(*args, **kwargs)
-
-    def resize_image(self, image):
-        img = Image.open(image)
-        if img.height > 150 or img.width > 150:
-            output_size = (150, 150)
-            img = img.resize(output_size, Image.LANCZOS)
-            output = io.BytesIO()
-            
-            if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
-                img = img.convert('RGBA')
-                img.save(output, format='PNG', quality=85)
-                file_extension = 'png'
-                mime = 'image/png'
-            else:
-                img = img.convert('RGB')
-                img.save(output, format='JPEG', quality=85)
-                file_extension = 'jpg'
-                mime = 'image/jpeg'
-            
-            output.seek(0)
-            return InMemoryUploadedFile(output, 'ImageField', 
-                                        f"{uuid.uuid4()}.{file_extension}", 
-                                        mime, 
-                                        sys.getsizeof(output), None)
-        return image
-
     class Meta:
         ordering = ['order']
         indexes = [
@@ -98,36 +64,6 @@ class DragDropItem(models.Model):
 
     def __str__(self):
         return f"Drag-drop item for {self.question}: {self.text}"
-
-    def save(self, *args, **kwargs):
-        if self.image:
-            self.image = self.resize_image(self.image)
-        super().save(*args, **kwargs)
-
-    def resize_image(self, image):
-        img = Image.open(image)
-        if img.height > 150 or img.width > 150:
-            output_size = (150, 150)
-            img = img.resize(output_size, Image.LANCZOS)
-            output = io.BytesIO()
-            
-            if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
-                img = img.convert('RGBA')
-                img.save(output, format='PNG', quality=85)
-                file_extension = 'png'
-                mime = 'image/png'
-            else:
-                img = img.convert('RGB')
-                img.save(output, format='JPEG', quality=85)
-                file_extension = 'jpg'
-                mime = 'image/jpeg'
-            
-            output.seek(0)
-            return InMemoryUploadedFile(output, 'ImageField', 
-                                        f"{uuid.uuid4()}.{file_extension}", 
-                                        mime, 
-                                        sys.getsizeof(output), None)
-        return image
 
 class DragDropZone(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='drag_drop_zones')

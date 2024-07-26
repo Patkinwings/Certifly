@@ -2364,3 +2364,176 @@ AttributeError: 'VirtualFileSystem' object has no attribute 'root'
 2024-07-24 18:14:54,906 - WARNING - Not Found: /static/test_taking.css
 2024-07-24 19:34:43,177 - WARNING - Not Found: /static/core/test_taking.css
 2024-07-24 19:34:43,177 - WARNING - Not Found: /static/core/test_taking.js
+2024-07-25 16:56:01,717 - WARNING - Not Found: /static/admin/css/dark_mode.css
+2024-07-25 16:56:01,718 - WARNING - Not Found: /static/admin/css/base.css
+2024-07-25 16:56:01,718 - WARNING - Not Found: /static/admin/css/dashboard.css
+2024-07-25 16:56:01,719 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:01,720 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:01,730 - WARNING - Not Found: /static/admin/js/theme.js
+2024-07-25 16:56:01,731 - WARNING - Not Found: /static/admin/js/nav_sidebar.js
+2024-07-25 16:56:01,732 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:01,734 - WARNING - Not Found: /static/admin/css/dashboard.css
+2024-07-25 16:56:01,735 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/css/base.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/css/dark_mode.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/css/changelists.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/js/core.js
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2024-07-25 16:56:08,620 - WARNING - Not Found: /static/admin/js/jquery.init.js
+2024-07-25 16:56:08,636 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:08,636 - WARNING - Not Found: /static/admin/js/actions.js
+2024-07-25 16:56:08,645 - WARNING - Not Found: /static/admin/js/urlify.js
+2024-07-25 16:56:08,646 - WARNING - Not Found: /static/admin/js/prepopulate.js
+2024-07-25 16:56:08,647 - WARNING - Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2024-07-25 16:56:08,647 - WARNING - Not Found: /static/admin/img/search.svg
+2024-07-25 16:56:08,651 - WARNING - Not Found: /static/admin/js/theme.js
+2024-07-25 16:56:08,657 - WARNING - Not Found: /static/admin/js/nav_sidebar.js
+2024-07-25 16:56:08,657 - WARNING - Not Found: /static/admin/js/filters.js
+2024-07-25 16:56:09,018 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:20,007 - WARNING - Not Found: /static/admin/css/base.css
+2024-07-25 16:56:20,007 - WARNING - Not Found: /static/admin/css/dark_mode.css
+2024-07-25 16:56:20,007 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:20,007 - WARNING - Not Found: /static/admin/js/inlines.js
+2024-07-25 16:56:20,007 - WARNING - Not Found: /static/admin/css/forms.css
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/vendor/jquery/jquery.min.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/jquery.init.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/core.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/css/nav_sidebar.css
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/css/forms.css
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/actions.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/urlify.js
+2024-07-25 16:56:20,023 - WARNING - Not Found: /static/admin/js/prepopulate.js
+2024-07-25 16:56:20,041 - WARNING - Not Found: /static/admin/js/vendor/xregexp/xregexp.min.js
+2024-07-25 16:56:20,042 - WARNING - Not Found: /static/admin/img/icon-addlink.svg
+2024-07-25 16:56:20,043 - WARNING - Not Found: /static/admin/img/icon-changelink.svg
+2024-07-25 16:56:20,044 - WARNING - Not Found: /static/admin/img/icon-viewlink.svg
+2024-07-25 16:56:20,044 - WARNING - Not Found: /static/admin/js/prepopulate_init.js
+2024-07-25 16:56:20,044 - WARNING - Not Found: /static/admin/js/theme.js
+2024-07-25 16:56:20,064 - WARNING - Not Found: /static/admin/js/nav_sidebar.js
+2024-07-25 16:56:20,069 - WARNING - Not Found: /static/admin/js/change_form.js
+2024-07-25 16:56:20,432 - WARNING - Not Found: /static/admin/img/icon-changelink.svg
+2024-07-25 16:56:20,432 - WARNING - Not Found: /static/admin/css/responsive.css
+2024-07-25 16:56:20,432 - WARNING - Not Found: /static/admin/img/icon-addlink.svg
+2024-07-25 16:56:20,432 - WARNING - Not Found: /static/admin/img/icon-viewlink.svg
+2024-07-25 16:57:19,477 - ERROR - Internal Server Error: /admin/core/question/8/change/
+Traceback (most recent call last):
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Program Files\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "C:\Program Files\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "C:\Program Files\Python310\lib\http\client.py", line 287, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Python310\lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 801, in urlopen
+    retries = retries.increment(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\util\retry.py", line 552, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\packages\six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 467, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\urllib3\connectionpool.py", line 462, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Program Files\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "C:\Program Files\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "C:\Program Files\Python310\lib\http\client.py", line 287, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 688, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\views\decorators\cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\sites.py", line 242, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 1889, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\utils\decorators.py", line 46, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 1747, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 1799, in _changeform_view
+    self.save_related(request, form, formsets, not add)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 1255, in save_related
+    self.save_formset(request, form, formset, change=change)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\contrib\admin\options.py", line 1243, in save_formset
+    formset.save()
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\forms\models.py", line 784, in save
+    return self.save_existing_objects(commit) + self.save_new_objects(commit)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\forms\models.py", line 930, in save_existing_objects
+    saved_instances.append(self.save_existing(form, obj, commit=commit))
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\forms\models.py", line 761, in save_existing
+    return form.save(commit=commit)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\forms\models.py", line 542, in save
+    self.instance.save()
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py", line 105, in save
+    super().save(*args, **kwargs)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 981, in _save_table
+    values = [
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 985, in <listcomp>
+    (getattr(self, f.attname) if raw else f.pre_save(self, False)),
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\fields\files.py", line 317, in pre_save
+    file.save(file.name, file.file, save=False)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\db\models\fields\files.py", line 93, in save
+    self.name = self.storage.save(name, content, max_length=self.field.max_length)
+  File "C:\Users\35387\AppData\Roaming\Python\Python310\site-packages\django\core\files\storage\base.py", line 38, in save
+    name = self._save(name, content)
+  File "C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\blob_storage.py", line 34, in _save
+    response = requests.put(
+  File "C:\Program Files\Python310\lib\site-packages\requests\api.py", line 130, in put
+    return request("put", url, data=data, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Program Files\Python310\lib\site-packages\requests\adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-07-26 01:40:00,411 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\views.py changed, reloading.
+2024-07-26 01:40:18,475 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\urls.py changed, reloading.
+2024-07-26 01:41:47,350 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\admin.py changed, reloading.
+2024-07-26 01:43:52,501 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\forms.py changed, reloading.
+2024-07-26 01:44:23,271 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\certifly\settings.py changed, reloading.
+2024-07-26 01:44:51,332 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\blob_storage.py changed, reloading.
+2024-07-26 01:45:37,041 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.
+2024-07-26 01:46:10,276 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\models.py changed, reloading.

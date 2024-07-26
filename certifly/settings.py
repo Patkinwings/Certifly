@@ -3,7 +3,7 @@ import os
 import dj_database_url
 import json
 from dotenv import load_dotenv
-from core.blob_storage import VercelBlobStorage  # Add this line
+from core.blob_storage import VercelBlobStorage
 
 load_dotenv()
 
@@ -93,7 +93,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Add this line for Vercel Blob storage
 DEFAULT_FILE_STORAGE = 'core.blob_storage.VercelBlobStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -126,3 +125,6 @@ else:
 
 GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
 GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
+
+# Add this line for Vercel Blob storage configuration
+BLOB_READ_WRITE_TOKEN = os.environ.get('BLOB_READ_WRITE_TOKEN')

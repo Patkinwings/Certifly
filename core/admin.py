@@ -1,3 +1,5 @@
+# core/admin.py
+
 from django.contrib import admin
 from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank
 
@@ -39,11 +41,12 @@ class MatchingItemInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'test', 'question_type', 'order', 'image')
-    list_filter = ('test', 'question_type')
+    list_display = ('text', 'test', 'question_type', 'order', 'image', 'image_upload_status')
+    list_filter = ('test', 'question_type', 'image_upload_status')
     search_fields = ('text', 'test__title')
     raw_id_fields = ('test',)
     list_per_page = 20
+    readonly_fields = ('image_upload_status',)
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('test')

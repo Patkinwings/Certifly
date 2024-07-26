@@ -53,7 +53,7 @@ class VercelBlobStorage(Storage):
         return response.status_code == 200
 
     def url(self, name):
-        return f"{self.base_url}/{name}"
+        return f"{self.base_url}/{name}?token={self.token}"
 
     def size(self, name):
         url = f"{self.base_url}/{name}"

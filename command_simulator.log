@@ -2368,3 +2368,16 @@ AttributeError: 'VirtualFileSystem' object has no attribute 'root'
 2024-07-26 22:34:49,162 - WARNING - Not Found: /static/core/test_taking.css
 2024-07-26 22:34:49,174 - WARNING - Not Found: /static/core/test_taking.css
 2024-07-26 22:34:49,177 - WARNING - Not Found: /static/core/test_taking.js
+2024-07-28 00:21:47,484 - WARNING - Not Found: /favicon.ico
+2024-07-28 00:22:47,536 - WARNING - Not Found: /media/9e1290ba-1441-46d3-95a1-8f06ce5b1b1a.png
+2024-07-28 00:22:47,538 - WARNING - Not Found: /media/1cd427d8-36dc-4f8e-862f-24e859cf3643.png
+2024-07-28 00:22:47,541 - WARNING - Not Found: /media/a44fe4f2-4202-41aa-8410-9cba188ccc49.png
+2024-07-28 00:22:47,544 - WARNING - Not Found: /media/bba31301-28f8-431a-92fc-53278b15f949.png
+2024-07-28 00:22:47,545 - WARNING - Not Found: /media/faa9e4f8-5938-435c-bdaf-2b357d02fdb8.jpg
+2024-07-28 00:22:47,573 - WARNING - Not Found: /media/09260150-3371-4d89-bd69-eea7012b9ea5.jpg
+2024-07-28 00:22:47,575 - WARNING - Not Found: /media/8b6b899c-71d5-487a-bcbc-dd31d79cb97d.png
+2024-07-28 00:22:47,577 - WARNING - Not Found: /media/b4cca02a-cd97-4afb-b042-f6a79916cfc6.png
+2024-07-28 00:22:47,578 - WARNING - Not Found: /media/64d49147-f7c9-4485-8291-137b7b0d3924.jpg
+2024-07-28 00:22:47,601 - WARNING - Not Found: /media/4c299f44-b536-4233-bc89-b222ad692638.png
+2024-07-28 00:22:47,604 - WARNING - Not Found: /media/2956e7b9-3d78-43f3-9dca-54e0839f6a8c.png
+2024-07-28 00:22:47,608 - WARNING - Not Found: /media/53c9c954-897b-4fec-97be-8f6cd894e7e2.png

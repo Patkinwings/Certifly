@@ -162,7 +162,7 @@ def create_test_view(request):
 def create_question_view(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     if request.method == 'POST':
-        question_form = QuestionForm(request.POST)
+        question_form = QuestionForm(request.POST, request.FILES)
         if question_form.is_valid():
             question = question_form.save(commit=False)
             question.test = test
@@ -173,7 +173,7 @@ def create_question_view(request, test_id):
                 if answer_formset.is_valid():
                     answer_formset.save()
             elif question.question_type == 'DD':
-                item_formset = DragDropItemFormSet(request.POST, instance=question)
+                item_formset = DragDropItemFormSet(request.POST, request.FILES, instance=question)
                 zone_formset = DragDropZoneFormSet(request.POST, instance=question)
                 if item_formset.is_valid() and zone_formset.is_valid():
                     item_formset.save()
@@ -183,18 +183,7 @@ def create_question_view(request, test_id):
                 if fib_formset.is_valid():
                     fib_formset.save()
             
-            # Check if an image was included in the request
-            if 'image' in request.FILES:
-                question.image_upload_status = 'pending'
-                question.save()
-                return JsonResponse({
-                    'success': True, 
-                    'question_id': question.id,
-                    'image_pending': True,
-                    'upload_url': reverse('upload_question_image', args=[question.id])
-                })
-            else:
-                return JsonResponse({'success': True, 'question_id': question.id})
+            return JsonResponse({'success': True, 'question_id': question.id})
     else:
         question_form = QuestionForm()
         answer_formset = AnswerFormSet()
@@ -218,7 +207,6 @@ def upload_question_image(request, question_id):
     if request.method == 'POST':
         if 'image' in request.FILES:
             question.image = request.FILES['image']
-            question.image_upload_status = 'completed'
             question.save()
             return JsonResponse({'success': True, 'image_url': question.image.url})
         else:

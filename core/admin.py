@@ -44,12 +44,11 @@ class MatchingItemInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'test', 'question_type', 'order', 'image_status', 'image_upload_link')
-    list_filter = ('test', 'question_type', 'image_upload_status')
+    list_display = ('text', 'test', 'question_type', 'order', 'image_preview')
+    list_filter = ('test', 'question_type')
     search_fields = ('text', 'test__title')
     raw_id_fields = ('test',)
     list_per_page = 20
-    readonly_fields = ('image_upload_status', 'image_upload_link')
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('test')
@@ -66,21 +65,11 @@ class QuestionAdmin(admin.ModelAdmin):
                 return [FillInTheBlankInline]
         return []
 
-    def save_model(self, request, obj, form, change):
-        if 'image' in form.changed_data:
-            obj.image_upload_status = 'pending'
-        super().save_model(request, obj, form, change)
-
-    def image_status(self, obj):
-        return obj.image_upload_status
-    image_status.short_description = 'Image Status'
-
-    def image_upload_link(self, obj):
-        if obj.pk and obj.image_upload_status != 'completed':
-            url = reverse('admin_upload_question_image', args=[obj.pk])
-            return format_html('<a href="{}">Upload Image</a>', url)
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
         return '-'
-    image_upload_link.short_description = 'Upload Image'
+    image_preview.short_description = 'Image Preview'
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
@@ -90,11 +79,17 @@ class TestAdmin(admin.ModelAdmin):
 
 @admin.register(DragDropItem)
 class DragDropItemAdmin(admin.ModelAdmin):
-    list_display = ('question', 'text', 'correct_position')
+    list_display = ('question', 'text', 'correct_position', 'image_preview')
     list_filter = ('question',)
     search_fields = ('text', 'question__text')
     raw_id_fields = ('question',)
     list_per_page = 20
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
+        return '-'
+    image_preview.short_description = 'Image Preview'
 
 @admin.register(DragDropZone)
 class DragDropZoneAdmin(admin.ModelAdmin):

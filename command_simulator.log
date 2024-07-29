@@ -2381,3 +2381,6 @@ AttributeError: 'VirtualFileSystem' object has no attribute 'root'
 2024-07-28 00:22:47,601 - WARNING - Not Found: /media/4c299f44-b536-4233-bc89-b222ad692638.png
 2024-07-28 00:22:47,604 - WARNING - Not Found: /media/2956e7b9-3d78-43f3-9dca-54e0839f6a8c.png
 2024-07-28 00:22:47,608 - WARNING - Not Found: /media/53c9c954-897b-4fec-97be-8f6cd894e7e2.png
+2024-07-29 21:21:37,277 - WARNING - Not Found: /favicon.ico
+2024-07-29 21:21:41,788 - WARNING - Not Found: /static/core/test_taking.js
+2024-07-29 21:21:41,789 - WARNING - Not Found: /static/core/test_taking.css

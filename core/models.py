@@ -3,6 +3,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
+from cloudinary.models import CloudinaryField
+
 
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -34,7 +36,7 @@ class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', db_index=True)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES, db_index=True)
     text = models.TextField()
-    image = models.ImageField(upload_to=get_file_path, null=True, blank=True)
+    image = CloudinaryField('image', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.IntegerField(default=0, db_index=True)
@@ -59,7 +61,7 @@ class Answer(models.Model):
 class DragDropItem(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='drag_drop_items')
     text = models.CharField(max_length=200)
-    image = models.ImageField(upload_to=get_file_path, null=True, blank=True)
+    image = CloudinaryField('image', null=True, blank=True)
     correct_position = models.IntegerField()
 
     def __str__(self):
@@ -111,4 +113,3 @@ class Result(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-

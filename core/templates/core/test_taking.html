@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load cloudinary %}
 
 {% block content %}
 {% if test %}
@@ -12,7 +13,7 @@
                 <p>{{ question.text }}</p>
 
                 {% if question.image %}
-                    <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 150px; max-height: 150px;">
+                    {% cloudinary question.image width=150 height=150 %}
                 {% endif %}
 
                 {% if question.question_type == 'MC' %}
@@ -28,7 +29,7 @@
                             {% for item in question.drag_drop_items.all %}
                             <div class="drag-item" draggable="true" data-item-id="{{ item.id }}">
                                 {% if item.image %}
-                                    <img src="{{ item.image.url }}" alt="{{ item.text }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                    {% cloudinary item.image width=150 height=150 %}
                                 {% else %}
                                     {{ item.text }}
                                 {% endif %}

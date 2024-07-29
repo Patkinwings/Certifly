@@ -3,6 +3,17 @@ import os
 import dj_database_url
 import json
 from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+# Cloudinary configuration
+cloudinary.config( 
+  cloud_name = "dudgux9az", 
+  api_key = "841512714949838", 
+  api_secret = os.environ.get('CLOUDINARY_API_SECRET')
+)
 
 load_dotenv()
 
@@ -22,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'cloudinary',  # Add this line
 ]
 
 MIDDLEWARE = [
@@ -91,9 +103,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'core' / 'static' / 'core',
 ]
 
+
+
 # Media files settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

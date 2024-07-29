@@ -20,6 +20,8 @@ import json
 from datetime import datetime
 import logging
 from django.utils import timezone
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 
 logger = logging.getLogger(__name__)
 
@@ -166,6 +168,11 @@ def create_question_view(request, test_id):
         if question_form.is_valid():
             question = question_form.save(commit=False)
             question.test = test
+            
+            if 'image' in request.FILES:
+                result = upload(request.FILES['image'])
+                question.image = result['secure_url']
+            
             question.save()
             
             if question.question_type == 'MC':
@@ -176,7 +183,12 @@ def create_question_view(request, test_id):
                 item_formset = DragDropItemFormSet(request.POST, request.FILES, instance=question)
                 zone_formset = DragDropZoneFormSet(request.POST, instance=question)
                 if item_formset.is_valid() and zone_formset.is_valid():
-                    item_formset.save()
+                    items = item_formset.save(commit=False)
+                    for item in items:
+                        if item.image:
+                            result = upload(item.image)
+                            item.image = result['secure_url']
+                        item.save()
                     zone_formset.save()
             elif question.question_type == 'FIB':
                 fib_formset = FillInTheBlankFormSet(request.POST, instance=question)
@@ -206,9 +218,10 @@ def upload_question_image(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
         if 'image' in request.FILES:
-            question.image = request.FILES['image']
+            result = upload(request.FILES['image'])
+            question.image = result['secure_url']
             question.save()
-            return JsonResponse({'success': True, 'image_url': question.image.url})
+            return JsonResponse({'success': True, 'image_url': question.image})
         else:
             return JsonResponse({'success': False, 'error': 'No image file provided'}, status=400)
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=405)

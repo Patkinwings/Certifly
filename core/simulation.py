@@ -2422,7 +2422,12 @@ class VirtualFileSystem:
         }
         self.permissions: Dict[str, str] = {}
 
-        
+    
+    def set_default_directory(self, path):
+        if path in self.file_system:
+            self.current_directory = path
+        else:
+            raise ValueError(f"Invalid default directory: {path}")
 
 
     def find(self, path: str, search_string: str, case_sensitive: bool = False) -> None:
@@ -2543,6 +2548,8 @@ class VirtualFileSystem:
             if not files:
                 return True
             return any(fnmatch.fnmatch(filename.lower(), pattern.lower()) for pattern in files)
+        
+        
 
         def copy_recursive(src: str, dst: str):
             if self._is_directory(src):
@@ -10151,10 +10158,18 @@ For more information on tools see the command-line reference in the online help.
 
 
 class CommandInterpreterWrapper:
-    def __init__(self):
+    def __init__(self, default_directory="C:\\"):
         print("Initializing CommandInterpreterWrapper")
         self.interpreter = CommandInterpreter()
         self.command_history = []
+        self.set_default_directory(default_directory)
+
+    def set_default_directory(self, path):
+        try:
+            self.interpreter.file_system.set_default_directory(path)
+            print(f"Default directory set to: {path}")
+        except ValueError as e:
+            print(f"Error setting default directory: {str(e)}")
 
     def execute_command(self, command):
         print(f"CommandInterpreterWrapper received command: {command}")
@@ -10198,7 +10213,8 @@ class CommandInterpreterWrapper:
     def from_json(cls, json_str):
         data = json.loads(json_str)
         instance = cls()
-        instance.interpreter.file_system.current_directory = data['current_directory']
+        default_directory = data.get('current_directory', "C:\\")
+        instance.set_default_directory(default_directory)
         instance.command_history = data.get('command_history', [])
         return instance
 

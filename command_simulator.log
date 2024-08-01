@@ -2384,3 +2384,11 @@ AttributeError: 'VirtualFileSystem' object has no attribute 'root'
 2024-07-29 21:21:37,277 - WARNING - Not Found: /favicon.ico
 2024-07-29 21:21:41,788 - WARNING - Not Found: /static/core/test_taking.js
 2024-07-29 21:21:41,789 - WARNING - Not Found: /static/core/test_taking.css
+2024-07-29 23:31:21,505 - ERROR - Error in chkdsk: The drive  does not exist.
+2024-07-30 01:30:09,913 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-30 02:37:11,211 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.
+2024-07-30 02:37:21,844 - WARNING - Not Found: /favicon.ico
+2024-08-01 16:30:45,167 - WARNING - Not Found: /favicon.ico
+2024-08-01 16:30:50,341 - WARNING - Not Found: /static/core/test_taking.css
+2024-08-01 16:30:50,351 - WARNING - Not Found: /static/core/test_taking.js
+2024-08-01 16:31:10,476 - INFO - C:\Users\35387\OneDrive\Desktop\CERTIFLY\certifly\core\simulation.py changed, reloading.

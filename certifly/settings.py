@@ -7,7 +7,6 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-
 # Cloudinary configuration
 cloudinary.config( 
   cloud_name = "dudgux9az", 
@@ -33,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'cloudinary',  # Add this line
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -103,8 +102,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'core' / 'static' / 'core',
 ]
 
-
-
 # Media files settings
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -138,3 +135,7 @@ else:
 
 GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
 GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
+
+DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
+
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hour

@@ -1,20 +1,19 @@
-# core/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import CustomUserCreationForm, QuestionForm, AnswerFormSet, TestForm, DragDropItemFormSet, DragDropZoneFormSet, FillInTheBlankFormSet
 from .models import Test, Question, Result, User, DragDropItem, DragDropZone, FillInTheBlank
 from .simulation import CommandInterpreterWrapper
-from .google_auth import get_gmail_service
+from .google_auth import get_gmail_service, get_gmail_service_as_user
 import stripe
 import json
 from datetime import datetime
@@ -22,6 +21,8 @@ import logging
 from django.utils import timezone
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
+from email.mime.text import MIMEText
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -49,17 +50,49 @@ def send_welcome_email(user):
     send_email(subject, message, recipient_list)
 
 def send_email(subject, message, recipient_list):
-    creds = get_gmail_service()
+    service = get_gmail_service()
     
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        recipient_list,
-        auth_user=settings.EMAIL_HOST_USER,
-        auth_password=creds.token,
-        connection=None
-    )
+    for recipient in recipient_list:
+        message = MIMEText(message)
+        message['to'] = recipient
+        message['subject'] = subject
+        create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+        
+        try:
+            message = (service.users().messages().send(userId="me", body=create_message).execute())
+            print(f'sent message to {recipient} Message Id: {message["id"]}')
+        except Exception as e:
+            print(f'An error occurred: {e}')
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'core/password_reset.html'
+    email_template_name = 'core/password_reset_email.html'
+    subject_template_name = 'core/password_reset_subject.txt'
+    success_url = reverse_lazy('password_reset_done')
+    
+    def form_valid(self, form):
+        opts = {
+            'use_https': self.request.is_secure(),
+            'token_generator': self.token_generator,
+            'from_email': self.from_email,
+            'email_template_name': self.email_template_name,
+            'subject_template_name': self.subject_template_name,
+            'request': self.request,
+            'html_email_template_name': self.html_email_template_name,
+            'extra_email_context': self.extra_email_context,
+        }
+        form.save(**opts)
+        return super().form_valid(form)
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'core/password_reset_done.html'
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'core/password_reset_confirm.html'
+    success_url = reverse_lazy('password_reset_complete')
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'core/password_reset_complete.html'
 
 class TestView(View):
     def get(self, request, test_id=None):
@@ -294,7 +327,7 @@ def execute_command(request):
             
             interpreter_state = request.session.get('command_interpreter_state')
             if interpreter_state is None:
-                interpreter = CommandInterpreterWrapper()
+                interpreter = CommandInterpreterWrapper(default_directory="C:\\Users\\Public")
             else:
                 interpreter = CommandInterpreterWrapper.from_json(interpreter_state)
             
@@ -308,3 +341,21 @@ def execute_command(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def start_new_session(request):
+    wrapper = CommandInterpreterWrapper(default_directory="C:\\Users\\Public")
+    request.session['command_interpreter_state'] = wrapper.to_json()
+    return JsonResponse({"message": "New session started"})
+
+def handle_command(request):
+    if 'command_interpreter_state' not in request.session:
+        return JsonResponse({"error": "No active session"}, status=400)
+    
+    json_data = request.session['command_interpreter_state']
+    wrapper = CommandInterpreterWrapper.from_json(json_data)
+    
+    command = request.POST.get('command')
+    result = wrapper.execute_command(command)
+    
+    request.session['command_interpreter_state'] = wrapper.to_json()
+    return JsonResponse(result)

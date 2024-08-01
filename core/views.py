@@ -8,12 +8,10 @@ from django.conf import settings
 from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import EmailMessage
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import CustomUserCreationForm, QuestionForm, AnswerFormSet, TestForm, DragDropItemFormSet, DragDropZoneFormSet, FillInTheBlankFormSet
 from .models import Test, Question, Result, User, DragDropItem, DragDropZone, FillInTheBlank
 from .simulation import CommandInterpreterWrapper
-from .google_auth import get_gmail_service, get_gmail_service_as_user
 import stripe
 import json
 from datetime import datetime
@@ -21,8 +19,8 @@ import logging
 from django.utils import timezone
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-from email.mime.text import MIMEText
-import base64
+from django.template.loader import render_to_string
+from anymail.message import AnymailMessage
 
 logger = logging.getLogger(__name__)
 
@@ -50,19 +48,19 @@ def send_welcome_email(user):
     send_email(subject, message, recipient_list)
 
 def send_email(subject, message, recipient_list):
-    service = get_gmail_service()
-    
-    for recipient in recipient_list:
-        message = MIMEText(message)
-        message['to'] = recipient
-        message['subject'] = subject
-        create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+    email = AnymailMessage(
+        subject=subject,
+        body=message,
+        to=recipient_list,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+    )
+    try:
+        email.send()
+        logger.info(f"Email sent successfully to {', '.join(recipient_list)}")
+    except Exception as e:
+        logger.error(f"Failed to send email: {str(e)}")
         
-        try:
-            message = (service.users().messages().send(userId="me", body=create_message).execute())
-            print(f'sent message to {recipient} Message Id: {message["id"]}')
-        except Exception as e:
-            print(f'An error occurred: {e}')
+DEFAULT_FROM_EMAIL = "certiflyreset@gmail.com"
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'core/password_reset.html'
@@ -70,16 +68,19 @@ class CustomPasswordResetView(PasswordResetView):
     subject_template_name = 'core/password_reset_subject.txt'
     success_url = reverse_lazy('password_reset_done')
 
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
-        subject = render_to_string(subject_template_name, context)
-        subject = ''.join(subject.splitlines())
-        body = render_to_string(email_template_name, context)
-        
-        if send_email(to_email, subject, body):
-            logger.info(f"Password reset email sent to {to_email}")
-        else:
-            logger.error(f"Failed to send password reset email to {to_email}")
+    def form_valid(self, form):
+        opts = {
+            'use_https': self.request.is_secure(),
+            'token_generator': self.token_generator,
+            'from_email': self.from_email,
+            'email_template_name': self.email_template_name,
+            'subject_template_name': self.subject_template_name,
+            'request': self.request,
+            'html_email_template_name': self.html_email_template_name,
+            'extra_email_context': self.extra_email_context,
+        }
+        form.save(**opts)
+        return super().form_valid(form)
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'core/password_reset_done.html'

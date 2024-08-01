@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'cloudinary',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -118,12 +119,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 GOOGLE_SERVICE_ACCOUNT_INFO = json.loads(os.environ.get('GOOGLE_SERVICE_ACCOUNT_INFO', '{}'))
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'certiflyreset@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = 'anymail.backends.google_email_api.EmailBackend'
+ANYMAIL = {
+    "GOOGLE_API_CLIENT_ID": os.environ.get("GOOGLE_OAUTH2_CLIENT_ID"),
+    "GOOGLE_API_CLIENT_SECRET": os.environ.get("GOOGLE_OAUTH2_CLIENT_SECRET"),
+    "GOOGLE_API_REFRESH_TOKEN": os.environ.get("GOOGLE_API_REFRESH_TOKEN"),
+}
 
 GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
 GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')

@@ -11,3 +11,4 @@ google-api-python-client==2.95.0
 python-dotenv==0.19.1
 python-magic==0.4.27
 cloudinary==1.32.0  # or the latest version
+django-anymail[google_email_api]

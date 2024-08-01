@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import logging
 
 # Cloudinary configuration
 cloudinary.config( 
@@ -18,11 +19,11 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-r#!m*v1&z9ui1-#(d@brlq27kthtyf1xs94#*h^hj$=i==bkiu')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', 'www.certifly.net']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -69,7 +70,7 @@ WSGI_APPLICATION = 'certifly.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
         ssl_require='sslmode' not in os.environ.get('DATABASE_URL', '')
     )
@@ -95,21 +96,19 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files settings
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'core' / 'static' / 'core',
 ]
 
-# Media files settings
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_51NX0mtC3h0OOCQZlbth0hw952PRCigsefJ7JdHqgAzDLrT9duODRzg2bkVOqTDDTGu6hGSgdichP47MTQDvCvcw7000XCzWN82')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_51NX0mtC3h0OOCQZldCWB9Xrakj14lm9Iq7OJM0C4cDFI677ctkChuQ3ZTTSgTvnp7sJYzkdgJOJg6PpRmQxcVo7900j8c7aftW')
-STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID', 'price_1PfszDC3h0OOCQZlEcpfmN67')
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID')
 
 AUTH_USER_MODEL = 'core.User'
 
@@ -126,16 +125,30 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'certiflyreset@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-if 'GOOGLE_CLIENT_SECRETS_JSON' in os.environ:
-    client_secrets = json.loads(os.environ['GOOGLE_CLIENT_SECRETS_JSON'])
-else:
-    GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'client_secrets.json')
-    with open(GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as f:
-        client_secrets = json.load(f)
-
-GOOGLE_OAUTH2_CLIENT_ID = client_secrets['web']['client_id']
-GOOGLE_OAUTH2_CLIENT_SECRET = client_secrets['web']['client_secret']
+GOOGLE_OAUTH2_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
 
 DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
 
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}

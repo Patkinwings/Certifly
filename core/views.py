@@ -69,20 +69,17 @@ class CustomPasswordResetView(PasswordResetView):
     email_template_name = 'core/password_reset_email.html'
     subject_template_name = 'core/password_reset_subject.txt'
     success_url = reverse_lazy('password_reset_done')
-    
-    def form_valid(self, form):
-        opts = {
-            'use_https': self.request.is_secure(),
-            'token_generator': self.token_generator,
-            'from_email': self.from_email,
-            'email_template_name': self.email_template_name,
-            'subject_template_name': self.subject_template_name,
-            'request': self.request,
-            'html_email_template_name': self.html_email_template_name,
-            'extra_email_context': self.extra_email_context,
-        }
-        form.save(**opts)
-        return super().form_valid(form)
+
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        subject = render_to_string(subject_template_name, context)
+        subject = ''.join(subject.splitlines())
+        body = render_to_string(email_template_name, context)
+        
+        if send_email(to_email, subject, body):
+            logger.info(f"Password reset email sent to {to_email}")
+        else:
+            logger.error(f"Failed to send password reset email to {to_email}")
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'core/password_reset_done.html'

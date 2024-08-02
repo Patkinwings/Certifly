@@ -37,7 +37,7 @@ def get_gmail_service():
             "client_secret": settings.GMAIL_OAUTH_CLIENT_SECRET,
             "refresh_token": settings.GMAIL_OAUTH_REFRESH_TOKEN,
         },
-        ["https://mail.google.com/"]
+        ["https://www.googleapis.com/auth/gmail.send"]
     )
 
     if creds and creds.expired and creds.refresh_token:
@@ -57,14 +57,19 @@ def send_gmail(sender, to, subject, body):
         raw = raw.decode()
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.set_debuglevel(1)  # Add this line for detailed SMTP debug output
         server.starttls()
         server.ehlo()
+        logger.info(f"Attempting XOAUTH2 authentication with token: {creds.token[:10]}...")  # Log first 10 chars of token
         server.docmd('AUTH', 'XOAUTH2 ' + creds.token)
         server.sendmail(sender, to, message.as_string())
         server.quit()
 
         logger.info(f"Email sent successfully to {to}")
         return True
+    except smtplib.SMTPAuthenticationError as e:
+        logger.error(f"SMTP Authentication Error: {str(e)}")
+        return False
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
         return False

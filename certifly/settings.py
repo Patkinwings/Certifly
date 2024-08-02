@@ -8,14 +8,23 @@ import cloudinary.uploader
 import cloudinary.api
 import logging
 
+# Load environment variables from .env file (for local development)
+load_dotenv()
+
+# For Vercel, we need to explicitly load environment variables
+GMAIL_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
+GMAIL_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
+GMAIL_OAUTH_REFRESH_TOKEN = os.environ.get('GOOGLE_API_REFRESH_TOKEN')
+
+# Print debug information
+print(f"Debug - Refresh Token: {GMAIL_OAUTH_REFRESH_TOKEN}")
+
 # Cloudinary configuration
 cloudinary.config( 
   cloud_name = "dudgux9az", 
   api_key = "841512714949838", 
   api_secret = os.environ.get('CLOUDINARY_API_SECRET')
 )
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -118,10 +127,8 @@ LOGOUT_REDIRECT_URL = '/'
 
 GOOGLE_SERVICE_ACCOUNT_INFO = json.loads(os.environ.get('GOOGLE_SERVICE_ACCOUNT_INFO', '{}'))
 
-# Gmail OAuth2 settings
-GMAIL_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
-GMAIL_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
-GMAIL_OAUTH_REFRESH_TOKEN = os.environ.get('GOOGLE_API_REFRESH_TOKEN')
+# Custom email backend
+EMAIL_BACKEND = 'core.email_backend.GmailOAuth2Backend'
 
 DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
 
@@ -147,3 +154,5 @@ LOGGING = {
         },
     },
 }
+
+print(f"Final Debug - Refresh Token: {GMAIL_OAUTH_REFRESH_TOKEN}")

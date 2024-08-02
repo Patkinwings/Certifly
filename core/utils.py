@@ -1,54 +1,44 @@
-from core.models import Test, Question, Answer, DragDropItem, MatchingItem, Simulation
+import base64
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from email.mime.text import MIMEText
+import smtplib
+import logging
 
-def score_test(user_answers, test_id):
-    test = Test.objects.get(id=test_id)
-    questions = test.questions.all()
-    score = 0
-    total_questions = questions.count()
+logger = logging.getLogger(__name__)
 
-    for question in questions:
-        if question.question_type in ['MC', 'MCM']:
-            score += score_multiple_choice(question, user_answers.get(str(question.id), []))
-        elif question.question_type == 'DD':
-            score += score_drag_and_drop(question, user_answers.get(str(question.id), []))
-        elif question.question_type == 'SIM':
-            score += score_simulation(question, user_answers.get(str(question.id), ''))
-        elif question.question_type == 'MAT':
-            score += score_matching(question, user_answers.get(str(question.id), {}))
-        elif question.question_type == 'FIB':
-            score += score_fill_in_blank(question, user_answers.get(str(question.id), ''))
+def get_gmail_service(client_id, client_secret, refresh_token):
+    creds = Credentials.from_authorized_user_info(
+        {
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "refresh_token": refresh_token,
+        },
+        ["https://www.googleapis.com/auth/gmail.send"]  # Updated scope
+    )
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+    return creds
 
-    return (score / total_questions) * 100
+def send_gmail(sender, to, subject, body, creds):
+    try:
+        message = MIMEText(body)
+        message['to'] = to
+        message['from'] = sender
+        message['subject'] = subject
 
-def score_multiple_choice(question, user_answer):
-    correct_answers = question.answers.filter(is_correct=True)
-    if question.question_type == 'MC':
-        return 1 if user_answer and user_answer[0] in correct_answers.values_list('id', flat=True) else 0
-    else:  # MCM
-        correct_answer_ids = set(correct_answers.values_list('id', flat=True))
-        user_answer_ids = set(user_answer)
-        return len(correct_answer_ids.intersection(user_answer_ids)) / len(correct_answer_ids)
+        raw = base64.urlsafe_b64encode(message.as_bytes())
+        raw = raw.decode()
 
-def score_drag_and_drop(question, user_answer):
-    correct_positions = {item.id: item.correct_position for item in question.drag_drop_items.all()}
-    correct_count = sum(1 for item_id, position in user_answer.items() if correct_positions.get(int(item_id)) == position)
-    return correct_count / len(correct_positions)
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.ehlo()
+        server.docmd('AUTH', 'XOAUTH2 ' + creds.token)
+        server.sendmail(sender, to, message.as_string())
+        server.quit()
 
-def score_simulation(question, user_answer):
-    simulation = question.simulations.first()
-    if not simulation:
-        return 0
-    expected_commands = set(simulation.expected_commands.split('\n'))
-    user_commands = set(user_answer.split('\n'))
-    return len(expected_commands.intersection(user_commands)) / len(expected_commands)
-
-def score_matching(question, user_answer):
-    correct_matches = {item.left_side: item.right_side for item in question.matching_items.all()}
-    correct_count = sum(1 for left, right in user_answer.items() if correct_matches.get(left) == right)
-    return correct_count / len(correct_matches)
-
-def score_fill_in_blank(question, user_answer):
-    correct_answer = question.answers.filter(is_correct=True).first()
-    if not correct_answer:
-        return 0
-    return 1 if user_answer.lower().strip() == correct_answer.text.lower().strip() else 0
+        logger.info(f"Email sent successfully to {to}")
+        return True
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
+        return False

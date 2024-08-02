@@ -3,6 +3,9 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from email.mime.text import MIMEText
 import smtplib
+import logging
+
+logger = logging.getLogger(__name__)
 
 def get_gmail_service(client_id, client_secret, refresh_token):
     creds = Credentials.from_authorized_user_info(
@@ -11,12 +14,10 @@ def get_gmail_service(client_id, client_secret, refresh_token):
             "client_secret": client_secret,
             "refresh_token": refresh_token,
         },
-        ["https://mail.google.com/"]
+        ["https://www.googleapis.com/auth/gmail.send"]
     )
-
     if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
-
     return creds
 
 def send_gmail(sender, to, subject, body, creds):
@@ -36,7 +37,8 @@ def send_gmail(sender, to, subject, body, creds):
         server.sendmail(sender, to, message.as_string())
         server.quit()
 
+        logger.info(f"Email sent successfully to {to}")
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logger.error(f"An error occurred: {e}")
         return False

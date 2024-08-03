@@ -28,6 +28,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_str
 
 logger = logging.getLogger(__name__)
 
@@ -407,12 +408,13 @@ def custom_password_reset(request):
 
 def custom_password_reset_confirm(request, uidb64, token):
     try:
-        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
+        validlink = True
         if request.method == 'POST':
             new_password1 = request.POST.get('new_password1')
             new_password2 = request.POST.get('new_password2')
@@ -422,9 +424,10 @@ def custom_password_reset_confirm(request, uidb64, token):
                 return redirect('password_reset_complete')
             else:
                 return render(request, 'core/password_reset_confirm.html', {'validlink': True, 'error': 'Passwords do not match'})
-        return render(request, 'core/password_reset_confirm.html', {'validlink': True})
     else:
-        return render(request, 'core/password_reset_confirm.html', {'validlink': False})
+        validlink = False
+
+    return render(request, 'core/password_reset_confirm.html', {'validlink': validlink})
 
 def custom_password_reset_complete(request):
     return render(request, 'core/password_reset_complete.html')

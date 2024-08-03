@@ -1,23 +1,102 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Welcome to Certifly</h1>
-<p>Your gateway to IT certification success</p>
+<main class="home-page">
+    <section class="hero">
+        <h1>Welcome to Certifly</h1>
+        <p>Your gateway to IT certification success</p>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}! You're logged in.</p>
+            {% if not user.payment_status %}
+                <p>Unlock your full potential with our premium practice tests.</p>
+                <a href="{% url 'payment' %}" class="btn">Make Payment</a>
+            {% else %}
+                <p>Ready to ace your IT certification? Start practicing now!</p>
+                <a href="{% url 'dashboard' %}" class="btn">Go to Dashboard</a>
+            {% endif %}
+        {% else %}
+            <p>Prepare for your IT certification with our comprehensive practice tests.</p>
+            <div class="auth-buttons">
+                <a href="{% url 'register' %}" class="btn">Register</a>
+                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+            </div>
+        {% endif %}
+    </section>
 
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}! You're logged in.</p>
-    {% if not user.payment_status %}
-        <p>Unlock your full potential with our premium practice tests.</p>
-        <a href="{% url 'payment' %}" class="btn">Make Payment</a>
-    {% else %}
-        <p>Ready to ace your IT certification? Start practicing now!</p>
-        <a href="{% url 'dashboard' %}" class="btn">Go to Dashboard</a>
-    {% endif %}
-{% else %}
-    <p>Prepare for your IT certification with our comprehensive practice tests.</p>
-    <div style="margin-top: 1rem;">
-        <a href="{% url 'register' %}" class="btn">Register</a>
-        <a href="{% url 'login' %}" class="btn" style="background-color: var(--primary-color); margin-left: 1rem;">Login</a>
-    </div>
-{% endif %}
+    <section class="about-exam">
+        <h2>About the CompTIA A+ Exam</h2>
+        <p>The CompTIA A+ certification is an essential credential for IT professionals. It validates the foundational skills needed for a career in IT support and operations.</p>
+        <ul>
+            <li>Core 1 (220-1101) focuses on mobile devices, networking, hardware, virtualization, and cloud computing.</li>
+            <li>Core 2 (220-1102) covers operating systems, security, software troubleshooting, and operational procedures.</li>
+        </ul>
+    </section>
+
+    <section class="study-resources">
+        <h2>Study Resources</h2>
+        <div class="resource-category">
+            <h3>Free Resources</h3>
+            <ul>
+                <li><a href="https://www.youtube.com/playlist?list=PLG49S3nxzAnlGHY8ObL8DiyP3AIu9vd3K" target="_blank">Professor Messer's A+ Course Videos</a></li>
+                <li><a href="https://www.reddit.com/r/CompTIA/" target="_blank">CompTIA Subreddit</a></li>
+                <li><a href="https://www.examcompass.com/comptia/a-plus-certification/free-a-plus-practice-tests" target="_blank">ExamCompass Practice Tests</a></li>
+            </ul>
+        </div>
+        <div class="resource-category">
+            <h3>Paid Courses</h3>
+            <ul>
+                <li><a href="https://www.udemy.com/course/comptia-a-certification-220-1001-220-1002-course/" target="_blank">Udemy: CompTIA A+ Certification (220-1001 and 220-1002)</a></li>
+                <li><a href="https://www.cbtnuggets.com/it-training/comptia/a-plus" target="_blank">CBT Nuggets: CompTIA A+ Training</a></li>
+            </ul>
+        </div>
+        <div class="resource-category">
+            <h3>Recommended Books</h3>
+            <ul>
+                <li><a href="https://www.amazon.com/CompTIA-Certification-Guide-220-1001-220-1002/dp/1260454037" target="_blank">CompTIA A+ Certification All-in-One Exam Guide</a></li>
+                <li><a href="https://www.amazon.com/CompTIA-Certification-Study-Guide-220-1001/dp/1119515939" target="_blank">CompTIA A+ Complete Study Guide</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="downloadable-materials">
+        <h2>Downloadable Study Materials</h2>
+        <ul>
+            <li><a href="{% url 'download_notes' %}" class="btn btn-small">Download Comprehensive Notes</a></li>
+            <li><a href="{% url 'download_cheatsheet' %}" class="btn btn-small">Download Cheat Sheet</a></li>
+        </ul>
+    </section>
+
+    <section class="exam-registration">
+        <h2>Exam Registration</h2>
+        <p>Ready to take the exam? Register directly with CompTIA:</p>
+        <a href="https://www.comptia.org/testing/exam-vouchers/buy-voucher" class="btn" target="_blank">Purchase Exam Voucher</a>
+    </section>
+
+    <section class="our-practice-tests">
+        <h2>Our Practice Tests</h2>
+        <p>Prepare thoroughly with our premium practice tests:</p>
+        <ul>
+            <li>10 full-length practice exams for Core 1 (220-1101)</li>
+            <li>10 full-length practice exams for Core 2 (220-1102)</li>
+            <li>Detailed explanations for all questions</li>
+            <li>Performance tracking and analysis</li>
+        </ul>
+        {% if not user.is_authenticated or not user.payment_status %}
+            <a href="{% url 'payment' %}" class="btn">Get Access Now</a>
+        {% endif %}
+    </section>
+
+    <section class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <details>
+            <summary>How long does the A+ certification last?</summary>
+            <p>The CompTIA A+ certification is good for three years from the date of certification.</p>
+        </details>
+        <details>
+            <summary>Do I need to take both Core 1 and Core 2 exams?</summary>
+            <p>Yes, you need to pass both the Core 1 (220-1101) and Core 2 (220-1102) exams to earn the CompTIA A+ certification.</p>
+        </details>
+        <!-- Add more FAQ items as needed -->
+    </section>
+</main>
 {% endblock %}

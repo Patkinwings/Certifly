@@ -130,6 +130,11 @@ DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
 
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour
 
+# New settings for password reset
+DOMAIN = 'localhost:8000'  # Change this to your actual domain in production
+SITE_NAME = 'Certifly'
+DEFAULT_HTTP_PROTOCOL = 'http'  # Change to 'https' in production
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

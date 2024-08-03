@@ -25,6 +25,9 @@ from django.template import loader
 from django.core.exceptions import ValidationError
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
 
 logger = logging.getLogger(__name__)
 
@@ -71,12 +74,23 @@ class CustomPasswordResetView(PasswordResetView):
         form.save(**opts)
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['domain'] = get_current_site(self.request).domain
+        context['protocol'] = 'https' if self.request.is_secure() else 'http'
+        return context
+
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'core/password_reset_done.html'
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'core/password_reset_confirm.html'
     success_url = reverse_lazy('password_reset_complete')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['validlink'] = self.validlink
+        return context
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'core/password_reset_complete.html'
@@ -345,3 +359,72 @@ def handle_command(request):
     
     request.session['command_interpreter_state'] = wrapper.to_json()
     return JsonResponse(result)
+
+# Add these new functions at the end of the file
+
+def get_password_reset_token(user):
+    """
+    Generate a one-use only token for resetting password.
+    """
+    from django.contrib.auth.tokens import default_token_generator
+    return default_token_generator.make_token(user)
+
+def send_password_reset_email(request, user):
+    """
+    Send a password reset email to the user.
+    """
+    token = get_password_reset_token(user)
+    current_site = get_current_site(request)
+    protocol = 'https' if request.is_secure() else 'http'
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    reset_url = f"{protocol}://{current_site.domain}/reset/{uid}/{token}/"
+    
+    subject = "Password Reset for Certifly"
+    message = render_to_string('core/password_reset_email.html', {
+        'user': user,
+        'reset_url': reset_url,
+        'domain': current_site.domain,
+        'site_name': 'Certifly',
+        'protocol': protocol,
+        'uid': uid,
+        'token': token,
+    })
+    
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+
+def custom_password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            send_password_reset_email(request, user)
+            return redirect('password_reset_done')
+        except User.DoesNotExist:
+            # We don't want to reveal whether a user exists or not,
+            # so we'll still show the success page
+            return redirect('password_reset_done')
+    return render(request, 'core/password_reset.html')
+
+def custom_password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password1 = request.POST.get('new_password1')
+            new_password2 = request.POST.get('new_password2')
+            if new_password1 == new_password2:
+                user.set_password(new_password1)
+                user.save()
+                return redirect('password_reset_complete')
+            else:
+                return render(request, 'core/password_reset_confirm.html', {'validlink': True, 'error': 'Passwords do not match'})
+        return render(request, 'core/password_reset_confirm.html', {'validlink': True})
+    else:
+        return render(request, 'core/password_reset_confirm.html', {'validlink': False})
+
+def custom_password_reset_complete(request):
+    return render(request, 'core/password_reset_complete.html')

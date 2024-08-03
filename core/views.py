@@ -20,55 +20,15 @@ from django.utils import timezone
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from django.template.loader import render_to_string
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from email.mime.text import MIMEText
-import smtplib
-import base64
+from django.core.mail import send_mail
+from django.template import loader
+from django.core.exceptions import ValidationError
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
 logger = logging.getLogger(__name__)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-def get_gmail_service():
-    creds = Credentials.from_authorized_user_info(
-        {
-            "client_id": settings.GMAIL_OAUTH_CLIENT_ID,
-            "client_secret": settings.GMAIL_OAUTH_CLIENT_SECRET,
-            "refresh_token": settings.GMAIL_OAUTH_REFRESH_TOKEN,
-        },
-        ["https://www.googleapis.com/auth/gmail.send"]
-    )
-
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-
-    return creds
-
-def send_gmail(sender, to, subject, body):
-    creds = get_gmail_service()
-    try:
-        message = MIMEText(body)
-        message['to'] = to
-        message['from'] = sender
-        message['subject'] = subject
-
-        raw = base64.urlsafe_b64encode(message.as_bytes())
-        raw = raw.decode()
-
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.ehlo()
-        server.docmd('AUTH', 'XOAUTH2 ' + creds.token)
-        server.sendmail(sender, to, message.as_string())
-        server.quit()
-
-        logger.info(f"Email sent successfully to {to}")
-        return True
-    except Exception as e:
-        logger.error(f"Failed to send email: {str(e)}")
-        return False
 
 def home_view(request):
     return render(request, 'core/home.html')
@@ -88,13 +48,14 @@ def register_view(request):
 def send_welcome_email(user):
     subject = "Welcome to Certifly"
     message = f"Hello {user.username},\n\nWelcome to Certifly! We're excited to have you on board."
-    send_gmail(settings.DEFAULT_FROM_EMAIL, user.email, subject, message)
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'core/password_reset.html'
     email_template_name = 'core/password_reset_email.html'
     subject_template_name = 'core/password_reset_subject.txt'
     success_url = reverse_lazy('password_reset_done')
+    from_email = settings.DEFAULT_FROM_EMAIL
 
     def form_valid(self, form):
         opts = {
@@ -329,7 +290,7 @@ def payment_success_view(request):
 def send_payment_confirmation_email(user):
     subject = "Payment Confirmation"
     message = f"Hello {user.username},\n\nThank you for your payment. Your account is now fully activated."
-    send_gmail(settings.DEFAULT_FROM_EMAIL, user.email, subject, message)
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
 
 def logout_view(request):
     logout(request)

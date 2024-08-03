@@ -10,15 +10,8 @@ import logging
 
 # Load environment variables from .env file (for local development)
 load_dotenv()
-
-# For Vercel, we need to explicitly load environment variables
-GMAIL_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH2_CLIENT_ID')
-GMAIL_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH2_CLIENT_SECRET')
-GMAIL_OAUTH_REFRESH_TOKEN = os.environ.get('GOOGLE_API_REFRESH_TOKEN')
-
-# Print debug information
-print(f"Debug - Refresh Token: {GMAIL_OAUTH_REFRESH_TOKEN}")
-
+print("EMAIL_HOST_USER:", os.environ.get('EMAIL_HOST_USER'))
+print("EMAIL_HOST_PASSWORD:", os.environ.get('EMAIL_HOST_PASSWORD'))
 # Cloudinary configuration
 cloudinary.config( 
   cloud_name = "dudgux9az", 
@@ -32,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') + ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -125,10 +118,13 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-GOOGLE_SERVICE_ACCOUNT_INFO = json.loads(os.environ.get('GOOGLE_SERVICE_ACCOUNT_INFO', '{}'))
-
-# Custom email backend
-EMAIL_BACKEND = 'core.email_backend.GmailOAuth2Backend'
+# Email configuration for Gmail App Passwords
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
 
@@ -152,7 +148,20 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': False,
         },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django.security': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django.mail': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
-
-print(f"Final Debug - Refresh Token: {GMAIL_OAUTH_REFRESH_TOKEN}")

@@ -2,7 +2,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Question, Test, Answer, DragDropItem, DragDropZone, FillInTheBlank
+from .models import User, Question, Test, Answer, DragDropItem, DragDropZone, FillInTheBlank, Category
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question_type', 'text', 'order', 'image']
+        fields = ['question_type', 'text', 'order', 'image', 'category']
 
 class AnswerForm(forms.ModelForm):
     class Meta:
@@ -55,3 +55,8 @@ class FillInTheBlankForm(forms.ModelForm):
         fields = ['blank_index', 'correct_answer']
 
 FillInTheBlankFormSet = forms.inlineformset_factory(Question, FillInTheBlank, form=FillInTheBlankForm, extra=1, max_num=10, can_delete=True)
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['core', 'domain']

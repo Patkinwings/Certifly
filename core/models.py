@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 import uuid
 from cloudinary.models import CloudinaryField
 
-
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4()}.{ext}"
@@ -13,6 +12,32 @@ def get_file_path(instance, filename):
 
 class User(AbstractUser):
     payment_status = models.BooleanField(default=False)
+
+class Category(models.Model):
+    CORE_CHOICES = [
+        ('CORE1', 'Core 1'),
+        ('CORE2', 'Core 2'),
+    ]
+    DOMAIN_CHOICES = [
+        ('MD', 'Mobile Devices'),
+        ('NW', 'Networking'),
+        ('HW', 'Hardware'),
+        ('VC', 'Virtualization and Cloud Computing'),
+        ('HNT', 'Hardware and Network Troubleshooting'),
+        ('OS', 'Operating Systems'),
+        ('SEC', 'Security'),
+        ('ST', 'Software Troubleshooting'),
+        ('OP', 'Operational Procedures'),
+    ]
+
+    core = models.CharField(max_length=5, choices=CORE_CHOICES)
+    domain = models.CharField(max_length=3, choices=DOMAIN_CHOICES)
+
+    def __str__(self):
+        return f"{self.get_core_display()} - {self.get_domain_display()}"
+
+    class Meta:
+        unique_together = ('core', 'domain')
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
@@ -34,6 +59,7 @@ class Question(models.Model):
     )
     
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', db_index=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='questions')
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES, db_index=True)
     text = models.TextField()
     image = CloudinaryField('image', null=True, blank=True)

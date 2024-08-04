@@ -5,76 +5,17 @@
 {% block content %}
 {% if test %}
     <h1>{{ test.title }}</h1>
-    <form id="test-form" data-test-id="{{ test.id }}" data-duration="{{ test.time_limit }}" data-start-time="{{ start_time|date:'U' }}">
-        {% csrf_token %}
-        {% for question in questions %}
-            <div class="question" data-question-id="{{ question.id }}" data-question-type="{{ question.question_type }}">
-                <h2>Question {{ forloop.counter }}</h2>
-                <p>{{ question.text }}</p>
-
-                {% if question.image %}
-                    {% cloudinary question.image width=150 height=150 %}
-                {% endif %}
-
-                {% if question.question_type == 'MC' %}
-                    {% for answer in question.answers.all %}
-                        <div>
-                            <input type="checkbox" name="question_{{ question.id }}" id="answer_{{ question.id }}_{{ forloop.counter }}" value="{{ answer.text }}">
-                            <label for="answer_{{ question.id }}_{{ forloop.counter }}">{{ answer.text }}</label>
-                        </div>
-                    {% endfor %}
-                {% elif question.question_type == 'DD' %}
-                    <div class="drag-drop-container">
-                        <div class="drag-items">
-                            {% for item in question.drag_drop_items.all %}
-                            <div class="drag-item" draggable="true" data-item-id="{{ item.id }}">
-                                {% if item.image %}
-                                    {% cloudinary item.image width=150 height=150 %}
-                                {% else %}
-                                    {{ item.text }}
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div class="drop-zones">
-                            {% for zone in question.drag_drop_zones.all %}
-                                <div class="drop-zone" data-zone-id="{{ zone.id }}">
-                                    {{ zone.label }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% elif question.question_type == 'SIM' %}
-                    <div class="simulation-container" data-question-id="{{ question.id }}">
-                        <div id="terminal-{{ question.id }}" class="terminal"></div>
-                    </div>
-                {% elif question.question_type == 'MAT' %}
-                    <div class="matching-container">
-                        <div class="left-items">
-                            {% for item in question.matching_items.all %}
-                                <div class="match-item" data-item-id="{{ forloop.counter }}">
-                                    {{ item.left_side }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="right-items">
-                            {% for item in question.matching_items.all %}
-                                <div class="match-item" data-item-id="{{ forloop.counter }}">
-                                    {{ item.right_side }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% elif question.question_type == 'FIB' %}
-                    {% for fib in question.fill_in_the_blanks.all %}
-                        <input type="text" name="question_{{ question.id }}_blank_{{ fib.blank_index }}" required>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        {% endfor %}
-        <button type="submit">Submit Test</button>
-    </form>
     <div id="test-timer"></div>
+    <form id="test-form" data-test-id="{{ test.id }}" data-total-questions="{{ questions.count }}" data-duration="{{ test.duration }}">
+        <div id="question-container">
+            <!-- Question will be loaded here dynamically -->
+        </div>
+        <div class="navigation-buttons">
+            <button id="prev-question">Previous</button>
+            <button id="next-question">Next</button>
+            <button id="finish-test">Finish Test</button>
+        </div>
+    </form>
 {% else %}
     <h2>Add Question</h2>
     <form id="question-form" method="post" enctype="multipart/form-data">
@@ -87,6 +28,7 @@
                 {% endfor %}
             </select>
         </div>
+        {{ question_form.category.label_tag }} {{ question_form.category }}
         {{ question_form.question_type.label_tag }} {{ question_form.question_type }}
         {{ question_form.text.label_tag }} {{ question_form.text }}
         {{ question_form.order.label_tag }} {{ question_form.order }}
@@ -150,24 +92,18 @@
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/fit/fit.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" />
 <script src="{% static 'core/test_taking.js' %}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        try {
-            const questionTypeSelect = document.getElementById('id_question_type');
-            const answerFormset = document.getElementById('answer-formset');
-            const dragDropFormset = document.getElementById('drag-drop-formset');
-            const fibFormset = document.getElementById('fill-in-the-blank-formset');
-            const questionForm = document.getElementById('question-form');
-            const imageUploadForm = document.getElementById('image-upload-form');
-            const imageForm = document.getElementById('image-form');
+        const questionTypeSelect = document.getElementById('id_question_type');
+        const answerFormset = document.getElementById('answer-formset');
+        const dragDropFormset = document.getElementById('drag-drop-formset');
+        const fibFormset = document.getElementById('fill-in-the-blank-formset');
+        const questionForm = document.getElementById('question-form');
+        const imageUploadForm = document.getElementById('image-upload-form');
+        const imageForm = document.getElementById('image-form');
 
-            if (!questionTypeSelect) {
-                console.error('Element with id "id_question_type" not found');
-                return;
-            }
-
+        if (questionTypeSelect) {
             function toggleFormsets() {
                 if (questionTypeSelect.value === 'MC') {
                     answerFormset.style.display = 'block';
@@ -190,11 +126,13 @@
 
             questionTypeSelect.addEventListener('change', toggleFormsets);
             toggleFormsets();
+        }
 
+        if (questionForm) {
             questionForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const formData = new FormData(questionForm);
-                fetch("{% url 'create_question' test_id=test.id %}", {
+                fetch(questionForm.action, {
                     method: 'POST',
                     body: formData,
                     headers: {
@@ -214,7 +152,9 @@
                     console.error('Error:', error);
                 });
             });
+        }
 
+        if (imageForm) {
             imageForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const formData = new FormData(imageForm);
@@ -230,7 +170,6 @@
                     if (data.success) {
                         console.log('Image uploaded successfully');
                         imageUploadForm.style.display = 'none';
-                        // Optionally, display a success message or redirect
                     } else {
                         console.error('Error uploading image:', data.error);
                     }
@@ -239,8 +178,10 @@
                     console.error('Error:', error);
                 });
             });
-        } catch (error) {
-            console.error('Error in DOMContentLoaded event listener:', error);
+        }
+
+        if (document.getElementById('question-container')) {
+            initializeTestTaking();
         }
     });
 </script>
@@ -248,7 +189,29 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'core/test_taking.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" />
 <style>
+    #test-timer {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .navigation-buttons {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
     .drag-drop-container {
         display: flex;
         flex-direction: column;

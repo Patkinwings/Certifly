@@ -4719,7 +4719,7 @@ class NetworkSimulator:
                 print("\nLogging:")
                 print("LogAllowedConnections                 Disable")
                 print("LogDroppedConnections                 Enable")
-                print("FileName                              %systemroot%\system32\LogFiles\Firewall\pfirewall.log")
+                print(r"FileName %systemroot%\system32\LogFiles\Firewall\pfirewall.log")
                 print("MaxFileSize                           4096")
                 print("\n")
         except Exception as e:

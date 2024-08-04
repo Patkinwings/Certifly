@@ -21,7 +21,12 @@ class CustomUserCreationForm(UserCreationForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question_type', 'text', 'order', 'image', 'category']
+        fields = ['category', 'question_type', 'text', 'order', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.all()
+        self.fields['category'].empty_label = None
 
 class AnswerForm(forms.ModelForm):
     class Meta:

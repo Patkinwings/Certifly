@@ -96,109 +96,14 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'core/password_reset_complete.html'
 
-class TestView(View):
-    def get(self, request, test_id=None):
-        if test_id:
-            test = get_object_or_404(Test, id=test_id)
-            questions = test.questions.all().prefetch_related('category')
-            return render(request, 'core/test_taking.html', {'test': test, 'questions': questions})
-        else:
-            tests = Test.objects.all()
-            return render(request, 'core/test_list.html', {'tests': tests})
-    
-    def post(self, request, test_id):
-        test = get_object_or_404(Test, id=test_id)
-        data = json.loads(request.body)
-        answers = data.get('answers')
-        
-        score, category_scores = self.calculate_score(test, answers)
-        
-        Result.objects.create(
-            user=request.user,
-            test=test,
-            score=score,
-            start_time=timezone.now(),
-            end_time=timezone.now(),
-            answers=json.dumps(answers),
-            category_scores=json.dumps(category_scores)
-        )
-        
-        return JsonResponse({'success': True, 'redirect_url': reverse('dashboard')})
-
-    def calculate_score(self, test, answers):
-        total_questions = test.questions.count()
-        correct_answers = 0
-        category_scores = {}
-
-        for question in test.questions.all():
-            question_id = str(question.id)
-            category = question.category
-            if category not in category_scores:
-                category_scores[category.id] = {'correct': 0, 'total': 0, 'name': str(category)}
-            
-            category_scores[category.id]['total'] += 1
-            
-            if question_id in answers:
-                user_answer = answers[question_id]
-                if question.question_type == 'MC':
-                    correct_answer = [answer.text for answer in question.answers.filter(is_correct=True)]
-                    if set(user_answer) == set(correct_answer):
-                        correct_answers += 1
-                        category_scores[category.id]['correct'] += 1
-                elif question.question_type == 'DD':
-                    correct_placements = self.check_drag_drop_answer(question, user_answer)
-                    if correct_placements == question.drag_drop_zones.count():
-                        correct_answers += 1
-                        category_scores[category.id]['correct'] += 1
-                elif question.question_type == 'MAT':
-                    correct_answer = [(item.left_side, item.right_side) for item in question.matching_items.all()]
-                    if set(map(tuple, user_answer)) == set(map(tuple, correct_answer)):
-                        correct_answers += 1
-                        category_scores[category.id]['correct'] += 1
-                elif question.question_type == 'FIB':
-                    fill_in_the_blanks = question.fill_in_the_blanks.all()
-                    if len(user_answer) == len(fill_in_the_blanks):
-                        all_correct = True
-                        for i, fib in enumerate(fill_in_the_blanks):
-                            if user_answer[i].lower().strip() != fib.correct_answer.lower().strip():
-                                all_correct = False
-                                break
-                        if all_correct:
-                            correct_answers += 1
-                            category_scores[category.id]['correct'] += 1
-                elif question.question_type == 'SIM':
-                    interpreter = CommandInterpreterWrapper()
-                    if isinstance(user_answer, list):
-                        for command in user_answer:
-                            if isinstance(command, str) and command.startswith('$'):
-                                interpreter.execute_command(command[1:].strip())
-                    elif isinstance(user_answer, str):
-                        for command in user_answer.split('\n'):
-                            if command.startswith('$'):
-                                interpreter.execute_command(command[1:].strip())
-                    
-                    simulation = question.simulations.first()
-                    if simulation:
-                        goal_state = simulation.expected_commands
-                        if interpreter.check_goal_state(goal_state):
-                            correct_answers += 1
-                            category_scores[category.id]['correct'] += 1
-                    else:
-                        print(f"Warning: No simulation found for question {question_id}")
-
-        for category_id in category_scores:
-            category_scores[category_id]['percentage'] = (category_scores[category_id]['correct'] / category_scores[category_id]['total']) * 100
-
-        return (correct_answers / total_questions) * 100, category_scores
-
-    def check_drag_drop_answer(self, question, user_answer):
-        correct_placements = 0
-        for zone_id, item_id in user_answer.items():
-            zone = DragDropZone.objects.get(id=zone_id)
-            item = DragDropItem.objects.get(id=item_id)
-            if zone.correct_item == item:
-                correct_placements += 1
-        return correct_placements
+@login_required
+def take_test(request, test_id):
+    test = get_object_or_404(Test, id=test_id)
+    questions = test.questions.all().order_by('order')
+    return render(request, 'core/test_taking.html', {
+        'test': test,
+        'questions': questions,
+    })
 
 @login_required
 def create_test_view(request):
@@ -216,13 +121,9 @@ def create_question_view(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     if request.method == 'POST':
         question_form = QuestionForm(request.POST, request.FILES)
-        category_form = CategoryForm(request.POST)
-        if question_form.is_valid() and category_form.is_valid():
+        if question_form.is_valid():
             question = question_form.save(commit=False)
             question.test = test
-            
-            category = category_form.save()
-            question.category = category
             
             if 'image' in request.FILES:
                 result = upload(request.FILES['image'])
@@ -253,7 +154,6 @@ def create_question_view(request, test_id):
             return JsonResponse({'success': True, 'question_id': question.id})
     else:
         question_form = QuestionForm()
-        category_form = CategoryForm()
         answer_formset = AnswerFormSet()
         item_formset = DragDropItemFormSet()
         zone_formset = DragDropZoneFormSet()
@@ -261,7 +161,6 @@ def create_question_view(request, test_id):
     
     return render(request, 'core/create_question.html', {
         'question_form': question_form,
-        'category_form': category_form,
         'answer_formset': answer_formset,
         'item_formset': item_formset,
         'zone_formset': zone_formset,
@@ -464,32 +363,19 @@ def custom_password_reset_complete(request):
     return render(request, 'core/password_reset_complete.html')
 
 @login_required
-def view_test_results(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    results = Result.objects.filter(user=request.user, test=test).order_by('-end_time')
-    
-    for result in results:
-        result.category_performance = json.loads(result.category_scores)
-
-    return render(request, 'core/test_results.html', {
-        'test': test,
-        'results': results
-    })
-
-@login_required
 def view_result_details(request, result_id):
     result = get_object_or_404(Result, id=result_id, user=request.user)
     test = result.test
     questions = test.questions.all().prefetch_related('category')
     user_answers = json.loads(result.answers)
     category_scores = json.loads(result.category_scores)
-    
+
     question_details = []
     for question in questions:
         user_answer = user_answers.get(str(question.id))
         is_correct = False
         correct_answer = None
-        
+
         if question.question_type == 'MC':
             correct_answer = [answer.text for answer in question.answers.filter(is_correct=True)]
             is_correct = set(user_answer) == set(correct_answer) if user_answer else False
@@ -521,7 +407,7 @@ def view_result_details(request, result_id):
             else:
                 correct_answer = "N/A"
                 is_correct = False
-        
+
         question_details.append({
             'question': question,
             'user_answer': user_answer,
@@ -535,3 +421,161 @@ def view_result_details(request, result_id):
         'question_details': question_details,
         'category_scores': category_scores
     })
+
+@login_required
+def get_question(request, test_id, question_index):
+    test = get_object_or_404(Test, id=test_id)
+    questions = test.questions.all().order_by('order')
+
+    if question_index < 0 or question_index >= questions.count():
+        return JsonResponse({'error': 'Invalid question index'}, status=400)
+
+    question = questions[question_index]
+
+    question_data = {
+        'id': question.id,
+        'text': question.text,
+        'question_type': question.question_type,
+        'image': question.image.url if question.image else None,
+        'options': [],
+    }
+
+    if question.question_type == 'MC':
+        question_data['options'] = [{'id': answer.id, 'text': answer.text} for answer in question.answers.all()]
+    elif question.question_type == 'DD':
+        question_data['drag_drop_items'] = [{'id': item.id, 'text': item.text, 'image': item.image.url if item.image else None} for item in question.drag_drop_items.all()]
+        question_data['drag_drop_zones'] = [{'id': zone.id, 'text': zone.text} for zone in question.drag_drop_zones.all()]
+    elif question.question_type == 'MAT':
+        question_data['matching_items'] = [{'id': item.id, 'left_side': item.left_side, 'right_side': item.right_side} for item in question.matching_items.all()]
+    elif question.question_type == 'FIB':
+        question_data['fill_in_the_blanks'] = [{'id': fib.id, 'text': fib.text} for fib in question.fill_in_the_blanks.all()]
+    elif question.question_type == 'SIM':
+        simulation = question.simulations.first()
+        if simulation:
+            question_data['simulation'] = {
+                'id': simulation.id,
+                'initial_state': simulation.initial_state,
+                'goal_state': simulation.goal_state,
+            }
+
+    return JsonResponse(question_data)
+
+@login_required
+def submit_answer(request, test_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        question_id = data.get('question_id')
+        answer = data.get('answer')
+
+        # Store the answer in the session
+        if 'test_answers' not in request.session:
+            request.session['test_answers'] = {}
+        request.session['test_answers'][question_id] = answer
+        request.session.modified = True
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@login_required
+def finish_test(request, test_id):
+    if request.method == 'POST':
+        test = get_object_or_404(Test, id=test_id)
+        answers = request.session.get('test_answers', {})
+
+        score, category_scores = calculate_score(test, answers)
+
+        Result.objects.create(
+            user=request.user,
+            test=test,
+            score=score,
+            start_time=timezone.now(),
+            end_time=timezone.now(),
+            answers=json.dumps(answers),
+            category_scores=json.dumps(category_scores)
+        )
+
+        # Clear the test answers from the session
+        if 'test_answers' in request.session:
+            del request.session['test_answers']
+
+        return JsonResponse({'success': True, 'redirect_url': reverse('dashboard')})
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def calculate_score(test, answers):
+    total_questions = test.questions.count()
+    correct_answers = 0
+    category_scores = {}
+
+    for question in test.questions.all():
+        question_id = str(question.id)
+        category = question.category
+        if category not in category_scores:
+            category_scores[category.id] = {'correct': 0, 'total': 0, 'name': str(category)}
+
+        category_scores[category.id]['total'] += 1
+
+        if question_id in answers:
+            user_answer = answers[question_id]
+            if question.question_type == 'MC':
+                correct_answer = [answer.text for answer in question.answers.filter(is_correct=True)]
+                if set(user_answer) == set(correct_answer):
+                    correct_answers += 1
+                    category_scores[category.id]['correct'] += 1
+            elif question.question_type == 'DD':
+                correct_placements = check_drag_drop_answer(question, user_answer)
+                if correct_placements == question.drag_drop_zones.count():
+                    correct_answers += 1
+                    category_scores[category.id]['correct'] += 1
+            elif question.question_type == 'MAT':
+                correct_answer = [(item.left_side, item.right_side) for item in question.matching_items.all()]
+                if set(map(tuple, user_answer)) == set(map(tuple, correct_answer)):
+                    correct_answers += 1
+                    category_scores[category.id]['correct'] += 1
+            elif question.question_type == 'FIB':
+                fill_in_the_blanks = question.fill_in_the_blanks.all()
+                if len(user_answer) == len(fill_in_the_blanks):
+                    all_correct = True
+                    for i, fib in enumerate(fill_in_the_blanks):
+                        if user_answer[i].lower().strip() != fib.correct_answer.lower().strip():
+                            all_correct = False
+                            break
+                    if all_correct:
+                        correct_answers += 1
+                        category_scores[category.id]['correct'] += 1
+            elif question.question_type == 'SIM':
+                interpreter = CommandInterpreterWrapper()
+                if isinstance(user_answer, list):
+                    for command in user_answer:
+                        if isinstance(command, str) and command.startswith('$'):
+                            interpreter.execute_command(command[1:].strip())
+                elif isinstance(user_answer, str):
+                    for command in user_answer.split('\n'):
+                        if command.startswith('$'):
+                            interpreter.execute_command(command[1:].strip())
+
+                simulation = question.simulations.first()
+                if simulation:
+                    goal_state = simulation.expected_commands
+                    if interpreter.check_goal_state(goal_state):
+                        correct_answers += 1
+                        category_scores[category.id]['correct'] += 1
+                else:
+                    print(f"Warning: No simulation found for question {question_id}")
+
+    for category_id in category_scores:
+        category_scores[category_id]['percentage'] = (category_scores[category_id]['correct'] / category_scores[category_id]['total']) * 100
+
+    return (correct_answers / total_questions) * 100, category_scores
+
+def check_drag_drop_answer(question, user_answer):
+    correct_placements = 0
+    for zone_id, item_id in user_answer.items():
+        zone = DragDropZone.objects.get(id=zone_id)
+        item = DragDropItem.objects.get(id=item_id)
+        if zone.correct_item == item:
+            correct_placements += 1
+    return correct_placements
+
+   

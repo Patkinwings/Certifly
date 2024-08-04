@@ -32,9 +32,15 @@ class Category(models.Model):
 
     core = models.CharField(max_length=5, choices=CORE_CHOICES)
     domain = models.CharField(max_length=3, choices=DOMAIN_CHOICES)
+    name = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return f"{self.get_core_display()} - {self.get_domain_display()}"
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = f"{self.get_core_display()} - {self.get_domain_display()}"
+        super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ('core', 'domain')
@@ -132,6 +138,7 @@ class Result(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     answers = models.TextField(help_text="JSON containing user's answers")
+    category_scores = models.TextField(default='{}', help_text="JSON containing category scores")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

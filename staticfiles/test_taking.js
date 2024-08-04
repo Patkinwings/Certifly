@@ -797,5 +797,12 @@ function initializeMultipleChoice() {
         console.error('An error occurred:', message, 'at', source, 'line', lineno, 'column', colno);
         return false;
     };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('test-form')) {
+            initializeTestTaking();
+        }
+    });
     
     console.log("test_taking.js fully loaded and initialized");
+

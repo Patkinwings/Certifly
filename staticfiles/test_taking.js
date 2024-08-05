@@ -4,71 +4,166 @@ let answers = {};
 let testDuration;
 let endTime;
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded");
-    
-    const testContainer = document.getElementById('question-container');
-    if (testContainer) {
-        console.log("Test container found, initializing test taking");
-        initializeTestTaking();
-    } else {
-        console.log("Test container not found, initializing question creation");
-        initializeQuestionCreation();
-    }
-});
-
-function initializeTestTaking() {
-    console.log("Initializing test taking");
-    let currentQuestionIndex = 0;
-    const testForm = document.getElementById('test-form');
-    if (!testForm) {
-        console.error('Test form not found in initializeTestTaking');
-        return;
-    }
-    console.log("Test form dataset in initializeTestTaking:", testForm.dataset);
-    
-    const testId = parseInt(testForm.dataset.testId);
-    const totalQuestions = parseInt(testForm.dataset.totalQuestions);
-    testDuration = parseInt(testForm.dataset.duration, 10);
-    
-    console.log("Parsed values in initializeTestTaking:", { testId, totalQuestions, testDuration });
-
-    if (isNaN(testId) || isNaN(totalQuestions) || isNaN(testDuration)) {
-        console.error('Invalid test data in initializeTestTaking', { testId, totalQuestions, testDuration });
-        return;
-    }
-
-    try {
-        loadQuestion(currentQuestionIndex);
-        initializeTimer();
-    } catch (error) {
-        console.error('Error in initializeTestTaking:', error);
-        console.error('Error stack:', error.stack);
-    }
-
-    document.addEventListener('click', function(event) {
-        console.log("Click event on document", event.target);
-        if (event.target.id === 'prev-question') {
-            console.log("Previous question button clicked");
-            if (currentQuestionIndex > 0) {
-                storeAnswer(currentQuestionIndex);
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
-        } else if (event.target.id === 'next-question') {
-            console.log("Next question button clicked");
-            if (currentQuestionIndex < totalQuestions - 1) {
-                storeAnswer(currentQuestionIndex);
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            }
-        } else if (event.target.id === 'finish-test') {
-            console.log("Finish test button clicked");
-            storeAnswer(currentQuestionIndex);
-            finishTest();
         }
-    });
+    }
+    return cookieValue;
 }
+
+function updateTimer(endTime) {
+    const timerElement = document.getElementById('test-timer');
+    if (!timerElement) {
+        console.error("Timer element not found");
+        return;
+    }
+
+    function updateDisplay() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+            console.log("Time's up!");
+            clearInterval(timerInterval);
+            timerElement.innerHTML = "Time's up!";
+            finishTest();
+            return;
+        }
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    updateDisplay();
+    const timerInterval = setInterval(updateDisplay, 1000);
+}
+
+function initializeTimer() {
+    console.log("Initializing timer");
+    if (isNaN(testDuration)) {
+        console.error("Invalid test duration:", testDuration);
+        return;
+    }
+    const endTime = new Date().getTime() + testDuration * 60 * 1000;
+    updateTimer(endTime);
+}
+
+function renderMultipleChoice(data) {
+    console.log("Rendering multiple choice question");
+    let optionsHtml = '<div class="options">';
+    data.options.forEach(option => {
+        optionsHtml += `
+            <div>
+                <input type="checkbox" id="option_${option.id}" name="question_${data.id}" value="${option.id}">
+                <label for="option_${option.id}">${option.text}</label>
+            </div>
+        `;
+    });
+    optionsHtml += '</div>';
+    return optionsHtml;
+}
+
+function renderDragAndDrop(data) {
+    console.log("Rendering drag and drop question");
+    let html = '<div class="drag-drop-container">';
+    html += '<div class="drag-items">';
+    data.drag_drop_items.forEach(item => {
+        html += `<div class="drag-item" draggable="true" data-item-id="${item.id}">${item.text}</div>`;
+    });
+    html += '</div>';
+    html += '<div class="drop-zones">';
+    data.drag_drop_zones.forEach(zone => {
+        html += `<div class="drop-zone" data-zone-id="${zone.id}">${zone.text}</div>`;
+    });
+    html += '</div></div>';
+    return html;
+}
+
+function renderMatching(data) {
+    console.log("Rendering matching question");
+    let html = '<div class="matching-container">';
+    html += '<div class="left-items">';
+    data.matching_items.forEach(item => {
+        html += `<div class="match-item" data-item-id="${item.id}">${item.left_side}</div>`;
+    });
+    html += '</div>';
+    html += '<div class="right-items">';
+    data.matching_items.forEach(item => {
+        html += `<div class="match-item" data-item-id="${item.id}">${item.right_side}</div>`;
+    });
+    html += '</div></div>';
+    return html;
+}
+
+function renderFillInTheBlank(data) {
+    console.log("Rendering fill in the blank question");
+    let html = '<div class="fill-in-the-blank-container">';
+    data.fill_in_the_blanks.forEach((blank, index) => {
+        html += `<input type="text" name="blank_${index}" placeholder="Fill in the blank">`;
+    });
+    html += '</div>';
+    return html;
+}
+
+function renderSimulation(data) {
+    console.log("Rendering simulation question");
+    return `
+        <div class="simulation-container" data-question-id="${data.id}">
+            <div class="terminal"></div>
+        </div>
+    `;
+}
+
+function renderQuestionType(data) {
+    console.log("Rendering question type:", data.question_type);
+    const testContainer = document.getElementById('question-container');
+    let questionHtml = '';
+    switch(data.question_type) {
+        case 'MC':
+            questionHtml = renderMultipleChoice(data);
+            break;
+        case 'DD':
+            questionHtml = renderDragAndDrop(data);
+            break;
+        case 'MAT':
+            questionHtml = renderMatching(data);
+            break;
+        case 'FIB':
+            questionHtml = renderFillInTheBlank(data);
+            break;
+        case 'SIM':
+            questionHtml = renderSimulation(data);
+            break;
+        default:
+            console.error("Unknown question type:", data.question_type);
+            return;
+    }
+    testContainer.innerHTML += questionHtml;
+    
+    if (data.question_type === 'MC') {
+        initializeMultipleChoice();
+    } else if (data.question_type === 'DD') {
+        initializeDragAndDrop();
+    } else if (data.question_type === 'MAT') {
+        initializeMatching();
+    } else if (data.question_type === 'FIB') {
+        initializeFillInTheBlank();
+    } else if (data.question_type === 'SIM') {
+        initializeSimulations();
+    }
+}
+
 function loadQuestion(index) {
     console.log("Loading question at index:", index);
     const testForm = document.getElementById('test-form');
@@ -142,109 +237,57 @@ function loadQuestion(index) {
         });
 }
 
-function renderQuestionType(data) {
-    console.log("Rendering question type:", data.question_type);
-    const testContainer = document.getElementById('question-container');
-    let questionHtml = '';
-    switch(data.question_type) {
-        case 'MC':
-            questionHtml = renderMultipleChoice(data);
-            break;
-        case 'DD':
-            questionHtml = renderDragAndDrop(data);
-            break;
-        case 'MAT':
-            questionHtml = renderMatching(data);
-            break;
-        case 'FIB':
-            questionHtml = renderFillInTheBlank(data);
-            break;
-        case 'SIM':
-            questionHtml = renderSimulation(data);
-            break;
-        default:
-            console.error("Unknown question type:", data.question_type);
-            return;
+function initializeTestTaking() {
+    console.log("Initializing test taking");
+    let currentQuestionIndex = 0;
+    const testForm = document.getElementById('test-form');
+    if (!testForm) {
+        console.error('Test form not found in initializeTestTaking');
+        return;
     }
-    testContainer.innerHTML += questionHtml;
+    console.log("Test form dataset in initializeTestTaking:", testForm.dataset);
     
-    if (data.question_type === 'MC') {
-        initializeMultipleChoice();
-    } else if (data.question_type === 'DD') {
-        initializeDragAndDrop();
-    } else if (data.question_type === 'MAT') {
-        initializeMatching();
-    } else if (data.question_type === 'FIB') {
-        initializeFillInTheBlank();
-    } else if (data.question_type === 'SIM') {
-        initializeSimulations();
+    const testId = parseInt(testForm.dataset.testId);
+    const totalQuestions = parseInt(testForm.dataset.totalQuestions);
+    testDuration = parseInt(testForm.dataset.duration, 10);
+    
+    console.log("Parsed values in initializeTestTaking:", { testId, totalQuestions, testDuration });
+
+    if (isNaN(testId) || isNaN(totalQuestions) || isNaN(testDuration)) {
+        console.error('Invalid test data in initializeTestTaking', { testId, totalQuestions, testDuration });
+        return;
     }
-}
 
-function renderMultipleChoice(data) {
-    console.log("Rendering multiple choice question");
-    let optionsHtml = '<div class="options">';
-    data.options.forEach(option => {
-        optionsHtml += `
-            <div>
-                <input type="checkbox" id="option_${option.id}" name="question_${data.id}" value="${option.id}">
-                <label for="option_${option.id}">${option.text}</label>
-            </div>
-        `;
-    });
-    optionsHtml += '</div>';
-    return optionsHtml;
-}
+    try {
+        loadQuestion(currentQuestionIndex);
+        initializeTimer();
+    } catch (error) {
+        console.error('Error in initializeTestTaking:', error);
+        console.error('Error stack:', error.stack);
+    }
 
-function renderDragAndDrop(data) {
-    console.log("Rendering drag and drop question");
-    let html = '<div class="drag-drop-container">';
-    html += '<div class="drag-items">';
-    data.drag_drop_items.forEach(item => {
-        html += `<div class="drag-item" draggable="true" data-item-id="${item.id}">${item.text}</div>`;
+    document.addEventListener('click', function(event) {
+        console.log("Click event on document", event.target);
+        if (event.target.id === 'prev-question') {
+            console.log("Previous question button clicked");
+            if (currentQuestionIndex > 0) {
+                storeAnswer(currentQuestionIndex);
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        } else if (event.target.id === 'next-question') {
+            console.log("Next question button clicked");
+            if (currentQuestionIndex < totalQuestions - 1) {
+                storeAnswer(currentQuestionIndex);
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        } else if (event.target.id === 'finish-test') {
+            console.log("Finish test button clicked");
+            storeAnswer(currentQuestionIndex);
+            finishTest();
+        }
     });
-    html += '</div>';
-    html += '<div class="drop-zones">';
-    data.drag_drop_zones.forEach(zone => {
-        html += `<div class="drop-zone" data-zone-id="${zone.id}">${zone.text}</div>`;
-    });
-    html += '</div></div>';
-    return html;
-}
-
-function renderMatching(data) {
-    console.log("Rendering matching question");
-    let html = '<div class="matching-container">';
-    html += '<div class="left-items">';
-    data.matching_items.forEach(item => {
-        html += `<div class="match-item" data-item-id="${item.id}">${item.left_side}</div>`;
-    });
-    html += '</div>';
-    html += '<div class="right-items">';
-    data.matching_items.forEach(item => {
-        html += `<div class="match-item" data-item-id="${item.id}">${item.right_side}</div>`;
-    });
-    html += '</div></div>';
-    return html;
-}
-
-function renderFillInTheBlank(data) {
-    console.log("Rendering fill in the blank question");
-    let html = '<div class="fill-in-the-blank-container">';
-    data.fill_in_the_blanks.forEach((blank, index) => {
-        html += `<input type="text" name="blank_${index}" placeholder="Fill in the blank">`;
-    });
-    html += '</div>';
-    return html;
-}
-
-function renderSimulation(data) {
-    console.log("Rendering simulation question");
-    return `
-        <div class="simulation-container" data-question-id="${data.id}">
-            <div class="terminal"></div>
-        </div>
-    `;
 }
 
 function storeAnswer(index) {
@@ -399,60 +442,61 @@ function initializeQuestionCreation() {
     }
 
     const questionForm = document.getElementById('question-form');
-if (questionForm) {
-    questionForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        console.log("Submitting question form");
-        const formData = new FormData(questionForm);
-        fetch(questionForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log("Question created successfully, question ID:", data.question_id);
-                document.getElementById('image-upload-form').style.display = 'block';
-                document.getElementById('image-form').dataset.questionId = data.question_id;
-            } else {
-                console.error('Error creating question:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+    if (questionForm) {
+        questionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log("Submitting question form");
+            const formData = new FormData(questionForm);
+            fetch(questionForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Question created successfully, question ID:", data.question_id);
+                    document.getElementById('image-upload-form').style.display = 'block';
+                    document.getElementById('image-form').dataset.questionId = data.question_id;
+                } else {
+                    console.error('Error creating question:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
-    });
-}
+    }
 
-const imageForm = document.getElementById('image-form');
-if (imageForm) {
-    imageForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        console.log("Submitting image form");
-        const formData = new FormData(imageForm);
-        fetch(`/upload_question_image/${imageForm.dataset.questionId}/`, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Image uploaded successfully');
-                document.getElementById('image-upload-form').style.display = 'none';
-            } else {
-                console.error('Error uploading image:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+    const imageForm = document.getElementById('image-form');
+    if (imageForm) {
+        imageForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log("Submitting image form");
+            const formData = new FormData(imageForm);
+            fetch(`/upload_question_image/${imageForm.dataset.questionId}/`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Image uploaded successfully');
+                    document.getElementById('image-upload-form').style.display = 'none';
+                } else {
+                    console.error('Error uploading image:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
-    });
+    }
 }
 
 function initializeMultipleChoice() {
@@ -636,6 +680,11 @@ function initializeSimulations() {
         }
 
         try {
+            if (typeof Terminal === 'undefined') {
+                console.error("Terminal object not found. Make sure xterm.js is loaded properly.");
+                return;
+            }
+
             const term = new Terminal({
                 cursorBlink: true,
                 theme: {
@@ -653,11 +702,13 @@ function initializeSimulations() {
             term.open(terminalElement);
             console.log("Terminal opened");
             
-            if (typeof fit !== 'undefined' && typeof fit.fit === 'function') {
-                fit.fit(term);
+            if (typeof FitAddon !== 'undefined') {
+                const fitAddon = new FitAddon.FitAddon();
+                term.loadAddon(fitAddon);
+                fitAddon.fit();
                 console.log("Terminal fitted");
             } else {
-                console.warn("Term.fit is not available. Make sure you've included the 'fit' addon.");
+                console.warn("FitAddon not available. Terminal size might not be optimal.");
             }
             
             if (term.element) {
@@ -694,8 +745,10 @@ function initializeSimulations() {
             container.dataset.commandHistory = JSON.stringify(commandHistory);
 
             window.addEventListener('resize', () => {
-                if (typeof fit !== 'undefined' && typeof fit.fit === 'function') {
-                    fit.fit(term);
+                if (typeof FitAddon !== 'undefined') {
+                    const fitAddon = new FitAddon.FitAddon();
+                    term.loadAddon(fitAddon);
+                    fitAddon.fit();
                 }
             });
         } catch (error) {
@@ -790,129 +843,45 @@ function initializeFillInTheBlank() {
             });
         });
     });
-}
-
-function updateTimer(endTime) {
-    const timerElement = document.getElementById('test-timer');
-    if (!timerElement) {
-        console.error("Timer element not found");
-        return;
-    }
-
-    function updateDisplay() {
-        const now = new Date().getTime();
-        const distance = endTime - now;
-
-        if (distance < 0) {
-            console.log("Time's up!");
-            clearInterval(timerInterval);
-            timerElement.innerHTML = "Time's up!";
-            finishTest();
-            return;
+ }
+ 
+ function updateDropZoneStyles() {
+    console.log("Updating drop zone styles");
+    const dropZones = document.querySelectorAll('.drop-zone');
+    dropZones.forEach(zone => {
+        if (zone.querySelector('.drag-item')) {
+            zone.classList.add('filled');
+        } else {
+            zone.classList.remove('filled');
         }
-
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    updateDisplay();
-    const timerInterval = setInterval(updateDisplay, 1000);
-}
-
-function initializeTimer() {
-    console.log("Initializing timer");
-    if (isNaN(testDuration)) {
-        console.error("Invalid test duration:", testDuration);
-        return;
-    }
-    const endTime = new Date().getTime() + testDuration * 60 * 1000;
-    updateTimer(endTime);
-}
-
-function updateTimer(endTime) {
-    const timerElement = document.getElementById('test-timer');
-    if (!timerElement) {
-        console.error("Timer element not found");
-        return;
-    }
-
-    function updateDisplay() {
-        const now = new Date().getTime();
-        const distance = endTime - now;
-
-        if (distance < 0) {
-            console.log("Time's up!");
-            clearInterval(timerInterval);
-            timerElement.innerHTML = "Time's up!";
-            finishTest();
-            return;
+    });
+ }
+ 
+ function resetDragItems() {
+    console.log("Resetting drag items");
+    const dragItems = document.querySelectorAll('.drag-item');
+    const dragItemsContainer = document.querySelector('.drag-items');
+ 
+    dragItems.forEach(item => {
+        if (item.parentElement.classList.contains('drop-zone')) {
+            dragItemsContainer.appendChild(item);
         }
-
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    });
+    updateDropZoneStyles();
+ }
+ 
+ window.onerror = function(message, source, lineno, colno, error) {
+    console.error('An error occurred:', message, 'at', source, 'line', lineno, 'column', colno);
+    return false;
+ };
+ 
+ document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('test-form')) {
+        console.log("Test form found, initializing test taking");
+        initializeTestTaking();
+    } else {
+        console.log("Test form not found, skipping test taking initialization");
     }
-
-    updateDisplay();
-    const timerInterval = setInterval(updateDisplay, 1000);
-}
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;}
-            }
-            return cookieValue;
-         }
-         
-         function resetDragItems() {
-            console.log("Resetting drag items");
-            const dragItems = document.querySelectorAll('.drag-item');
-            const dragItemsContainer = document.querySelector('.drag-items');
-         
-            dragItems.forEach(item => {
-                if (item.parentElement.classList.contains('drop-zone')) {
-                    dragItemsContainer.appendChild(item);
-                }
-            });
-            updateDropZoneStyles();
-         }
-         
-         function updateDropZoneStyles() {
-            console.log("Updating drop zone styles");
-            const dropZones = document.querySelectorAll('.drop-zone');
-            dropZones.forEach(zone => {
-                if (zone.querySelector('.drag-item')) {
-                    zone.classList.add('filled');
-                } else {
-                    zone.classList.remove('filled');
-                }
-            });
-         }
-         
-         window.onerror = function(message, source, lineno, colno, error) {
-            console.error('An error occurred:', message, 'at', source, 'line', lineno, 'column', colno);
-            return false;
-         };
-         
-         document.addEventListener('DOMContentLoaded', function() {
-            if (document.getElementById('test-form')) {
-                console.log("Test form found, initializing test taking");
-                initializeTestTaking();
-            } else {
-                console.log("Test form not found, skipping test taking initialization");
-            }
-         });
-         
-         console.log("test_taking.js fully loaded and initialized");
-        }}
+ });
+ 
+ console.log("test_taking.js fully loaded and initialized");

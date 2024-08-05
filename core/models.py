@@ -115,10 +115,13 @@ class MatchingItem(models.Model):
     def __str__(self):
         return f"Matching item for {self.question}: {self.left_side} - {self.right_side}"
 
+
+
 class Simulation(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='simulations')
     initial_state = models.TextField()
     expected_commands = models.TextField()
+    goal_state = models.TextField(null=True, blank=True)  # Make it nullable
 
     def __str__(self):
         return f"Simulation for {self.question}"

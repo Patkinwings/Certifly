@@ -100,6 +100,7 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 def take_test(request, test_id):
     test = get_object_or_404(Test, id=test_id)
     questions = test.questions.all().order_by('order')
+    print(f"Test data: id={test.id}, questions_count={questions.count()}, time_limit={test.time_limit}")
     return render(request, 'core/test_taking.html', {
         'test': test,
         'questions': questions,
@@ -455,8 +456,12 @@ def get_question(request, test_id, question_index):
             question_data['simulation'] = {
                 'id': simulation.id,
                 'initial_state': simulation.initial_state,
-                'goal_state': simulation.goal_state,
             }
+            if hasattr(simulation, 'goal_state'):
+                question_data['simulation']['goal_state'] = simulation.goal_state
+            else:
+                question_data['simulation']['goal_state'] = None
+                print(f"Warning: Simulation {simulation.id} does not have a goal_state attribute")
 
     return JsonResponse(question_data)
 

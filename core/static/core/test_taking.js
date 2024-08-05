@@ -22,26 +22,32 @@ function initializeTestTaking() {
     let currentQuestionIndex = 0;
     const testForm = document.getElementById('test-form');
     if (!testForm) {
-        console.error('Test form not found');
+        console.error('Test form not found in initializeTestTaking');
         return;
     }
+    console.log("Test form dataset in initializeTestTaking:", testForm.dataset);
+    
     const testId = parseInt(testForm.dataset.testId);
     const totalQuestions = parseInt(testForm.dataset.totalQuestions);
     testDuration = parseInt(testForm.dataset.duration, 10);
     
-    console.log("Test ID:", testId);
-    console.log("Total Questions:", totalQuestions);
-    console.log("Test Duration:", testDuration);
+    console.log("Parsed values in initializeTestTaking:", { testId, totalQuestions, testDuration });
 
     if (isNaN(testId) || isNaN(totalQuestions) || isNaN(testDuration)) {
-        console.error('Invalid test data', { testId, totalQuestions, testDuration });
+        console.error('Invalid test data in initializeTestTaking', { testId, totalQuestions, testDuration });
         return;
     }
 
-    loadQuestion(currentQuestionIndex);
-    initializeTimer();
+    try {
+        loadQuestion(currentQuestionIndex);
+        initializeTimer();
+    } catch (error) {
+        console.error('Error in initializeTestTaking:', error);
+        console.error('Error stack:', error.stack);
+    }
 
-    testForm.addEventListener('click', function(event) {
+    document.addEventListener('click', function(event) {
+        console.log("Click event on document", event.target);
         if (event.target.id === 'prev-question') {
             console.log("Previous question button clicked");
             if (currentQuestionIndex > 0) {
@@ -63,28 +69,29 @@ function initializeTestTaking() {
         }
     });
 }
-
 function loadQuestion(index) {
     console.log("Loading question at index:", index);
     const testForm = document.getElementById('test-form');
     if (!testForm) {
-        console.error('Test form not found');
+        console.error('Test form not found in loadQuestion');
         return;
     }
+    console.log("Test form dataset in loadQuestion:", testForm.dataset);
+    
     const testId = parseInt(testForm.dataset.testId);
     const totalQuestions = parseInt(testForm.dataset.totalQuestions);
     
     if (isNaN(testId) || isNaN(totalQuestions)) {
-        console.error('Invalid test data', { testId, totalQuestions });
+        console.error('Invalid test data in loadQuestion', { testId, totalQuestions });
         return;
     }
     
     console.log("Making AJAX request to load question");
     fetch(`/test/${testId}/question/${index}/`)
         .then(response => {
-            console.log("Received response from server");
+            console.log("Received response from server:", response);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
@@ -130,7 +137,8 @@ function loadQuestion(index) {
             }
         })
         .catch(error => {
-            console.error('Error loading question:', error);
+            console.error('Error in loadQuestion:', error);
+            console.error('Error stack:', error.stack);
         });
 }
 
@@ -820,8 +828,38 @@ function initializeTimer() {
         console.error("Invalid test duration:", testDuration);
         return;
     }
-    endTime = new Date().getTime() + testDuration * 60 * 1000;
+    const endTime = new Date().getTime() + testDuration * 60 * 1000;
     updateTimer(endTime);
+}
+
+function updateTimer(endTime) {
+    const timerElement = document.getElementById('test-timer');
+    if (!timerElement) {
+        console.error("Timer element not found");
+        return;
+    }
+
+    function updateDisplay() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+            console.log("Time's up!");
+            clearInterval(timerInterval);
+            timerElement.innerHTML = "Time's up!";
+            finishTest();
+            return;
+        }
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    updateDisplay();
+    const timerInterval = setInterval(updateDisplay, 1000);
 }
 
 function getCookie(name) {

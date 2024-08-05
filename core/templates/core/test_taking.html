@@ -6,7 +6,7 @@
 {% if test %}
     <h1>{{ test.title }}</h1>
     <div id="test-timer"></div>
-    <form id="test-form" data-test-id="{{ test.id }}" data-total-questions="{{ questions.count }}" data-duration="{{ test.duration }}">
+    <form id="test-form" data-test-id="{{ test.id }}" data-total-questions="{{ questions.count }}" data-duration="{{ test.time_limit }}">
         <div id="question-container">
             <!-- Question will be loaded here dynamically -->
         </div>

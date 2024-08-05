@@ -75,7 +75,7 @@ function renderMultipleChoice(data) {
 }
 
 function renderDragAndDrop(data) {
-    console.log("Rendering drag and drop question");
+    console.log("Rendering drag and drop question", data);
     let html = '<div class="drag-drop-container">';
     html += '<div class="drag-items">';
     data.drag_drop_items.forEach(item => {
@@ -84,7 +84,7 @@ function renderDragAndDrop(data) {
     html += '</div>';
     html += '<div class="drop-zones">';
     data.drag_drop_zones.forEach(zone => {
-        html += `<div class="drop-zone" data-zone-id="${zone.id}">${zone.text}</div>`;
+        html += `<div class="drop-zone" data-zone-id="${zone.id}">${zone.label}</div>`; // Changed from zone.text to zone.label
     });
     html += '</div></div>';
     return html;
@@ -134,6 +134,7 @@ function renderQuestionType(data) {
             questionHtml = renderMultipleChoice(data);
             break;
         case 'DD':
+            console.log("Rendering drag and drop question");
             questionHtml = renderDragAndDrop(data);
             break;
         case 'MAT':
@@ -154,6 +155,7 @@ function renderQuestionType(data) {
     if (data.question_type === 'MC') {
         initializeMultipleChoice();
     } else if (data.question_type === 'DD') {
+        console.log("Initializing drag and drop");
         initializeDragAndDrop();
     } else if (data.question_type === 'MAT') {
         initializeMatching();
@@ -164,11 +166,21 @@ function renderQuestionType(data) {
     }
 }
 
+let currentQuestionIndex = 0;
+let isLoading = false;
+
 function loadQuestion(index) {
+    if (isLoading) {
+        console.log("Already loading a question, ignoring request");
+        return;
+    }
+    
+    isLoading = true;
     console.log("Loading question at index:", index);
     const testForm = document.getElementById('test-form');
     if (!testForm) {
         console.error('Test form not found in loadQuestion');
+        isLoading = false;
         return;
     }
     console.log("Test form dataset in loadQuestion:", testForm.dataset);
@@ -178,6 +190,7 @@ function loadQuestion(index) {
     
     if (isNaN(testId) || isNaN(totalQuestions)) {
         console.error('Invalid test data in loadQuestion', { testId, totalQuestions });
+        isLoading = false;
         return;
     }
     
@@ -195,8 +208,13 @@ function loadQuestion(index) {
             const testContainer = document.getElementById('question-container');
             if (!testContainer) {
                 console.error('Question container not found');
+                isLoading = false;
                 return;
             }
+            
+            // Store the timer element before updating the container
+            const timerElement = document.getElementById('test-timer');
+            
             console.log("Updating question container HTML");
             testContainer.innerHTML = `
                 <h2>Question ${index + 1}</h2>
@@ -205,6 +223,7 @@ function loadQuestion(index) {
             if (data.image) {
                 testContainer.innerHTML += `<img src="${data.image}" alt="Question Image">`;
             }
+            console.log("Question type:", data.question_type); // Added logging for question type
             renderQuestionType(data);
 
             // Update navigation buttons
@@ -218,9 +237,8 @@ function loadQuestion(index) {
 
             console.log("Navigation buttons updated");
 
-            // Ensure the timer is always visible
-            const timerElement = document.getElementById('test-timer');
-            if (timerElement && testContainer.firstChild) {
+            // Reinsert the timer at the top of the question container
+            if (timerElement) {
                 testContainer.insertBefore(timerElement, testContainer.firstChild);
                 console.log("Timer element moved to top of question container");
             }
@@ -230,16 +248,21 @@ function loadQuestion(index) {
                 console.log("Restoring previous answer for question", index);
                 restoreAnswer(data, answers[index]);
             }
+
+            isLoading = false;
+            console.log("Question loaded successfully");
         })
         .catch(error => {
             console.error('Error in loadQuestion:', error);
             console.error('Error stack:', error.stack);
+            isLoading = false;
         });
 }
 
+
+
 function initializeTestTaking() {
     console.log("Initializing test taking");
-    let currentQuestionIndex = 0;
     const testForm = document.getElementById('test-form');
     if (!testForm) {
         console.error('Test form not found in initializeTestTaking');
@@ -266,28 +289,130 @@ function initializeTestTaking() {
         console.error('Error stack:', error.stack);
     }
 
-    document.addEventListener('click', function(event) {
-        console.log("Click event on document", event.target);
-        if (event.target.id === 'prev-question') {
+    const prevButton = document.getElementById('prev-question');
+    const nextButton = document.getElementById('next-question');
+    const finishButton = document.getElementById('finish-test');
+
+    if (prevButton) {
+        prevButton.addEventListener('click', function() {
             console.log("Previous question button clicked");
-            if (currentQuestionIndex > 0) {
+            if (currentQuestionIndex > 0 && !isLoading) {
                 storeAnswer(currentQuestionIndex);
                 currentQuestionIndex--;
                 loadQuestion(currentQuestionIndex);
             }
-        } else if (event.target.id === 'next-question') {
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
             console.log("Next question button clicked");
-            if (currentQuestionIndex < totalQuestions - 1) {
+            if (currentQuestionIndex < totalQuestions - 1 && !isLoading) {
                 storeAnswer(currentQuestionIndex);
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
             }
-        } else if (event.target.id === 'finish-test') {
+        });
+    }
+
+    if (finishButton) {
+        finishButton.addEventListener('click', function() {
             console.log("Finish test button clicked");
-            storeAnswer(currentQuestionIndex);
-            finishTest();
-        }
-    });
+            if (!isLoading) {
+                storeAnswer(currentQuestionIndex);
+                finishTest();
+            }
+        });
+    }
+}
+
+function loadQuestion(index) {
+    if (isLoading) {
+        console.log("Already loading a question, ignoring request");
+        return;
+    }
+    
+    isLoading = true;
+    console.log("Loading question at index:", index);
+    const testForm = document.getElementById('test-form');
+    if (!testForm) {
+        console.error('Test form not found in loadQuestion');
+        isLoading = false;
+        return;
+    }
+    console.log("Test form dataset in loadQuestion:", testForm.dataset);
+    
+    const testId = parseInt(testForm.dataset.testId);
+    const totalQuestions = parseInt(testForm.dataset.totalQuestions);
+    
+    if (isNaN(testId) || isNaN(totalQuestions)) {
+        console.error('Invalid test data in loadQuestion', { testId, totalQuestions });
+        isLoading = false;
+        return;
+    }
+    
+    console.log("Making AJAX request to load question");
+    fetch(`/test/${testId}/question/${index}/`)
+        .then(response => {
+            console.log("Received response from server:", response);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Parsed question data:", data);
+            const testContainer = document.getElementById('question-container');
+            if (!testContainer) {
+                console.error('Question container not found');
+                isLoading = false;
+                return;
+            }
+            
+            // Store the timer element before updating the container
+            const timerElement = document.getElementById('test-timer');
+            
+            console.log("Updating question container HTML");
+            testContainer.innerHTML = `
+                <h2>Question ${index + 1}</h2>
+                <p>${data.text}</p>
+            `;
+            if (data.image) {
+                testContainer.innerHTML += `<img src="${data.image}" alt="Question Image">`;
+            }
+            renderQuestionType(data);
+
+            // Update navigation buttons
+            const prevButton = document.getElementById('prev-question');
+            const nextButton = document.getElementById('next-question');
+            const finishButton = document.getElementById('finish-test');
+
+            if (prevButton) prevButton.style.display = index === 0 ? 'none' : 'inline';
+            if (nextButton) nextButton.style.display = index === totalQuestions - 1 ? 'none' : 'inline';
+            if (finishButton) finishButton.style.display = index === totalQuestions - 1 ? 'inline' : 'none';
+
+            console.log("Navigation buttons updated");
+
+            // Reinsert the timer at the top of the question container
+            if (timerElement) {
+                testContainer.insertBefore(timerElement, testContainer.firstChild);
+                console.log("Timer element moved to top of question container");
+            }
+
+            // Restore previously stored answer
+            if (answers[index]) {
+                console.log("Restoring previous answer for question", index);
+                restoreAnswer(data, answers[index]);
+            }
+
+            isLoading = false;
+            console.log("Question loaded successfully");
+        })
+        .catch(error => {
+            console.error('Error in loadQuestion:', error);
+            console.error('Error stack:', error.stack);
+            isLoading = false;
+        });
 }
 
 function storeAnswer(index) {

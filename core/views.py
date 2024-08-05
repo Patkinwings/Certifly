@@ -422,7 +422,6 @@ def view_result_details(request, result_id):
         'question_details': question_details,
         'category_scores': category_scores
     })
-
 @login_required
 def get_question(request, test_id, question_index):
     test = get_object_or_404(Test, id=test_id)
@@ -445,23 +444,19 @@ def get_question(request, test_id, question_index):
         question_data['options'] = [{'id': answer.id, 'text': answer.text} for answer in question.answers.all()]
     elif question.question_type == 'DD':
         question_data['drag_drop_items'] = [{'id': item.id, 'text': item.text, 'image': item.image.url if item.image else None} for item in question.drag_drop_items.all()]
-        question_data['drag_drop_zones'] = [{'id': zone.id, 'text': zone.text} for zone in question.drag_drop_zones.all()]
+        question_data['drag_drop_zones'] = [{'id': zone.id, 'label': zone.label} for zone in question.drag_drop_zones.all()]  # Changed 'text' to 'label'
     elif question.question_type == 'MAT':
         question_data['matching_items'] = [{'id': item.id, 'left_side': item.left_side, 'right_side': item.right_side} for item in question.matching_items.all()]
     elif question.question_type == 'FIB':
-        question_data['fill_in_the_blanks'] = [{'id': fib.id, 'text': fib.text} for fib in question.fill_in_the_blanks.all()]
+        question_data['fill_in_the_blanks'] = [{'id': fib.id, 'blank_index': fib.blank_index, 'correct_answer': fib.correct_answer} for fib in question.fill_in_the_blanks.all()]  # Modified this line
     elif question.question_type == 'SIM':
         simulation = question.simulations.first()
         if simulation:
             question_data['simulation'] = {
                 'id': simulation.id,
                 'initial_state': simulation.initial_state,
+                'goal_state': simulation.goal_state,
             }
-            if hasattr(simulation, 'goal_state'):
-                question_data['simulation']['goal_state'] = simulation.goal_state
-            else:
-                question_data['simulation']['goal_state'] = None
-                print(f"Warning: Simulation {simulation.id} does not have a goal_state attribute")
 
     return JsonResponse(question_data)
 

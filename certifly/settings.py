@@ -128,13 +128,11 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = 'Certifly <certiflyreset@gmail.com>'
 
+IS_PRODUCTION = os.environ.get('PRODUCTION', 'False') == 'True'
+
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour
 
 # New settings for password reset
-DOMAIN = 'localhost:8000'  # Change this to your actual domain in production
-SITE_NAME = 'Certifly'
-DEFAULT_HTTP_PROTOCOL = 'http'  # Change to 'https' in production
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -145,12 +143,12 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
             'propagate': False,
         },
         'django.request': {
@@ -164,6 +162,11 @@ LOGGING = {
             'propagate': False,
         },
         'django.mail': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'command_execution': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,

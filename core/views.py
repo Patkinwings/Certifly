@@ -252,30 +252,44 @@ def dashboard_view(request):
         'category_performance': category_performance
     })
 
-@csrf_exempt
 def execute_command(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             command = data.get('command')
+            logger.debug(f"Received command: {command}")
             
             interpreter_state = request.session.get('command_interpreter_state')
+            logger.debug(f"Interpreter state from session: {interpreter_state}")
+            
             if interpreter_state is None:
-                interpreter = CommandInterpreterWrapper(default_directory="C:\\Users\\Public")
+                logger.info("Creating new CommandInterpreterWrapper")
+                interpreter = CommandInterpreterWrapper(default_directory="C:\\")
             else:
+                logger.info("Restoring CommandInterpreterWrapper from state")
                 interpreter = CommandInterpreterWrapper.from_json(interpreter_state)
             
-            result = interpreter.execute_command(command)
+            # Ensure current directory is always a full path
+            if interpreter.get_current_directory() in ['.', '']:
+                interpreter.set_default_directory("C:\\")
             
-            request.session['command_interpreter_state'] = interpreter.to_json()
+            logger.debug(f"Current directory before execution: {interpreter.get_current_directory()}")
+            result = interpreter.execute_command(command)
+            logger.debug(f"Command result: {result}")
+            logger.debug(f"Current directory after execution: {interpreter.get_current_directory()}")
+            
+            new_state = interpreter.to_json()
+            logger.debug(f"New interpreter state: {new_state}")
+            request.session['command_interpreter_state'] = new_state
+            request.session.modified = True
             
             return JsonResponse(result)
         except Exception as e:
-            logger.error(f"Error in execute_command view: {str(e)}")
+            logger.exception(f"Error in execute_command view: {str(e)}")
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
+    
 def start_new_session(request):
     wrapper = CommandInterpreterWrapper(default_directory="C:\\Users\\Public")
     request.session['command_interpreter_state'] = wrapper.to_json()
@@ -479,31 +493,41 @@ def submit_answer(request, test_id):
 
 @login_required
 def finish_test(request, test_id):
+    logger.info(f"Finishing test for user {request.user.id}, test_id: {test_id}")
     if request.method == 'POST':
-        test = get_object_or_404(Test, id=test_id)
-        answers = request.session.get('test_answers', {})
+        try:
+            test = get_object_or_404(Test, id=test_id)
+            logger.info(f"Test found: {test}")
+            
+            answers = json.loads(request.body)
+            logger.info(f"Received answers: {json.dumps(answers, indent=2)}")
 
-        score, category_scores = calculate_score(test, answers)
+            score, category_scores = calculate_score(test, answers)
+            logger.info(f"Calculated score: {score}, category scores: {json.dumps(category_scores, indent=2)}")
 
-        Result.objects.create(
-            user=request.user,
-            test=test,
-            score=score,
-            start_time=timezone.now(),
-            end_time=timezone.now(),
-            answers=json.dumps(answers),
-            category_scores=json.dumps(category_scores)
-        )
+            result = Result.objects.create(
+                user=request.user,
+                test=test,
+                score=score,
+                start_time=timezone.now(),
+                end_time=timezone.now(),
+                answers=json.dumps(answers),
+                category_scores=json.dumps(category_scores)
+            )
+            logger.info(f"Result created: {result.id}")
 
-        # Clear the test answers from the session
-        if 'test_answers' in request.session:
-            del request.session['test_answers']
-
-        return JsonResponse({'success': True, 'redirect_url': reverse('dashboard')})
-
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
+            redirect_url = reverse('dashboard')
+            logger.info(f"Redirecting to: {redirect_url}")
+            return JsonResponse({'success': True, 'redirect_url': redirect_url})
+        except Exception as e:
+            logger.error(f"Error in finish_test: {str(e)}", exc_info=True)
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    else:
+        logger.warning(f"Invalid request method: {request.method}")
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 def calculate_score(test, answers):
+    logger.info(f"Calculating score for test {test.id}")
     total_questions = test.questions.count()
     correct_answers = 0
     category_scores = {}
@@ -511,28 +535,41 @@ def calculate_score(test, answers):
     for question in test.questions.all():
         question_id = str(question.id)
         category = question.category
-        if category not in category_scores:
-            category_scores[category.id] = {'correct': 0, 'total': 0, 'name': str(category)}
+        logger.info(f"Processing question {question_id}, category: {category}")
 
-        category_scores[category.id]['total'] += 1
+        if category is None:
+            logger.warning(f"Question {question_id} has no category assigned")
+            category_id = 'uncategorized'
+            category_name = 'Uncategorized'
+        else:
+            category_id = category.id
+            category_name = str(category)
+
+        if category_id not in category_scores:
+            category_scores[category_id] = {'correct': 0, 'total': 0, 'name': category_name}
+
+        category_scores[category_id]['total'] += 1
 
         if question_id in answers:
             user_answer = answers[question_id]
+            logger.debug(f"Checking answer for question {question_id}, type: {question.question_type}")
+            logger.debug(f"User answer: {json.dumps(user_answer, indent=2)}")
+
             if question.question_type == 'MC':
                 correct_answer = [answer.text for answer in question.answers.filter(is_correct=True)]
                 if set(user_answer) == set(correct_answer):
                     correct_answers += 1
-                    category_scores[category.id]['correct'] += 1
+                    category_scores[category_id]['correct'] += 1
             elif question.question_type == 'DD':
                 correct_placements = check_drag_drop_answer(question, user_answer)
                 if correct_placements == question.drag_drop_zones.count():
                     correct_answers += 1
-                    category_scores[category.id]['correct'] += 1
+                    category_scores[category_id]['correct'] += 1
             elif question.question_type == 'MAT':
                 correct_answer = [(item.left_side, item.right_side) for item in question.matching_items.all()]
                 if set(map(tuple, user_answer)) == set(map(tuple, correct_answer)):
                     correct_answers += 1
-                    category_scores[category.id]['correct'] += 1
+                    category_scores[category_id]['correct'] += 1
             elif question.question_type == 'FIB':
                 fill_in_the_blanks = question.fill_in_the_blanks.all()
                 if len(user_answer) == len(fill_in_the_blanks):
@@ -543,7 +580,7 @@ def calculate_score(test, answers):
                             break
                     if all_correct:
                         correct_answers += 1
-                        category_scores[category.id]['correct'] += 1
+                        category_scores[category_id]['correct'] += 1
             elif question.question_type == 'SIM':
                 interpreter = CommandInterpreterWrapper()
                 if isinstance(user_answer, list):
@@ -560,14 +597,21 @@ def calculate_score(test, answers):
                     goal_state = simulation.expected_commands
                     if interpreter.check_goal_state(goal_state):
                         correct_answers += 1
-                        category_scores[category.id]['correct'] += 1
+                        category_scores[category_id]['correct'] += 1
                 else:
-                    print(f"Warning: No simulation found for question {question_id}")
+                    logger.warning(f"No simulation found for question {question_id}")
+
+            logger.debug(f"Question {question_id} result: correct={category_scores[category_id]['correct']}, total={category_scores[category_id]['total']}")
 
     for category_id in category_scores:
-        category_scores[category_id]['percentage'] = (category_scores[category_id]['correct'] / category_scores[category_id]['total']) * 100
+        if category_scores[category_id]['total'] > 0:
+            category_scores[category_id]['percentage'] = (category_scores[category_id]['correct'] / category_scores[category_id]['total']) * 100
+        else:
+            category_scores[category_id]['percentage'] = 0
 
-    return (correct_answers / total_questions) * 100, category_scores
+    final_score = (correct_answers / total_questions) * 100 if total_questions > 0 else 0
+    logger.info(f"Final score: {final_score}, Category scores: {json.dumps(category_scores, indent=2)}")
+    return final_score, category_scores
 
 def check_drag_drop_answer(question, user_answer):
     correct_placements = 0

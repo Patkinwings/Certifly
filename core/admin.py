@@ -1,5 +1,3 @@
-# core/admin.py
-
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
@@ -42,6 +40,10 @@ class MatchingItemInline(admin.TabularInline):
     model = MatchingItem
     extra = 4
 
+class SimulationInline(admin.StackedInline):
+    model = Simulation
+    extra = 1
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('text', 'test', 'question_type', 'order', 'image_preview')
@@ -63,6 +65,8 @@ class QuestionAdmin(admin.ModelAdmin):
                 return [MatchingItemInline]
             elif obj.question_type == 'FIB':
                 return [FillInTheBlankInline]
+            elif obj.question_type == 'SIM':
+                return [SimulationInline]
         return []
 
     def image_preview(self, obj):
@@ -104,14 +108,6 @@ class MatchingItemAdmin(admin.ModelAdmin):
     list_display = ('question', 'left_side', 'right_side')
     list_filter = ('question',)
     search_fields = ('left_side', 'right_side', 'question__text')
-    raw_id_fields = ('question',)
-    list_per_page = 20
-
-@admin.register(Simulation)
-class SimulationAdmin(admin.ModelAdmin):
-    list_display = ('question', 'initial_state')
-    list_filter = ('question',)
-    search_fields = ('initial_state', 'expected_commands', 'question__text')
     raw_id_fields = ('question',)
     list_per_page = 20
 

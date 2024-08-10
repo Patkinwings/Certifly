@@ -2424,10 +2424,17 @@ class VirtualFileSystem:
 
     
     def set_default_directory(self, path):
-        if path in self.file_system:
-            self.current_directory = path
-        else:
-            raise ValueError(f"Invalid default directory: {path}")
+        try:
+            normalized_path = os.path.normpath(path)
+            if normalized_path == '.':
+                normalized_path = 'C:\\'
+            self.interpreter.file_system.set_default_directory(normalized_path)
+            print(f"Default directory set to: {normalized_path}")
+        except ValueError as e:
+            print(f"Error setting default directory: {str(e)}")
+            # If setting the directory fails, fall back to C:\
+            self.interpreter.file_system.set_default_directory("C:\\")
+            print("Fallback: Default directory set to C:\\")
 
 
     def find(self, path: str, search_string: str, case_sensitive: bool = False) -> None:
@@ -2937,24 +2944,38 @@ class VirtualFileSystem:
             print(f"Invalid link type: {type}")
 
     def change_directory(self, path: str = "") -> None:
+        print(f"Changing directory to: {path}")
+
         if not path:
             print(self.current_directory)
             return
-        
+
         try:
-            new_path = self._normalize_path(path)
+            if path == "..":
+                new_path = os.path.dirname(self.current_directory)
+            elif path == "/" or path.lower() == "c:":
+                new_path = "C:\\"
+            elif os.path.isabs(path):
+                new_path = self._normalize_path(path)
+            else:
+                new_path = self._normalize_path(os.path.join(self.current_directory, path))
+
+            print(f"Normalized path: {new_path}")
+
             if self._directory_exists(new_path):
                 self.current_directory = new_path
                 print(f"Current directory: {self.current_directory}")
             else:
                 raise FileNotFoundError(f"The system cannot find the path specified: {new_path}")
         except Exception as e:
-            logging.error(f"Error in change_directory: {str(e)}")
-            print(f"The system cannot find the path specified.")
+            print(f"Error in change_directory: {str(e)}")
+            print(f"The system cannot find the path specified: {path}")
 
     def list_directory(self, path: str = "", **options) -> None:
         try:
             target_dir = self._normalize_path(path) if path else self.current_directory
+            if target_dir == '.':
+                target_dir = self.current_directory
             if not self._directory_exists(target_dir):
                 print(f"The system cannot find the path specified: {target_dir}")
                 return
@@ -3250,28 +3271,37 @@ class VirtualFileSystem:
         return 107374182400  # 100 GB
 
     def _normalize_path(self, path: str) -> str:
-        if path.lower() == "..":
-            parent = os.path.dirname(self.current_directory.rstrip('\\'))
-            return parent if parent.endswith(':\\') else parent + '\\'
-        elif path.lower() == "\\":
-            return self.current_directory[0] + ":\\"
-        elif ':\\' in path.lower():
-            return path
-        else:
-            return os.path.normpath(os.path.join(self.current_directory, path))
+        # Replace forward slashes with backslashes
+        path = path.replace('/', '\\')
+        
+        # Normalize the path
+        normalized = os.path.normpath(path)
+        
+        # Ensure the path starts with 'C:\' if it's an absolute path
+        if os.path.isabs(normalized) and not normalized.startswith('C:\\'):
+            normalized = 'C:' + normalized
+
+        # Remove any double backslashes
+        while '\\\\' in normalized:
+            normalized = normalized.replace('\\\\', '\\')
+
+        return normalized
 
     def _directory_exists(self, path: str) -> bool:
         if path.lower() == "c:\\":
             return True
+        
+        parts = self._split_path(path)
         current = self.file_system["C:\\"]
-        for part in path.split("\\"):
-            if part and part != "C:":
-                if part.lower() in [k.lower() for k in current.keys()]:
-                    current = current[[k for k in current.keys() if k.lower() == part.lower()][0]]
-                    if not isinstance(current, dict):
-                        return False
-                else:
+        
+        for part in parts[1:]:  # Skip 'C:' part
+            if part.lower() in [k.lower() for k in current.keys()]:
+                current = current[[k for k in current.keys() if k.lower() == part.lower()][0]]
+                if not isinstance(current, dict):
                     return False
+            else:
+                return False
+        
         return True
 
     def _path_exists(self, path: str) -> bool:
@@ -3289,7 +3319,8 @@ class VirtualFileSystem:
             return False
 
     def _split_path(self, path: str) -> List[str]:
-        return [p for p in path.replace("/", "\\").split("\\") if p]
+        # Always use Windows-style splitting for the simulation
+        return [p for p in path.replace('/', '\\').split('\\') if p]
 
     def _get_directory_contents(self, path: str) -> List[Dict[str, Any]]:
         directory = self._get_item_from_path(path)
@@ -10166,10 +10197,19 @@ class CommandInterpreterWrapper:
 
     def set_default_directory(self, path):
         try:
-            self.interpreter.file_system.set_default_directory(path)
-            print(f"Default directory set to: {path}")
-        except ValueError as e:
+            # Normalize the path to ensure consistent format
+            normalized_path = os.path.normpath(path)
+            # Check if the path exists in our virtual file system
+            if self.interpreter.file_system._directory_exists(normalized_path):
+                self.interpreter.file_system.current_directory = normalized_path
+                print(f"Default directory set to: {normalized_path}")
+            else:
+                raise ValueError(f"Directory does not exist: {normalized_path}")
+        except Exception as e:
             print(f"Error setting default directory: {str(e)}")
+            # If setting the directory fails, fall back to C:\
+            self.interpreter.file_system.current_directory = "C:\\"
+            print("Fallback: Default directory set to C:\\")
 
     def execute_command(self, command):
         print(f"CommandInterpreterWrapper received command: {command}")
@@ -10213,8 +10253,7 @@ class CommandInterpreterWrapper:
     def from_json(cls, json_str):
         data = json.loads(json_str)
         instance = cls()
-        default_directory = data.get('current_directory', "C:\\")
-        instance.set_default_directory(default_directory)
+        instance.set_default_directory(data.get('current_directory', "C:\\"))
         instance.command_history = data.get('command_history', [])
         return instance
 

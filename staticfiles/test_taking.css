@@ -3,11 +3,14 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto Slab', serif;
     color: #2C3E50;
+    text-align: left;
 }
 
 .btn {
@@ -45,12 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .question {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
 }
 
 .question:hover {
@@ -61,21 +59,24 @@ h1, h2, h3, h4, h5, h6 {
 .question h2 {
     color: #2C3E50;
     margin-top: 0;
+    text-align: left;
 }
 
 .drag-drop-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 20px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: rgba(248, 239, 239, 0.023);
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(253, 249, 249, 0.1);
+    width: 1500px;
 }
 
 .drag-items, .drop-zones {
-    width: 48%;
+    width: 150%;
     min-height: 200px;
-    border: 2px solid #ccc;
+    
     padding: 10px;
 }
 
@@ -122,20 +123,20 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #E74C3C;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1800px) {
     .drag-drop-container {
         flex-direction: column;
     }
     
     .drag-items, .drop-zones {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
     }
 }
 
 form {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 1000px;
+    text-align: left;
 }
 
 input[type="text"], input[type="email"], input[type="password"], select, textarea {
@@ -162,8 +163,9 @@ button[type="submit"]:hover {
 
 .answer-option {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .answer-option input[type="radio"],
@@ -172,30 +174,32 @@ button[type="submit"]:hover {
 }
 
 .test-container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 1000px;
     padding: 2rem;
-    background-color: white;
+    background-color: rgb(203, 110, 110);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(25, 25, 25, 0.95);
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
 }
 
 #test-timer {
     font-size: 1.2rem;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     margin-bottom: 1rem;
     color: #2C3E50;
 }
 
-/* Styles for one-question-at-a-time functionality */
 #question-container {
     min-height: 300px;
     position: relative;
+    text-align: left;
 }
 
 .question-transition {
-    transition: opacity 0.3s ease-in-out;
+    transition: margin-right 2s, color 1s;
 }
 
 .question-fade-out {
@@ -208,7 +212,7 @@ button[type="submit"]:hover {
 
 .navigation-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-top: 1rem;
 }
 
@@ -222,6 +226,7 @@ button[type="submit"]:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-right: 10px;
 }
 
 #prev-question:hover,
@@ -253,7 +258,7 @@ button[type="submit"]:hover {
 }
 
 .question-number {
-    text-align: center;
+    text-align: left;
     font-size: 1rem;
     color: #7f8c8d;
     margin-bottom: 0.5rem;
@@ -268,7 +273,7 @@ button[type="submit"]:hover {
 
 .matching-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .left-items,
@@ -284,6 +289,7 @@ button[type="submit"]:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: left;
 }
 
 .match-item:hover {
@@ -297,6 +303,7 @@ button[type="submit"]:hover {
 
 .simulation-container {
     margin-top: 1rem;
+    text-align: left;
 }
 
 .terminal {
@@ -306,13 +313,20 @@ button[type="submit"]:hover {
     padding: 1rem;
     border-radius: 4px;
     min-height: 200px;
+    text-align: left;
 }
 
-/* Ensure crucial elements are visible */
 #question-container, 
 #test-timer, 
 #prev-question, 
 #next-question, 
 #finish-test {
     display: block;
+}
+
+.content-container {
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 1500px;
+    width: 100%;
 }

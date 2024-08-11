@@ -787,18 +787,40 @@ function initializeSimulations() {
                 term.element.style.padding = '10px';
             }
             
-            term.write('Simulator Ready\r\n$ ');
-            console.log("Initial prompt written to terminal");
-
             let currentLine = '';
             let commandHistory = [];
+            let currentPrompt = 'C:\\> ';
+
+            function setPrompt(newPrompt) {
+                currentPrompt = newPrompt;
+                term.write('\r\n' + currentPrompt);
+            }
+
+            // Get initial state from the server
+            fetch('/api/get_initial_state', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ question_id: questionId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Initial state received:", data);
+                setPrompt(data.prompt || 'C:\\> ');
+            })
+            .catch(error => {
+                console.error("Error fetching initial state:", error);
+                setPrompt('C:\\> ');
+            });
 
             term.onKey(({ key, domEvent }) => {
                 const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
 
                 if (domEvent.keyCode === 13) { // Enter key
                     term.write('\r\n');
-                    executeCommand(currentLine, questionId, term, container);
+                    executeCommand(currentLine, questionId, term, container, setPrompt);
                     commandHistory.push(currentLine);
                     currentLine = '';
                 } else if (domEvent.keyCode === 8) { // Backspace
@@ -828,8 +850,7 @@ function initializeSimulations() {
         }
     });
 }
-
-function executeCommand(command, questionId, term, container) {
+function executeCommand(command, questionId, term, container, setPrompt) {
     console.log(`Executing command: ${command} for question ${questionId}`);
     fetch('/execute-command/', {
         method: 'POST',
@@ -844,7 +865,7 @@ function executeCommand(command, questionId, term, container) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Raw data received from server:", data);
+        console.log("Full server response:", data);
         if (data.printed_output) {
             console.log("Writing printed output:", data.printed_output);
             term.writeln(data.printed_output);
@@ -853,16 +874,21 @@ function executeCommand(command, questionId, term, container) {
             console.error("Error from server:", data.error);
             term.writeln(`Error: ${data.error}`);
         }
-        term.write('\r\n$ ');
+        console.log("Setting new prompt:", data.prompt);
+        setPrompt(data.prompt || 'C:\\> ');
         
         let commandHistory = JSON.parse(container.dataset.commandHistory || '[]');
         commandHistory.push(command);
         container.dataset.commandHistory = JSON.stringify(commandHistory);
+
+        if (data.current_directory) {
+            container.dataset.currentDirectory = data.current_directory;
+        }
     })
     .catch(error => {
         console.error('Error:', error);
         term.writeln(`Error executing command: ${error}`);
-        term.write('\r\n$ ');
+        setPrompt('C:\\> ');
     });
 }
 

@@ -787,25 +787,66 @@ function initializeSimulations() {
                 term.element.style.padding = '10px';
             }
             
-            term.write('Simulator Ready\r\n$ ');
-            console.log("Initial prompt written to terminal");
-
             let currentLine = '';
             let commandHistory = [];
+            let historyIndex = -1;
+            let currentPrompt = 'C:\\> ';
+
+            function setPrompt(newPrompt) {
+                currentPrompt = newPrompt;
+                term.write('\r\n' + currentPrompt);
+                currentLine = '';
+            }
+
+            function refreshLine() {
+                term.write('\r' + currentPrompt +
+                    currentLine +
+                    ' '.repeat(term.cols - currentPrompt.length - currentLine.length - 1) +
+                    '\r' + currentPrompt + currentLine
+                );
+            }
+
+            function navigateCommandHistory(direction) {
+                if (direction === 'up' && historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                } else if (direction === 'down' && historyIndex > -1) {
+                    historyIndex--;
+                }
+
+                if (historyIndex > -1 && historyIndex < commandHistory.length) {
+                    currentLine = commandHistory[commandHistory.length - 1 - historyIndex];
+                } else if (historyIndex === -1) {
+                    currentLine = '';
+                }
+
+                refreshLine();
+            }
 
             term.onKey(({ key, domEvent }) => {
                 const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
 
                 if (domEvent.keyCode === 13) { // Enter key
                     term.write('\r\n');
-                    executeCommand(currentLine, questionId, term, container);
-                    commandHistory.push(currentLine);
+                    if (currentLine.trim() !== '') {
+                        commandHistory.unshift(currentLine);
+                        if (commandHistory.length > 50) {
+                            commandHistory.pop();
+                        }
+                        historyIndex = -1;
+                        executeCommand(currentLine, questionId, term, container, setPrompt);
+                    } else {
+                        term.write(currentPrompt);
+                    }
                     currentLine = '';
                 } else if (domEvent.keyCode === 8) { // Backspace
                     if (currentLine.length > 0) {
                         currentLine = currentLine.slice(0, -1);
-                        term.write('\b \b');
+                        refreshLine();
                     }
+                } else if (domEvent.keyCode === 38) { // Up arrow
+                    navigateCommandHistory('up');
+                } else if (domEvent.keyCode === 40) { // Down arrow
+                    navigateCommandHistory('down');
                 } else if (printable) {
                     currentLine += key;
                     term.write(key);
@@ -814,7 +855,24 @@ function initializeSimulations() {
             
             console.log("Event listener added to terminal");
 
-            container.dataset.commandHistory = JSON.stringify(commandHistory);
+            // Get initial state from the server
+            fetch('/api/get_initial_state', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ question_id: questionId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Initial state received:", data);
+                setPrompt(data.prompt || 'C:\\> ');
+            })
+            .catch(error => {
+                console.error("Error fetching initial state:", error);
+                setPrompt('C:\\> ');
+            });
 
             window.addEventListener('resize', () => {
                 if (typeof FitAddon !== 'undefined') {
@@ -829,7 +887,7 @@ function initializeSimulations() {
     });
 }
 
-function executeCommand(command, questionId, term, container) {
+function executeCommand(command, questionId, term, container, setPrompt) {
     console.log(`Executing command: ${command} for question ${questionId}`);
     fetch('/execute-command/', {
         method: 'POST',
@@ -844,7 +902,7 @@ function executeCommand(command, questionId, term, container) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Raw data received from server:", data);
+        console.log("Full server response:", data);
         if (data.printed_output) {
             console.log("Writing printed output:", data.printed_output);
             term.writeln(data.printed_output);
@@ -853,16 +911,13 @@ function executeCommand(command, questionId, term, container) {
             console.error("Error from server:", data.error);
             term.writeln(`Error: ${data.error}`);
         }
-        term.write('\r\n$ ');
-        
-        let commandHistory = JSON.parse(container.dataset.commandHistory || '[]');
-        commandHistory.push(command);
-        container.dataset.commandHistory = JSON.stringify(commandHistory);
+        console.log("Setting new prompt:", data.prompt);
+        setPrompt(data.prompt || 'C:\\> ');
     })
     .catch(error => {
         console.error('Error:', error);
         term.writeln(`Error executing command: ${error}`);
-        term.write('\r\n$ ');
+        setPrompt('C:\\> ');
     });
 }
 

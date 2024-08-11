@@ -2943,12 +2943,12 @@ class VirtualFileSystem:
         else:
             print(f"Invalid link type: {type}")
 
-    def change_directory(self, path: str = "") -> None:
+    def change_directory(self, path: str = "") -> str:
         print(f"Changing directory to: {path}")
 
         if not path:
             print(self.current_directory)
-            return
+            return self.current_directory
 
         try:
             if path == "..":
@@ -2967,9 +2967,12 @@ class VirtualFileSystem:
                 print(f"Current directory: {self.current_directory}")
             else:
                 raise FileNotFoundError(f"The system cannot find the path specified: {new_path}")
+
         except Exception as e:
             print(f"Error in change_directory: {str(e)}")
             print(f"The system cannot find the path specified: {path}")
+
+        return self.current_directory
 
     def list_directory(self, path: str = "", **options) -> None:
         try:
@@ -5099,17 +5102,27 @@ class NetworkSimulator:
             print(f"{user}@{host}'s password: ")
             time.sleep(1)
             print(f"Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-77-generic x86_64)")
+            current_dir = "~"
             while True:
-                command = input(f"{user}@{host}:~$ ")
+                command = input(f"{user}@{host}:{current_dir}$ ")
                 if command.lower() == 'exit':
-                    print("Connection to {host} closed.")
+                    print(f"Connection to {host} closed.")
                     break
+                elif command.startswith('cd '):
+                    new_dir = command[3:].strip()
+                    if new_dir == "..":
+                        if current_dir != "~":
+                            current_dir = current_dir.rsplit('/', 1)[0] or "~"
+                    elif new_dir.startswith("/"):
+                        current_dir = new_dir
+                    else:
+                        current_dir = f"{current_dir}/{new_dir}" if current_dir != "~" else new_dir
                 else:
                     print(f"Command '{command}' not implemented in this simulation")
         except Exception as e:
             logging.error(f"Error in ssh: {str(e)}")
             print(f"Error: {str(e)}")
-
+        
     def nmap(self, target: str):
         try:
             print(f"Starting Nmap 7.91 ( https://nmap.org ) at {datetime.now().strftime('%Y-%m-%d %H:%M %Z')}")
@@ -8904,11 +8917,12 @@ class CommandInterpreter:
         print(f"An error occurred: {str(e)}")
         return True
 
-   def file_system_commands(self, cmd: str, args: List[str]) -> None:
+   def file_system_commands(self, cmd: str, args: List[str]) -> Dict[str, Any]:
     try:
         if cmd in ["cd", "chdir"]:
             new_dir = args[0] if args else ""
             self.file_system.change_directory(new_dir)
+            return {"current_directory": self.file_system.current_directory}
         elif cmd == "dir":
             options = {}
             path = ""
@@ -9154,6 +9168,8 @@ class CommandInterpreter:
         print("Access is denied.")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+    
+    return {"current_directory": self.file_system.current_directory}
         
    def network_commands(self, cmd: str, args: List[str]) -> None:
     if cmd == "ipconfig":
@@ -10197,9 +10213,7 @@ class CommandInterpreterWrapper:
 
     def set_default_directory(self, path):
         try:
-            # Normalize the path to ensure consistent format
             normalized_path = os.path.normpath(path)
-            # Check if the path exists in our virtual file system
             if self.interpreter.file_system._directory_exists(normalized_path):
                 self.interpreter.file_system.current_directory = normalized_path
                 print(f"Default directory set to: {normalized_path}")
@@ -10207,7 +10221,6 @@ class CommandInterpreterWrapper:
                 raise ValueError(f"Directory does not exist: {normalized_path}")
         except Exception as e:
             print(f"Error setting default directory: {str(e)}")
-            # If setting the directory fails, fall back to C:\
             self.interpreter.file_system.current_directory = "C:\\"
             print("Fallback: Default directory set to C:\\")
 
@@ -10230,15 +10243,20 @@ class CommandInterpreterWrapper:
             return {
                 'result': result,
                 'printed_output': printed_output,
-                'current_directory': self.interpreter.file_system.current_directory
+                'current_directory': self.interpreter.file_system.current_directory,
+                'prompt': self.get_prompt()
             }
         except Exception as e:
             print(f"Error executing command: {str(e)}")
             print(traceback.format_exc())
             return {
                 'error': str(e),
-                'current_directory': self.interpreter.file_system.current_directory
+                'current_directory': self.interpreter.file_system.current_directory,
+                'prompt': self.get_prompt()
             }
+
+    def get_prompt(self):
+        return f"{self.interpreter.file_system.current_directory}> "
 
     def get_current_directory(self):
         return self.interpreter.file_system.current_directory
@@ -10270,10 +10288,8 @@ class CommandInterpreterWrapper:
 
     def compare_states(self, current_state, goal_state):
         if isinstance(goal_state, str):
-            # If goal_state is a string, compare it directly with the command history
             return goal_state in current_state.get('command_history', [])
         elif isinstance(goal_state, dict):
-            # If goal_state is a dictionary, compare it with the current state
             for key, value in goal_state.items():
                 if key not in current_state or current_state[key] != value:
                     return False
@@ -10281,7 +10297,7 @@ class CommandInterpreterWrapper:
         else:
             print(f"Unsupported goal state type: {type(goal_state)}")
             return False
-
+        
 def main():
     interpreter = CommandInterpreter()
     print("Welcome to the A+ Exam Simulator")

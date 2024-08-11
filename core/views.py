@@ -251,7 +251,6 @@ def dashboard_view(request):
         'latest_result': latest_result,
         'category_performance': category_performance
     })
-
 def execute_command(request):
     if request.method == 'POST':
         try:
@@ -283,12 +282,17 @@ def execute_command(request):
             request.session['command_interpreter_state'] = new_state
             request.session.modified = True
             
+            # Always include the current prompt in the response
+            result['prompt'] = interpreter.get_prompt()
+            
             return JsonResponse(result)
         except Exception as e:
             logger.exception(f"Error in execute_command view: {str(e)}")
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
     
 def start_new_session(request):
     wrapper = CommandInterpreterWrapper(default_directory="C:\\Users\\Public")
@@ -415,10 +419,13 @@ def view_result_details(request, result_id):
             if simulation:
                 correct_answer = simulation.expected_commands
                 interpreter = CommandInterpreterWrapper()
+                user_commands = []
                 for command in user_answer:
-                    if isinstance(command, str) and command.startswith('$'):
-                        interpreter.execute_command(command[1:].strip())
+                    if isinstance(command, str):
+                        result = interpreter.execute_command(command.lstrip('$').strip())
+                        user_commands.append(f"{result['prompt']}{command}")
                 is_correct = interpreter.check_goal_state(correct_answer)
+                user_answer = "\n".join(user_commands)
             else:
                 correct_answer = "N/A"
                 is_correct = False

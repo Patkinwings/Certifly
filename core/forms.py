@@ -19,9 +19,11 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 class QuestionForm(forms.ModelForm):
+    explanation = forms.CharField(widget=forms.Textarea, required=True, help_text="Provide an explanation for the correct answer.")
+
     class Meta:
         model = Question
-        fields = ['category', 'question_type', 'text', 'order', 'image']
+        fields = ['category', 'question_type', 'text', 'order', 'image', 'explanation']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -65,3 +67,7 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['core', 'domain']
+
+class ResultForm(forms.Form):
+    test = forms.ModelChoiceField(queryset=Test.objects.all(), widget=forms.HiddenInput())
+    answers = forms.JSONField(widget=forms.HiddenInput())

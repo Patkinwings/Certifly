@@ -23,6 +23,9 @@ urlpatterns = [
     path('execute-command/', views.execute_command, name='execute_command'),
     path('start-new-session/', views.start_new_session, name='start_new_session'),
     path('handle-command/', views.handle_command, name='handle_command'),
+    path('api/get_initial_state/', views.get_initial_state, name='get_initial_state'),
+    path('get_command_history/', views.get_command_history, name='get_command_history'),
+    path('result/<int:result_id>/', views.view_result_details, name='view_result_details'),
     
     # Password reset URLs
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),

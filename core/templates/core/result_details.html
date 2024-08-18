@@ -1,0 +1,198 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="content-container">
+    <h1>Test Results: {{ test.title }}</h1>
+    <p>Your Score: {{ result.score }}%</p>
+
+    <div id="question-results">
+        {% for detail in question_details %}
+            <div class="question-result {% if detail.is_correct %}correct{% else %}incorrect{% endif %}">
+                <h3>Question {{ forloop.counter }}</h3>
+                <p>{{ detail.question.text }}</p>
+                {% if detail.question.image %}
+                    <img src="{{ detail.question.image.url }}" alt="Question Image">
+                {% endif %}
+                
+                <div class="user-answer">
+                    <h4>Your Answer:</h4>
+                    {% if detail.question.question_type == 'MC' %}
+                        {% for answer_id in detail.user_answer %}
+                            {% with answers=detail.question.answers.filter id=answer_id %}
+                                {% for answer in answers %}
+                                    <p>{{ answer.text }}</p>
+                                {% endfor %}
+                            {% endwith %}
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'DD' %}
+                        <div class="drag-drop-result">
+                            {% for zone in detail.drag_drop_zones %}
+                                <div class="drop-zone">
+                                    <p>{{ zone.label }}</p>
+                                    {% with user_item_id=detail.user_placements|get_item:zone.id|stringformat:"s" %}
+                                        {% with user_item=detail.drag_drop_items|filter_by_id:user_item_id|first %}
+                                            {% if user_item %}
+                                                <div class="drag-item {% if user_item_id == detail.correct_placements|get_item:zone.id %}correct{% else %}incorrect{% endif %}">
+                                                    {% if user_item.image %}
+                                                        <img src="{{ user_item.image.url }}" alt="{{ user_item.text }}">
+                                                    {% else %}
+                                                        <span>{{ user_item.text }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% elif detail.question.question_type == 'MAT' %}
+                        {% for pair in detail.user_answer %}
+                            <p>{{ pair.0 }} - {{ pair.1 }}</p>
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'FIB' %}
+                        {% for answer in detail.user_answer %}
+                            <p>{{ answer }}</p>
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'SIM' %}
+                        {% for command in detail.user_answer %}
+                            <p>{{ command }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="correct-answer">
+                    <h4>Correct Answer:</h4>
+                    {% if detail.question.question_type == 'MC' %}
+                        {% for answer in detail.question.answers.all %}
+                            {% if answer.is_correct %}
+                                <p>{{ answer.text }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'DD' %}
+                        <div class="drag-drop-result">
+                            {% for zone in detail.drag_drop_zones %}
+                                <div class="drop-zone">
+                                    <p>{{ zone.label }}</p>
+                                    {% with correct_item_id=detail.correct_placements|get_item:zone.id|stringformat:"s" %}
+                                        {% with correct_item=detail.drag_drop_items|filter_by_id:correct_item_id|first %}
+                                            {% if correct_item %}
+                                                <div class="drag-item correct">
+                                                    {% if correct_item.image %}
+                                                        <img src="{{ correct_item.image.url }}" alt="{{ correct_item.text }}">
+                                                    {% else %}
+                                                        <span>{{ correct_item.text }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% elif detail.question.question_type == 'MAT' %}
+                        {% for item in detail.question.matching_items.all %}
+                            <p>{{ item.left_side }} - {{ item.right_side }}</p>
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'FIB' %}
+                        {% for fib in detail.question.fill_in_the_blanks.all %}
+                            <p>Blank {{ fib.blank_index }}: {{ fib.correct_answer }}</p>
+                        {% endfor %}
+                    {% elif detail.question.question_type == 'SIM' %}
+                        <p>{{ detail.question.simulations.first.expected_commands }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>{{ detail.question.explanation }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Category Scores:</h2>
+    {% for category_id, score in category_scores.items %}
+        <p>{{ score.name }}: {{ score.percentage|floatformat:2 }}%</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .content-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #0e0505;
+        border-radius: 10px;
+        width: 1000px
+    }
+
+    .question-result {
+        background-color: #1b1818;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .question-result.correct {
+        border-left: 5px solid #28a745;
+    }
+
+    .question-result.incorrect {
+        border-left: 5px solid #dc3545;
+    }
+
+    .user-answer, .correct-answer, .explanation {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #2c2626;
+        border-radius: 5px;
+    }
+
+    .explanation {
+        background-color: #224565;
+    }
+
+    .drag-drop-result {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .drop-zone {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        min-width: 150px;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .drag-item {
+        border: 1px solid #ddd;
+        padding: 5px;
+        border-radius: 3px;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+    .drag-item img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .drag-item.correct {
+        border-color: #28a745;
+    }
+
+    .drag-item.incorrect {
+        border-color: #dc3545;
+    }
+</style>
+{% endblock %}

@@ -26,10 +26,7 @@ import io
 import traceback
 from .file_system import File, Directory
 
-# Rest of your code...
 
-
-# Set up logging
 logging.basicConfig(filename='command_simulator.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 

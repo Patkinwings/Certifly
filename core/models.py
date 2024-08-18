@@ -1,5 +1,3 @@
-# core/models.py
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
@@ -44,11 +42,12 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('core', 'domain')
+        verbose_name_plural = "Categories"
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    time_limit = models.IntegerField(help_text="Time limit in minutes")
+    time_limit = models.PositiveIntegerField(help_text="Time limit in minutes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -65,13 +64,14 @@ class Question(models.Model):
     )
     
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', db_index=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='questions')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='questions')
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES, db_index=True)
     text = models.TextField()
     image = CloudinaryField('image', null=True, blank=True)
+    explanation = models.TextField(help_text="Explanation of the correct answer", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    order = models.IntegerField(default=0, db_index=True)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     def __str__(self):
         return f"{self.test.title} - Question {self.order}"
@@ -94,7 +94,7 @@ class DragDropItem(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='drag_drop_items')
     text = models.CharField(max_length=200)
     image = CloudinaryField('image', null=True, blank=True)
-    correct_position = models.IntegerField()
+    correct_position = models.PositiveIntegerField()
 
     def __str__(self):
         return f"Drag-drop item for {self.question}: {self.text}"
@@ -115,20 +115,16 @@ class MatchingItem(models.Model):
     def __str__(self):
         return f"Matching item for {self.question}: {self.left_side} - {self.right_side}"
 
-
-
 class Simulation(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='simulations')
-    initial_state = models.TextField()
     expected_commands = models.TextField()
-    goal_state = models.TextField(null=True, blank=True)  # Make it nullable
 
     def __str__(self):
         return f"Simulation for {self.question}"
 
 class FillInTheBlank(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='fill_in_the_blanks')
-    blank_index = models.IntegerField()
+    blank_index = models.PositiveIntegerField()
     correct_answer = models.CharField(max_length=200)
 
     def __str__(self):
@@ -140,8 +136,8 @@ class Result(models.Model):
     score = models.FloatField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    answers = models.TextField(help_text="JSON containing user's answers")
-    category_scores = models.TextField(default='{}', help_text="JSON containing category scores")
+    answers = models.JSONField(help_text="JSON containing user's answers")
+    category_scores = models.JSONField(default=dict, help_text="JSON containing category scores")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -149,3 +145,15 @@ class Result(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+class QuestionResult(models.Model):
+    result = models.ForeignKey(Result, on_delete=models.CASCADE, related_name='question_results')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_answer = models.JSONField()
+    is_correct = models.BooleanField()
+
+    def __str__(self):
+        return f"Question result for {self.result} - Question {self.question.order}"
+
+    class Meta:
+        ordering = ['question__order']

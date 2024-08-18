@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank
+from .models import User, Test, Question, Answer, DragDropItem, DragDropZone, MatchingItem, Simulation, Result, FillInTheBlank, Category, QuestionResult
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -51,6 +51,11 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('text', 'test__title')
     raw_id_fields = ('test',)
     list_per_page = 20
+    fieldsets = (
+        (None, {
+            'fields': ('test', 'category', 'question_type', 'text', 'order', 'image', 'explanation')
+        }),
+    )
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('test')
@@ -126,3 +131,21 @@ class FillInTheBlankAdmin(admin.ModelAdmin):
     search_fields = ('correct_answer', 'question__text')
     raw_id_fields = ('question',)
     list_per_page = 20
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'core', 'domain')
+    list_filter = ('core', 'domain')
+    search_fields = ('name',)
+    list_per_page = 20
+
+@admin.register(QuestionResult)
+class QuestionResultAdmin(admin.ModelAdmin):
+    list_display = ('result', 'question', 'is_correct')
+    list_filter = ('is_correct', 'question__test')
+    search_fields = ('result__user__username', 'question__text')
+    raw_id_fields = ('result', 'question')
+    list_per_page = 20
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('result', 'question')

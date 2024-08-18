@@ -126,10 +126,11 @@ function renderFillInTheBlank(data) {
 }
 
 function renderSimulation(data) {
-    console.log("Rendering simulation question");
+    console.log("Rendering simulation question", data);
     return `
         <div class="simulation-container" data-question-id="${data.id}">
             <div class="terminal"></div>
+            <div class="expected-commands" style="display: none;">${data.simulation ? data.simulation.expected_commands : ''}</div>
         </div>
     `;
 }
@@ -173,6 +174,76 @@ function renderQuestionType(data) {
     } else if (data.question_type === 'SIM') {
         initializeSimulations();
     }
+
+    // Add submit button for each question
+    const submitButton = document.createElement('button');
+    submitButton.type = 'button';
+    submitButton.className = 'submit-answer submit-answer-initial';
+    submitButton.textContent = 'Submit Answer';
+    submitButton.addEventListener('click', function() {
+        storeAnswer(data.id);
+        console.log(`Answer submitted for question ${data.id}`);
+        this.className = 'submit-answer submit-answer-saved';
+        this.textContent = 'Answer Saved';
+        setTimeout(() => {
+            this.className = 'submit-answer submit-answer-initial';
+            this.textContent = 'Submit Answer';
+        }, 2000);  // Reset after 2 seconds
+    });
+    testContainer.appendChild(submitButton);
+}
+
+function storeAnswer(questionId) {
+    console.log("Attempting to store answer for question:", questionId);
+    
+    let answer = getAnswerForCurrentQuestion();
+    console.log(`Answer for question ${questionId}:`, answer);
+
+    if (answer !== null) {
+        answers[questionId] = answer;
+        console.log(`Stored answer for question ${questionId}:`, answer);
+        
+        // Update all navigation buttons
+        const navButtons = document.querySelectorAll('.question-nav-button');
+        navButtons.forEach((button, index) => {
+            if (index === currentQuestionIndex) {
+                button.classList.add('answered');
+                button.style.backgroundColor = '#28a745';  // Green
+                console.log(`Updated navigation button for question ${questionId}`);
+            }
+        });
+        
+        // Update submit button appearance
+        const submitButton = document.querySelector('.submit-answer');
+        if (submitButton) {
+            submitButton.classList.remove('submit-answer-initial');
+            submitButton.classList.add('submit-answer-saved');
+            submitButton.textContent = 'Answer Saved';
+            submitButton.style.backgroundColor = '#007bff';  // Blue
+            console.log(`Submit button updated for question ${questionId}`);
+            
+            setTimeout(() => {
+                submitButton.classList.remove('submit-answer-saved');
+                submitButton.classList.add('submit-answer-initial');
+                submitButton.textContent = 'Submit Answer';
+                submitButton.style.backgroundColor = '#28a745';  // Green
+                console.log(`Submit button reset for question ${questionId}`);
+            }, 2000);
+        } else {
+            console.error(`Submit button not found`);
+        }
+    } else {
+        console.warn(`No answer collected for question ${questionId}`);
+    }
+
+    console.log("Current answers:", answers);
+}
+
+function checkNavigationButtons() {
+    const buttons = document.querySelectorAll('.question-nav-button');
+    buttons.forEach((button, index) => {
+        console.log(`Button ${index + 1}: class="${button.className}", style="${button.style.cssText}", data-question-id="${button.dataset.questionId}"`);
+    });
 }
 
 function loadQuestion(index) {
@@ -199,6 +270,11 @@ function loadQuestion(index) {
         return;
     }
     
+    // Store the answer for the previous question before loading the new one
+    if (currentQuestionIndex !== index) {
+        storeAnswer(currentQuestionIndex);
+    }
+
     console.log("Making AJAX request to load question");
     fetch(`/test/${testId}/question/${index}/`)
         .then(response => {
@@ -222,17 +298,34 @@ function loadQuestion(index) {
             
             console.log("Updating question container HTML");
             testContainer.innerHTML = `
-                <h2>Question ${index + 1}</h2>
-                <p>${data.text}</p>
+                <div class="question-container" data-question-id="${data.id}" data-question-type="${data.question_type}">
+                    <h2>Question ${index + 1}</h2>
+                    <p>${data.text}</p>
+                    ${data.image ? `<img src="${data.image}" alt="Question Image">` : ''}
+                </div>
             `;
-            if (data.image) {
-                testContainer.innerHTML += `<img src="${data.image}" alt="Question Image">`;
-            }
             console.log("Question type:", data.question_type);
             renderQuestionType(data);
 
             // Update navigation buttons
             updateNavigationButtons();
+            updateQuestionNavigation(index);
+
+            // Update the navigation button's data-question-id and color
+            const navButton = document.querySelector(`.question-nav-button[data-index="${index}"]`);
+            if (navButton) {
+                navButton.dataset.questionId = data.id.toString();
+                if (answers[data.id]) {
+                    navButton.classList.add('answered');
+                    navButton.style.backgroundColor = '#28a745';  // Green
+                } else {
+                    navButton.classList.remove('answered');
+                    navButton.style.backgroundColor = '#007bff';  // Blue
+                }
+                console.log(`Updated navigation button for question ${data.id}, answered: ${!!answers[data.id]}`);
+            } else {
+                console.error(`Navigation button not found for index ${index}`);
+            }
 
             console.log("Navigation buttons updated");
 
@@ -243,21 +336,28 @@ function loadQuestion(index) {
             }
 
             // Restore previously stored answer
-            if (answers[index]) {
-                console.log("Restoring previous answer for question", index);
-                restoreAnswer(data, answers[index]);
+            if (answers[data.id]) {
+                console.log("Restoring previous answer for question", data.id);
+                restoreAnswer(data, answers[data.id]);
+                
+                // Update the submit button to show "Answer Saved"
+                const submitButton = testContainer.querySelector('.submit-answer');
+                if (submitButton) {
+                    submitButton.classList.remove('submit-answer-initial');
+                    submitButton.classList.add('submit-answer-saved');
+                    submitButton.textContent = 'Answer Saved';
+                    submitButton.style.backgroundColor = '#007bff';  // Blue
+                }
             }
 
+            currentQuestionIndex = index;
             isLoading = false;
             console.log("Question loaded successfully");
         })
         .catch(error => {
             console.error('Error in loadQuestion:', error);
             console.error('Error stack:', error.stack);
-        })
-        .finally(() => {
             isLoading = false;
-            console.log("Question loading process completed");
         });
 }
 
@@ -270,7 +370,13 @@ function updateNavigationButtons() {
     if (nextButton) nextButton.style.display = currentQuestionIndex === totalQuestions - 1 ? 'none' : 'inline';
     if (finishButton) finishButton.style.display = currentQuestionIndex === totalQuestions - 1 ? 'inline' : 'none';
 
-    console.log("Navigation buttons updated", { currentQuestionIndex, totalQuestions });
+    console.log("Navigation buttons updated", { 
+        currentQuestionIndex, 
+        totalQuestions, 
+        prevButtonVisible: prevButton ? prevButton.style.display : 'N/A',
+        nextButtonVisible: nextButton ? nextButton.style.display : 'N/A',
+        finishButtonVisible: finishButton ? finishButton.style.display : 'N/A'
+    });
 }
 
 function setupNavigationButtons() {
@@ -288,9 +394,13 @@ function setupNavigationButtons() {
             e.preventDefault();
             console.log("Previous question button clicked");
             if (currentQuestionIndex > 0 && !isLoading) {
+                console.log("Storing answer before moving to previous question");
                 storeAnswer(currentQuestionIndex);
                 currentQuestionIndex--;
+                console.log("Loading previous question, new index:", currentQuestionIndex);
                 loadQuestion(currentQuestionIndex);
+            } else {
+                console.log("Cannot move to previous question", { currentQuestionIndex, isLoading });
             }
         });
     }
@@ -300,9 +410,13 @@ function setupNavigationButtons() {
             e.preventDefault();
             console.log("Next question button clicked");
             if (currentQuestionIndex < totalQuestions - 1 && !isLoading) {
+                console.log("Storing answer before moving to next question");
                 storeAnswer(currentQuestionIndex);
                 currentQuestionIndex++;
+                console.log("Loading next question, new index:", currentQuestionIndex);
                 loadQuestion(currentQuestionIndex);
+            } else {
+                console.log("Cannot move to next question", { currentQuestionIndex, totalQuestions, isLoading });
             }
         });
     }
@@ -312,15 +426,19 @@ function setupNavigationButtons() {
             e.preventDefault();
             console.log("Finish test button clicked");
             if (!isLoading) {
+                console.log("Storing final answer before finishing test");
                 storeAnswer(currentQuestionIndex);
+                console.log("Initiating test finish process");
                 finishTest();
+            } else {
+                console.log("Cannot finish test, still loading", { isLoading });
             }
         });
     }
 
     console.log("Navigation buttons setup completed");
+    updateNavigationButtons(); // Update button visibility initially
 }
-
 
 function initializeTestTaking() {
     console.log("Initializing test taking");
@@ -343,20 +461,15 @@ function initializeTestTaking() {
     }
 
     try {
+        populateQuestionNavigation(totalQuestions);
         loadQuestion(currentQuestionIndex);
         initializeTimer();
-        setupNavigationButtons();  // Move button setup here
+        setupNavigationButtons();
+        updateQuestionNavigation(currentQuestionIndex);
     } catch (error) {
         console.error('Error in initializeTestTaking:', error);
         console.error('Error stack:', error.stack);
     }
-}
-
-function storeAnswer(index) {
-    console.log("Storing answer for question index:", index);
-    const answer = getAnswerForCurrentQuestion();
-    answers[index] = answer;
-    console.log("Stored answer:", answer);
 }
 
 function restoreAnswer(data, answer) {
@@ -404,7 +517,7 @@ function restoreAnswer(data, answer) {
 
 function getAnswerForCurrentQuestion() {
     const questionContainer = document.getElementById('question-container');
-    const questionType = questionContainer.querySelector('.question')?.dataset.questionType;
+    const questionType = questionContainer.querySelector('[data-question-type]')?.dataset.questionType;
     
     if (!questionType) {
         console.error("Question type not found");
@@ -415,13 +528,14 @@ function getAnswerForCurrentQuestion() {
     
     switch (questionType) {
         case 'MC':
-            return Array.from(questionContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            return Array.from(questionContainer.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked')).map(input => input.value);
         case 'DD':
             const dropZones = questionContainer.querySelectorAll('.drop-zone');
             const answer = {};
             dropZones.forEach(zone => {
                 const zoneId = zone.dataset.zoneId;
-                const item = zone.querySelector('.drag-item');answer[zoneId] = item ? item.dataset.itemId : null;
+                const item = zone.querySelector('.drag-item');
+                answer[zoneId] = item ? item.dataset.itemId : null;
             });
             return answer;
         case 'MAT':
@@ -438,7 +552,7 @@ function getAnswerForCurrentQuestion() {
             return Array.from(questionContainer.querySelectorAll('input[type="text"]')).map(input => input.value);
         case 'SIM':
             const container = questionContainer.querySelector('.simulation-container');
-            return JSON.parse(container.dataset.commandHistory || '[]');
+            return container ? JSON.parse(container.dataset.commandHistory || '[]') : [];
         default:
             console.warn(`Unknown question type: ${questionType}`);
             return null;
@@ -447,24 +561,26 @@ function getAnswerForCurrentQuestion() {
 
 function finishTest() {
     console.log("Finishing test");
-    const testId = document.getElementById('test-form').dataset.testId;
-    console.log("Test ID:", testId);
-    console.log("Answers being submitted:", JSON.stringify(answers, null, 2));
+    storeAnswer(currentQuestionIndex); // Store the answer for the current question
+    
+    console.log("All stored answers:", JSON.stringify(answers, null, 2));
 
+    if (Object.keys(answers).length === 0) {
+        console.warn("No answers collected. Check if answers are being properly stored.");
+    }
+
+    const testId = document.getElementById('test-form').dataset.testId;
+    const dataToSend = {answers: answers};
+    
     fetch(`/test/${testId}/finish/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
         },
-        body: JSON.stringify(answers)
-    }).then(response => {
-        console.log("Response status:", response.status);
-        console.log("Response headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
-        return response.json();
-    })
+        body: JSON.stringify(dataToSend)
+    }).then(response => response.json())
     .then(data => {
-        console.log("Response data:", JSON.stringify(data, null, 2));
         if (data.success) {
             console.log("Test finished successfully, redirecting to:", data.redirect_url);
             window.location.href = data.redirect_url;
@@ -474,11 +590,8 @@ function finishTest() {
     })
     .catch(error => {
         console.error('Error finishing test:', error);
-        console.error('Error details:', error.message);
-        console.error('Error stack:', error.stack);
     });
 }
-
 
 function initializeQuestionCreation() {
     console.log("Initializing question creation");
@@ -743,8 +856,10 @@ function initializeSimulations() {
         console.log("Processing simulation for question ID:", questionId);
         
         const terminalElement = container.querySelector('.terminal');
+        const expectedCommandsElement = container.querySelector('.expected-commands');
         
         console.log("Terminal element:", terminalElement);
+        console.log("Expected commands:", expectedCommandsElement ? expectedCommandsElement.textContent : 'Not found');
 
         if (!terminalElement) {
             console.error("Terminal element not found for question ID:", questionId);
@@ -795,68 +910,9 @@ function initializeSimulations() {
             function setPrompt(newPrompt) {
                 currentPrompt = newPrompt;
                 term.write('\r\n' + currentPrompt);
-                currentLine = '';
             }
 
-            function refreshLine() {
-                term.write('\r' + currentPrompt +
-                    currentLine +
-                    ' '.repeat(term.cols - currentPrompt.length - currentLine.length - 1) +
-                    '\r' + currentPrompt + currentLine
-                );
-            }
-
-            function navigateCommandHistory(direction) {
-                if (direction === 'up' && historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                } else if (direction === 'down' && historyIndex > -1) {
-                    historyIndex--;
-                }
-
-                if (historyIndex > -1 && historyIndex < commandHistory.length) {
-                    currentLine = commandHistory[commandHistory.length - 1 - historyIndex];
-                } else if (historyIndex === -1) {
-                    currentLine = '';
-                }
-
-                refreshLine();
-            }
-
-            term.onKey(({ key, domEvent }) => {
-                const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
-
-                if (domEvent.keyCode === 13) { // Enter key
-                    term.write('\r\n');
-                    if (currentLine.trim() !== '') {
-                        commandHistory.unshift(currentLine);
-                        if (commandHistory.length > 50) {
-                            commandHistory.pop();
-                        }
-                        historyIndex = -1;
-                        executeCommand(currentLine, questionId, term, container, setPrompt);
-                    } else {
-                        term.write(currentPrompt);
-                    }
-                    currentLine = '';
-                } else if (domEvent.keyCode === 8) { // Backspace
-                    if (currentLine.length > 0) {
-                        currentLine = currentLine.slice(0, -1);
-                        refreshLine();
-                    }
-                } else if (domEvent.keyCode === 38) { // Up arrow
-                    navigateCommandHistory('up');
-                } else if (domEvent.keyCode === 40) { // Down arrow
-                    navigateCommandHistory('down');
-                } else if (printable) {
-                    currentLine += key;
-                    term.write(key);
-                }
-            });
-            
-            console.log("Event listener added to terminal");
-
-            // Get initial state from the server
-            fetch('/api/get_initial_state', {
+            fetch('/api/get_initial_state/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -874,6 +930,50 @@ function initializeSimulations() {
                 setPrompt('C:\\> ');
             });
 
+            term.onKey(({ key, domEvent }) => {
+                const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
+
+                if (domEvent.keyCode === 13) { // Enter key
+                    term.write('\r\n');
+                    if (currentLine.trim() !== '') {
+                        executeCommand(currentLine, questionId, term, container, setPrompt);
+                        commandHistory.unshift(currentLine);
+                        historyIndex = -1;
+                    }
+                    currentLine = '';
+                } else if (domEvent.keyCode === 8) { // Backspace
+                    if (currentLine.length > 0) {
+                        currentLine = currentLine.slice(0, -1);
+                        term.write('\b \b');
+                    }
+                } else if (domEvent.keyCode === 38) { // Up arrow
+                    if (historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        currentLine = commandHistory[historyIndex];
+                        term.write('\r' + currentPrompt + ' '.repeat(term.cols - currentPrompt.length));
+                        term.write('\r' + currentPrompt + currentLine);
+                    }
+                } else if (domEvent.keyCode === 40) { // Down arrow
+                    if (historyIndex > -1) {
+                        historyIndex--;
+                        if (historyIndex === -1) {
+                            currentLine = '';
+                        } else {
+                            currentLine = commandHistory[historyIndex];
+                        }
+                        term.write('\r' + currentPrompt + ' '.repeat(term.cols - currentPrompt.length));
+                        term.write('\r' + currentPrompt + currentLine);
+                    }
+                } else if (printable) {
+                    currentLine += key;
+                    term.write(key);
+                }
+            });
+            
+            console.log("Event listener added to terminal");
+
+            container.dataset.commandHistory = JSON.stringify(commandHistory);
+
             window.addEventListener('resize', () => {
                 if (typeof FitAddon !== 'undefined') {
                     const fitAddon = new FitAddon.FitAddon();
@@ -881,8 +981,53 @@ function initializeSimulations() {
                     fitAddon.fit();
                 }
             });
+
+            if (expectedCommandsElement) {
+                const expectedCommands = expectedCommandsElement.textContent.split('\n').filter(cmd => cmd.trim() !== '');
+                console.log("Expected commands:", expectedCommands);
+                container.dataset.expectedCommands = JSON.stringify(expectedCommands);
+            }
+
         } catch (error) {
             console.error("Error initializing terminal:", error);
+        }
+    });
+}
+
+function populateQuestionNavigation(totalQuestions) {
+    console.log("Populating question navigation");
+    const navContainer = document.getElementById('question-navigation');
+    navContainer.innerHTML = ''; // Clear existing buttons
+    for (let i = 0; i < totalQuestions; i++) {
+        const button = document.createElement('button');
+        button.className = 'question-nav-button';
+        button.textContent = i + 1;
+        button.dataset.index = i.toString();
+        button.style.backgroundColor = '#007bff'; // Initial blue color
+        button.addEventListener('click', () => {
+            if (!isLoading) {
+                storeAnswer(currentQuestionIndex);
+                currentQuestionIndex = i;
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+        navContainer.appendChild(button);
+    }
+    console.log(`Populated ${totalQuestions} navigation buttons`);
+}
+
+function updateQuestionNavigation(currentIndex) {
+    console.log("Updating question navigation");
+    const buttons = document.querySelectorAll('.question-nav-button');
+    buttons.forEach((button, index) => {
+        button.classList.remove('current');
+        if (index === currentIndex) {
+            button.classList.add('current');
+        }
+        if (answers[button.dataset.questionId] !== undefined) {
+            button.classList.add('answered');
+        } else {
+            button.classList.remove('answered');
         }
     });
 }
@@ -913,6 +1058,21 @@ function executeCommand(command, questionId, term, container, setPrompt) {
         }
         console.log("Setting new prompt:", data.prompt);
         setPrompt(data.prompt || 'C:\\> ');
+        
+        let commandHistory = JSON.parse(container.dataset.commandHistory || '[]');
+        commandHistory.unshift(command);
+        container.dataset.commandHistory = JSON.stringify(commandHistory);
+
+        if (data.current_directory) {
+            container.dataset.currentDirectory = data.current_directory;
+        }
+
+        // Check if the command matches the expected commands
+        const expectedCommands = JSON.parse(container.dataset.expectedCommands || '[]');
+        if (expectedCommands.length > 0 && command.trim() === expectedCommands[0].trim()) {
+            expectedCommands.shift();
+            container.dataset.expectedCommands = JSON.stringify(expectedCommands);
+        }
     })
     .catch(error => {
         console.error('Error:', error);

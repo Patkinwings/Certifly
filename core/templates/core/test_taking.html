@@ -7,14 +7,78 @@
     {% if test %}
         <h1 class="text-left">{{ test.title }}</h1>
         <div id="test-timer"></div>
+        <div id="question-container" class="text-left">
+            {% for question in questions %}
+                <div class="question-container" data-question-id="{{ question.id }}" data-question-type="{{ question.question_type }}" {% if not forloop.first %}style="display: none;"{% endif %}>
+                    <h2>Question {{ forloop.counter }}</h2>
+                    <p>{{ question.text }}</p>
+                    {% if question.image %}
+                        <img src="{{ question.image.url }}" alt="Question Image">
+                    {% endif %}
+                    
+                    {% if question.question_type == 'MC' %}
+                        {% for answer in question.answers.all %}
+                            <div>
+                                <input type="checkbox" id="answer_{{ answer.id }}" name="question_{{ question.id }}" value="{{ answer.id }}">
+                                <label for="answer_{{ answer.id }}">{{ answer.text }}</label>
+                            </div>
+                        {% endfor %}
+                    {% elif question.question_type == 'DD' %}
+                        <div class="drag-drop-container">
+                            <div class="drag-items">
+                                {% for item in question.drag_drop_items.all %}
+                                    <div class="drag-item" draggable="true" data-item-id="{{ item.id }}">
+                                        {% if item.image %}
+                                            <img src="{{ item.image.url }}" alt="{{ item.text }}">
+                                        {% else %}
+                                            {{ item.text }}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="drop-zones">
+                                {% for zone in question.drag_drop_zones.all %}
+                                    <div class="drop-zone" data-zone-id="{{ zone.id }}">{{ zone.label }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% elif question.question_type == 'MAT' %}
+                        <div class="matching-container">
+                            <div class="left-items">
+                                {% for item in question.matching_items.all %}
+                                    <div class="match-item" data-item-id="{{ item.id }}">{{ item.left_side }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="right-items">
+                                {% for item in question.matching_items.all %}
+                                    <div class="match-item" data-item-id="{{ item.id }}">{{ item.right_side }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% elif question.question_type == 'FIB' %}
+                        <div class="fill-in-the-blank-container">
+                            {% for blank in question.fill_in_the_blanks.all %}
+                                <input type="text" name="blank_{{ blank.id }}" placeholder="Fill in the blank">
+                            {% endfor %}
+                        </div>
+                    {% elif question.question_type == 'SIM' %}
+                        <div class="simulation-container" data-question-id="{{ question.id }}">
+                            <div class="terminal"></div>
+                            <div class="expected-commands" style="display: none;">{{ question.simulations.first.expected_commands }}</div>
+                        </div>
+                    {% endif %}
+                    <button type="button" class="submit-answer submit-answer-initial">Submit Answer</button>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="question-navigation">
+            <!-- Question navigation will be dynamically populated here -->
+        </div>
         <form id="test-form" data-test-id="{{ test.id }}" data-total-questions="{{ questions.count }}" data-duration="{{ test.time_limit }}">
-            <div id="question-container" class="text-left">
-                <!-- Question will be loaded here dynamically -->
-            </div>
             <div class="navigation-buttons">
-                <button id="prev-question">Previous</button>
-                <button id="next-question">Next</button>
-                <button id="finish-test">Finish Test</button>
+                <button id="prev-question" type="button">Previous</button>
+                <button id="next-question" type="button">Next</button>
+                <button id="finish-test" type="button">Finish Test</button>
             </div>
         </form>
     {% else %}
@@ -33,6 +97,7 @@
             {{ question_form.question_type.label_tag }} {{ question_form.question_type }}
             {{ question_form.text.label_tag }} {{ question_form.text }}
             {{ question_form.order.label_tag }} {{ question_form.order }}
+            {{ question_form.explanation.label_tag }} {{ question_form.explanation }}
             
             <div id="answer-formset" style="display: none;">
                 <h3>Answers</h3>
@@ -95,63 +160,99 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/fit/fit.min.js"></script>
 <script src="{% static 'core/test_taking.js' %}"></script>
-<script>
-    // JavaScript remains unchanged
-</script>
 {% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'core/test_taking.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" />
 <style>
-    .text-left {
-        text-align: left;
+    .content-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+    
     #test-timer {
-        position: fixed;
-        top: 70px;
-        right: 20px;
-        z-index: 1000;
-        background-color: #f0f0f0;
+        background-color: #007bff;
+        color: white;
         padding: 10px 15px;
         border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         font-size: 18px;
         font-weight: bold;
+        margin-bottom: 20px;
     }
-    .navigation-buttons {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-        background-color: #f0f0f0;
-        padding: 10px;
+    
+    #question-container {
+        background-color: white;
+        padding: 20px;
         border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        display: flex;
-        gap: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
+    
+    .question-container h2 {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    
     .navigation-buttons button {
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
     }
-    #question-container {
-        margin-bottom: 80px;
+    
+    .submit-answer {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
     }
+
+    .submit-answer-initial {
+        background-color: #28a745;  /* Green */
+    }
+
+    .submit-answer-saved {
+        background-color: #007bff;  /* Blue */
+    }
+    
+    .text-left {
+        text-align: left;
+    }
+    
     .drag-drop-container {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        width: 65em;
+        width: 100%;
     }
+    
     .drag-items {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
         width: 100%;
     }
+    
     .drag-item {
         width: 150px;
         height: 150px;
@@ -165,11 +266,13 @@
         background-color: #f0f0f0;
         user-select: none;
     }
+    
     .drag-item img {
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
     }
+    
     .drop-zones {
         display: flex;
         flex-wrap: wrap;
@@ -177,6 +280,7 @@
         width: 100%;
         margin-top: 20px;
     }
+    
     .drop-zone {
         width: 160px;
         height: 160px;
@@ -188,17 +292,71 @@
         text-align: center;
         background-color: #f9f9f9;
     }
+    
     .drag-over {
         border-style: solid;
         background-color: #e0e0e0;
     }
+    
     .dragging {
         opacity: 0.5;
     }
-    .content-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+    
+    #question-navigation {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    
+
+.question-nav-button {
+    background-color: #ff1e00 !important;
+    color: white !important;
+}
+
+.question-nav-button.answered {
+    background-color: #28a745 !important;
+}
+
+
+    
+    .matching-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    
+    .left-items, .right-items {
+        width: 45%;
+    }
+    
+    .match-item {
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+    
+    .match-item.selected {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .match-item.matched {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .fill-in-the-blank-container {
+        margin-top: 20px;
+    }
+    
+    .fill-in-the-blank-container input {
+        margin: 5px;
+        padding: 5px;
     }
 </style>
 {% endblock %}

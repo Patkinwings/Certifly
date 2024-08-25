@@ -2941,7 +2941,7 @@ class VirtualFileSystem:
             print(f"Invalid link type: {type}")
 
     def change_directory(self, path: str = "") -> str:
-        print(f"Changing directory to: {path}")
+        
 
         if not path:
             print(self.current_directory)
@@ -2957,11 +2957,10 @@ class VirtualFileSystem:
             else:
                 new_path = self._normalize_path(os.path.join(self.current_directory, path))
 
-            print(f"Normalized path: {new_path}")
 
             if self._directory_exists(new_path):
                 self.current_directory = new_path
-                print(f"Current directory: {self.current_directory}")
+                
             else:
                 raise FileNotFoundError(f"The system cannot find the path specified: {new_path}")
 

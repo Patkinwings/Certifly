@@ -361,6 +361,8 @@ function loadQuestion(index) {
         });
 }
 
+
+
 function updateNavigationButtons() {
     const prevButton = document.getElementById('prev-question');
     const nextButton = document.getElementById('next-question');
